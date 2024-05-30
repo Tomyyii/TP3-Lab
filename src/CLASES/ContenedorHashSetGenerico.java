@@ -21,7 +21,7 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
     }
 
     @Override
-    public void elimiar(E elemento) {
+    public void eliminar(E elemento) {
         set.remove(elemento);
     }
 
