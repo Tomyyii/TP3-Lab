@@ -6,11 +6,11 @@ import java.util.Iterator;
 public class Tienda {
 
     private String nombre;
-    private ContenedorHashSetGenerico<Producto> Productos;
+    private ContenedorHashSetGenerico<Producto> productos;
 
-    public Tienda(String nombre, ContenedorHashSetGenerico<Producto> productos) {
+    public Tienda(String nombre) {
         this.nombre = nombre;
-        Productos = productos;
+        this.productos = new ContenedorHashSetGenerico<>();
     }
 
     public String getNombre() {
@@ -22,11 +22,11 @@ public class Tienda {
     }
 
     public ContenedorHashSetGenerico<Producto> getProductos() {
-        return Productos;
+        return productos;
     }
 
     public void setProductos(ContenedorHashSetGenerico<Producto> productos) {
-        Productos = productos;
+        this.productos = productos;
     }
 
 
@@ -34,12 +34,12 @@ public class Tienda {
     {
         HashSet<Producto> auxiliar=new HashSet<>();
         boolean flag=true;
-        auxiliar=Productos.getSet();
+        auxiliar=productos.getSet();
         Iterator iterator=auxiliar.iterator();
         while (iterator.hasNext() && flag)
         {
             Producto productoaux= (Producto) iterator.next();
-            if(productoaux.getNombre()==nombre && productoaux.isDisponible()==true)
+            if(productoaux.getNombre().equals(nombre) && productoaux.isDisponible()==true)
             {
                 productoaux.setDisponible(false);
                 flag=false;
@@ -49,33 +49,31 @@ public class Tienda {
         return flag;
     }
 
-    public Producto buscarProducto(String Nombre) {
-        HashSet<Producto> auxiliar = new HashSet<>();
+    public Producto buscarProducto(String nombre) {
         boolean flag = true;
-        auxiliar = Productos.getSet();
-        Iterator iterator = auxiliar.iterator();
+        Iterator iterator = productos.getIterator();
         Producto aux = null;
         while (iterator.hasNext() && flag) {
             Producto productoaux = (Producto) iterator.next();
-            if (productoaux.getNombre() == nombre && productoaux.isDisponible() == true) {
+            if (productoaux.getNombre().equals(nombre) && productoaux.isDisponible() == true) {
                 aux = productoaux;
                 flag = false;
             }
-
         }
         return aux;
     }
 
-    public void mostrarProductos()
+    public void cargarDatos(Producto elemento)
     {
-        HashSet<Producto> auxiliar=new HashSet<>();
-        auxiliar=Productos.getSet();
-        Iterator iterator= auxiliar.iterator();
-        while (iterator.hasNext())
-        {
-
-        }
+        productos.agregar(elemento);
     }
+
+    public StringBuilder mostrarProductos()
+    {
+        return productos.mostrar();
+    }
+
+
 
 
 

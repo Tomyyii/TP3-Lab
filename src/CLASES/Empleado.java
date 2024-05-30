@@ -2,24 +2,24 @@ package CLASES;
 
 public class Empleado {
 
-    private String Nombre;
+    private String nombre;
     private int id;
     private String tipoEmpleado;
     private boolean estado;
 
     public Empleado(String nombre, int id, String tipoEmpleado, boolean estado) {
-        Nombre = nombre;
+        this.nombre = nombre;
         this.id = id;
         this.tipoEmpleado = tipoEmpleado;
         this.estado = estado;
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        nombre = nombre;
     }
 
     public int getId() {

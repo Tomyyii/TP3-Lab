@@ -19,11 +19,11 @@ public abstract class Producto {
         nombre="";
     }
 
-    public Producto(double precio, int stock, String estado, boolean disponible, String nombre) {
+    public Producto(double precio, int stock, String estado, String nombre) {
         this.precio = precio;
         this.stock = stock;
         this.estado = estado;
-        this.disponible = disponible;
+        setDisponible(true);
         this.nombre = nombre;
     }
 

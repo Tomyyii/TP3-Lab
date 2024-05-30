@@ -5,12 +5,20 @@ import ENUMERACION.TipoEstilo;
 
 public class IndumentariaConEstilo extends Indumentaria{
 
-    TipoEstilo estilo;
-    NivelDeTalle talle;
+    private TipoEstilo estilo;
+    private NivelDeTalle talle;
 
-    public IndumentariaConEstilo(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle) {
-        super(precio, stock, estado, disponible, nombre, tipoDeTela, color);
+    public IndumentariaConEstilo(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle) {
+        super(precio, stock, estado, nombre, tipoDeTela, color);
         this.estilo = estilo;
         this.talle = talle;
+    }
+
+    public TipoEstilo getEstilo() {
+        return estilo;
+    }
+
+    public NivelDeTalle getTalle() {
+        return talle;
     }
 }

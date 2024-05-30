@@ -1,5 +1,6 @@
 package CLASES;
 
+import ENUMERACION.ModeloPantalon;
 import ENUMERACION.NivelDeTalle;
 import ENUMERACION.TipoEstilo;
 
@@ -7,11 +8,12 @@ public class Pantalon extends IndumentariaConEstilo{
 
     private double tamañoCintura;
     private String modeloPantalon;
+    private ModeloPantalon modelo;
 
-    public Pantalon(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, double tamañoCintura, String modeloPantalon) {
-        super(precio, stock, estado, disponible, nombre, tipoDeTela, color, estilo, talle);
+    public Pantalon(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, double tamañoCintura, ModeloPantalon modeloPantalon) {
+        super(precio, stock, estado, nombre, tipoDeTela, color, estilo, talle);
         this.tamañoCintura = tamañoCintura;
-        this.modeloPantalon = modeloPantalon;
+        this.modelo = modeloPantalon;
     }
 
     public double getTamañoCintura() {
@@ -30,5 +32,11 @@ public class Pantalon extends IndumentariaConEstilo{
         this.modeloPantalon = modeloPantalon;
     }
 
+    public ModeloPantalon getModelo() {
+        return modelo;
+    }
 
+    public void setModelo(ModeloPantalon modelo) {
+        this.modelo = modelo;
+    }
 }
