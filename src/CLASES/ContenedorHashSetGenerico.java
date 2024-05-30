@@ -11,7 +11,9 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
         this.set = new HashSet<>();
     }
 
-
+    public HashSet<E> getSet() {
+        return set;
+    }
 
     @Override
     public void agregar(E elemento) {
@@ -25,11 +27,12 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
 
     @Override
     public void mostrar(E elemento) {
-
+        
     }
 
     @Override
     public int size() {
         return set.size();
     }
+
 }

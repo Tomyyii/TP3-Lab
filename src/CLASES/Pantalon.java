@@ -8,8 +8,8 @@ public class Pantalon extends IndumentariaConEstilo{
     private double tamañoCintura;
     private String modeloPantalon;
 
-    public Pantalon(double precio, int stock, String estado, boolean disponible, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, double tamañoCintura, String modeloPantalon) {
-        super(precio, stock, estado, disponible, tipoDeTela, color, estilo, talle);
+    public Pantalon(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, double tamañoCintura, String modeloPantalon) {
+        super(precio, stock, estado, disponible, nombre, tipoDeTela, color, estilo, talle);
         this.tamañoCintura = tamañoCintura;
         this.modeloPantalon = modeloPantalon;
     }

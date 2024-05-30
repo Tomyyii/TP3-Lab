@@ -1,17 +1,19 @@
 package CLASES;
 
+import ENUMERACION.NivelDeTalle;
+import ENUMERACION.TipoEstilo;
+
 public class Buzo extends IndumentariaConEstilo{
     private boolean capucha;
     private boolean cierre;
     private boolean bolsillo;
 
-    public Buzo() {
-        capucha=false;
-        cierre=false;
-        bolsillo=false;
+    public Buzo(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, boolean capucha, boolean cierre, boolean bolsillo) {
+        super(precio, stock, estado, disponible, nombre, tipoDeTela, color, estilo, talle);
+        this.capucha = capucha;
+        this.cierre = cierre;
+        this.bolsillo = bolsillo;
     }
-
-
 
     public boolean isCapucha() {
         return capucha;

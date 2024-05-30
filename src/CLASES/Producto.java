@@ -6,6 +6,7 @@ public abstract class Producto {
     private int stock;
     private String estado;
     private boolean disponible;
+    private String nombre;
 
     //Coleccion
 
@@ -15,13 +16,15 @@ public abstract class Producto {
         stock=0;
         estado="";
         disponible=false;
+        nombre="";
     }
 
-    public Producto(double precio, int stock, String estado, boolean disponible) {
+    public Producto(double precio, int stock, String estado, boolean disponible, String nombre) {
         this.precio = precio;
         this.stock = stock;
         this.estado = estado;
         this.disponible = disponible;
+        this.nombre = nombre;
     }
 
     public double getPrecio() {
@@ -52,8 +55,15 @@ public abstract class Producto {
         return disponible;
     }
 
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
 
+    public String getNombre() {
+        return nombre;
+    }
 
-
-
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }
