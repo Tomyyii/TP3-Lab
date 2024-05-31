@@ -66,4 +66,17 @@ public abstract class Producto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "precio=" + precio +
+                ", stock=" + stock +
+                ", estado='" + estado + '\'' +
+                ", disponible=" + disponible +
+                ", nombre='" + nombre + '\'' +
+                '}';
+    }
+
+
 }

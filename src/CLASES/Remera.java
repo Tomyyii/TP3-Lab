@@ -7,8 +7,8 @@ public class Remera extends IndumentariaConEstilo{
     private String cuello;
     private String mangas;
 
-    public Remera(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, String cuello, String mangas) {
-        super(precio, stock, estado, disponible, nombre, tipoDeTela, color, estilo, talle);
+    public Remera(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle, String cuello, String mangas) {
+        super(precio, stock, estado, nombre, tipoDeTela, color, estilo, talle);
         this.cuello = cuello;
         this.mangas = mangas;
     }
@@ -29,4 +29,11 @@ public class Remera extends IndumentariaConEstilo{
         this.mangas = mangas;
     }
 
+    @Override
+    public String toString() {
+        return super.toString()+"Remera{" +
+                "cuello='" + cuello + '\'' +
+                ", mangas='" + mangas + '\'' +
+                '}';
+    }
 }

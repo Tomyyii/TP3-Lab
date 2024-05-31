@@ -39,4 +39,13 @@ public class Pantalon extends IndumentariaConEstilo{
     public void setModelo(ModeloPantalon modelo) {
         this.modelo = modelo;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"Pantalon{" +
+                "tamañoCintura=" + tamañoCintura +
+                ", modeloPantalon='" + modeloPantalon + '\'' +
+                ", modelo=" + modelo +
+                '}';
+    }
 }

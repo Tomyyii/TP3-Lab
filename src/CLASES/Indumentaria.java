@@ -28,4 +28,11 @@ public class Indumentaria extends Producto{
     }
 
 
+    @Override
+    public String toString() {
+        return super.toString()+"Indumentaria{" +
+                "tipoDeTela='" + tipoDeTela + '\'' +
+                ", color='" + color + '\'' +
+                '}';
+    }
 }

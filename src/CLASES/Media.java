@@ -8,8 +8,8 @@ public class Media extends Indumentaria{
     private MedidaMedia medidaMedia;
 
 
-    public Media(double precio, int stock, String estado, boolean disponible, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia) {
-        super(precio, stock, estado, disponible, nombre, tipoDeTela, color);
+    public Media(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia) {
+        super(precio, stock, estado, nombre, tipoDeTela, color);
         this.antideslizante = antideslizante;
         this.medidaMedia = medidaMedia;
     }
@@ -27,7 +27,11 @@ public class Media extends Indumentaria{
     }
 
 
-
-
-
+    @Override
+    public String toString() {
+        return super.toString()+"Media{" +
+                "antideslizante=" + antideslizante +
+                ", medidaMedia=" + medidaMedia +
+                '}';
+    }
 }

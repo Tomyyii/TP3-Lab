@@ -21,4 +21,12 @@ public class IndumentariaConEstilo extends Indumentaria{
     public NivelDeTalle getTalle() {
         return talle;
     }
+
+    @Override
+    public String toString() {
+        return super.toString()+"IndumentariaConEstilo{" +
+                "estilo=" + estilo +
+                ", talle=" + talle +
+                '}';
+    }
 }

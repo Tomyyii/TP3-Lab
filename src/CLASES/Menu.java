@@ -4,7 +4,6 @@ import ENUMERACION.MedidaMedia;
 import ENUMERACION.ModeloPantalon;
 import ENUMERACION.NivelDeTalle;
 import ENUMERACION.TipoEstilo;
-import EXCEPCIONES.ExceptionEjemplo;
 
 import java.util.Scanner;
 
@@ -151,20 +150,21 @@ public class Menu {
             switch (opcion){
                 case 1:
 
-                    try {
+                    producto=CargaPantalon();
+                    /*try {
                         producto=CargaPantalon();
                     } catch (ExceptionEjemplo e) {
                         e.getMessage();
-                    }
+                    }*/
                     break;
                 case 2:
-                    //Metodo Agregar Remera
+                    producto=cargaRemera();
                     break;
                 case 3:
-                    //Metodo Agregar Buzo
+                    producto=cargaBuzo();
                     break;
                 case 4:
-                    //Agregar Medias
+                    producto=cargaMedia();
                     break;
                 default:
                     System.out.println("Error, Intente nuevamente");
@@ -319,16 +319,16 @@ public class Menu {
 
     }
 
-    public Producto CargaPantalon()throws ExceptionEjemplo
+    public Producto CargaPantalon()
     {
 
 
         System.out.println("Ingrese el Nombre:");
         String nombre= scan.nextLine();
-        if(nombre.equals(""))
+        /*if(nombre.equals(""))
         {
             throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }
+        }*/
 
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
@@ -348,6 +348,121 @@ public class Menu {
 
         return new Pantalon(precio,stock,estado,nombre,tipotela,color,estilo,talle,tamañoCintura,modelo);
     }
+
+    public Producto cargaRemera()
+    {
+
+
+        System.out.println("Ingrese el Nombre:");
+        String nombre= scan.nextLine();
+        /*if(nombre.equals(""))
+        {
+            throw new ExceptionEjemplo("El nombre no puede ser vacio");
+        }*/
+        System.out.println("Ingrese el Precio:");
+        double precio=scan.nextDouble();
+        System.out.println("Ingrese el Stock:");
+        int stock=scan.nextInt();
+        System.out.println("Ingrese el Estado:");
+        String estado=scan.nextLine();
+        System.out.println("Ingrese el Tipo de tela:");
+        String tipotela=scan.nextLine();
+        System.out.println("Ingrese el Color:");
+        String color=scan.nextLine();
+        TipoEstilo estilo=cargaEstilo();
+        NivelDeTalle talle=cargaTalle();
+        ModeloPantalon modelo=cargaModeloPantalon();
+        System.out.println("Ingrese el Tamaño de cintura");
+        String cuello=scan.nextLine();
+        System.out.println("Ingrese mangas:");
+        String mangas=scan.nextLine();
+
+        return new Remera(precio,stock,estado,nombre,tipotela,color,estilo,talle,cuello,mangas);
+    }
+
+    public Producto cargaBuzo()
+    {
+
+
+        System.out.println("Ingrese el Nombre:");
+        String nombre= scan.nextLine();
+        /*if(nombre.equals(""))
+        {
+            throw new ExceptionEjemplo("El nombre no puede ser vacio");
+        }*/
+        System.out.println("Ingrese el Precio:");
+        double precio=scan.nextDouble();
+        System.out.println("Ingrese el Stock:");
+        int stock=scan.nextInt();
+        System.out.println("Ingrese el Estado:");
+        String estado=scan.nextLine();
+        System.out.println("Ingrese el Tipo de tela:");
+        String tipotela=scan.nextLine();
+        System.out.println("Ingrese el Color:");
+        String color=scan.nextLine();
+        TipoEstilo estilo=cargaEstilo();
+        NivelDeTalle talle=cargaTalle();
+        ModeloPantalon modelo=cargaModeloPantalon();
+        System.out.println("Tiene capucha: 1 para si 0 para no");
+        int aux=scan.nextInt();
+        boolean capucha=false;
+        if(aux==1)
+        {
+            capucha=true;
+        }
+
+        System.out.println("Tiene capucha: 1 para si 0 para no");
+        int aux2=scan.nextInt();
+        boolean cierre=false;
+        if(aux==1)
+        {
+            cierre=true;
+        }
+
+        System.out.println("Tiene capucha: 1 para si 0 para no");
+        int aux3=scan.nextInt();
+        boolean bolsillo=false;
+        if(aux==1)
+        {
+            bolsillo=true;
+        }
+
+        return new Buzo(precio,stock,estado,nombre,tipotela,color,estilo,talle,capucha,cierre,bolsillo);
+    }
+
+    public Producto cargaMedia()
+    {
+
+
+        System.out.println("Ingrese el Nombre:");
+        String nombre= scan.nextLine();
+        /*if(nombre.equals(""))
+        {
+            throw new ExceptionEjemplo("El nombre no puede ser vacio");
+        }*/
+        System.out.println("Ingrese el Precio:");
+        double precio=scan.nextDouble();
+        System.out.println("Ingrese el Stock:");
+        int stock=scan.nextInt();
+        System.out.println("Ingrese el Estado:");
+        String estado=scan.nextLine();
+        System.out.println("Ingrese el Tipo de tela:");
+        String tipotela=scan.nextLine();
+        System.out.println("Ingrese el Color:");
+        String color=scan.nextLine();
+        System.out.println("Es antideslizante: 1 para si 0 para no");
+        int aux=scan.nextInt();
+        boolean antideslizante=false;
+        if(aux==1)
+        {
+            antideslizante=true;
+        }
+        MedidaMedia medidaMedia=cargaMedidaMedia();
+
+        return new Media(precio,stock,estado,nombre,tipotela,color,antideslizante,medidaMedia);
+    }
+
+
 
     public TipoEstilo cargaEstilo()
     {
