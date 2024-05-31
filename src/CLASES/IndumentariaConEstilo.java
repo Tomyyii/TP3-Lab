@@ -1,22 +1,16 @@
 package CLASES;
 
 import ENUMERACION.NivelDeTalle;
-import ENUMERACION.TipoEstilo;
 
-public class IndumentariaConEstilo extends Indumentaria{
 
-    private TipoEstilo estilo;
+public abstract class IndumentariaConEstilo extends Indumentaria{
     private NivelDeTalle talle;
 
-    public IndumentariaConEstilo(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, TipoEstilo estilo, NivelDeTalle talle) {
-        super(precio, stock, estado, nombre, tipoDeTela, color);
-        this.estilo = estilo;
+    public IndumentariaConEstilo(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle) {
+        super(precio, stock, nombre, tipoDeTela, color);
         this.talle = talle;
     }
 
-    public TipoEstilo getEstilo() {
-        return estilo;
-    }
 
     public NivelDeTalle getTalle() {
         return talle;
@@ -24,9 +18,7 @@ public class IndumentariaConEstilo extends Indumentaria{
 
     @Override
     public String toString() {
-        return super.toString()+"IndumentariaConEstilo{" +
-                "estilo=" + estilo +
-                ", talle=" + talle +
-                '}';
+        return super.toString()+
+                "\ntalle=" + talle;
     }
 }

@@ -8,8 +8,8 @@ public class Media extends Indumentaria{
     private MedidaMedia medidaMedia;
 
 
-    public Media(double precio, int stock, String estado, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia) {
-        super(precio, stock, estado, nombre, tipoDeTela, color);
+    public Media(double precio, int stock, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia) {
+        super(precio, stock, nombre, tipoDeTela, color);
         this.antideslizante = antideslizante;
         this.medidaMedia = medidaMedia;
     }
@@ -34,4 +34,30 @@ public class Media extends Indumentaria{
                 ", medidaMedia=" + medidaMedia +
                 '}';
     }
+
+    @Override
+    public String getTipo() {
+        return getMedidaMedia().name();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean aux = false;
+        if(obj != null){
+            if(obj instanceof Media){
+                Media mediaAAgregar = (Media) obj;
+                if(mediaAAgregar.getTipo().equals(getTipo())){
+                    aux = true;
+                }
+            }
+        }
+        return aux;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+
 }

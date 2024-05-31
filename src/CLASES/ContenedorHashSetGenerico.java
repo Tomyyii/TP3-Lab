@@ -27,7 +27,7 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
     }
 
     @Override
-    public void elimiar(E elemento) {
+    public void eliminar(E elemento) {
         set.remove(elemento);
     }
 
@@ -39,7 +39,7 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
         while (iterator.hasNext())
         {
             E aux= (E) iterator.next();
-            sb.append("PRODUCTO\n").append(i).append("\n").append(aux.toString());
+            sb.append("PRODUCTO\n").append(i).append("\n").append(aux);
         }
         return sb;
     }
@@ -48,5 +48,7 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas <E>{
     public int size() {
         return set.size();
     }
+
+
 
 }

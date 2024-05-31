@@ -20,7 +20,7 @@ public class ContenedorListaGenerica <E> implements IOperacionesBasicas<E>{
     }
 
     @Override
-    public void elimiar(E elemento) {
+    public void eliminar(E elemento) {
         lista.remove(elemento);
     }
 

@@ -1,6 +1,5 @@
 package ENUMERACION;
 
-public enum TipoEstilo {
-
+public enum TipoEstiloRemera {
     OVERSIZE, CLASICO
 }

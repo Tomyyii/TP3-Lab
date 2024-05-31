@@ -1,10 +1,12 @@
 package CLASES;
 
-public abstract class Producto {
+
+import INTERFACES.cuaklquiercosa;
+
+public abstract class Producto implements cuaklquiercosa {
 
     private double precio;
     private int stock;
-    private String estado;
     private boolean disponible;
     private String nombre;
 
@@ -14,15 +16,13 @@ public abstract class Producto {
     public Producto() {
         precio=0;
         stock=0;
-        estado="";
         disponible=false;
         nombre="";
     }
 
-    public Producto(double precio, int stock, String estado, String nombre) {
+    public Producto(double precio, int stock, String nombre) {
         this.precio = precio;
         this.stock = stock;
-        this.estado = estado;
         setDisponible(true);
         this.nombre = nombre;
     }
@@ -43,14 +43,6 @@ public abstract class Producto {
         this.stock = stock;
     }
 
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
     public boolean isDisponible() {
         return disponible;
     }
@@ -69,14 +61,28 @@ public abstract class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "precio=" + precio +
-                ", stock=" + stock +
-                ", estado='" + estado + '\'' +
-                ", disponible=" + disponible +
-                ", nombre='" + nombre + '\'' +
-                '}';
+        return "Producto"+
+                "\n{" +
+                "\nnombre=" + nombre +
+                ",\nstock=" + stock +
+                ",\ndisponible=" + disponible +
+                ",\nprecio='" + precio;
     }
 
+   /* @Override
+    public int compareTo(Object o) {
+        int aux = 0;
+        if(o != null){
+            if(o instanceof  Producto){
+                Producto aux2 = (Producto) o;
+                if(aux2.getStock()> getStock()){
+                    aux = 1;
+                } else if(aux2.getStock()<getStock()) {
+                    aux = -1;
+                }
+            }
+        }
+        return aux;
+    }*/
 
 }

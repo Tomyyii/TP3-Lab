@@ -30,32 +30,27 @@ public class Tienda {
     }
 
 
-    public boolean Vender(String nombre)
-    {
-        HashSet<Producto> auxiliar=new HashSet<>();
-        boolean flag=true;
-        auxiliar=productos.getSet();
-        Iterator iterator=auxiliar.iterator();
-        while (iterator.hasNext() && flag)
-        {
-            Producto productoaux= (Producto) iterator.next();
-            if(productoaux.getNombre().equals(nombre) && productoaux.isDisponible()==true)
-            {
+    public boolean Vender(String modelo) {
+        boolean flag = true;
+        Iterator iterator = productos.getIterator();
+        while (iterator.hasNext() && flag) {
+            Producto productoaux = (Producto) iterator.next();
+            if (productoaux.getTipo().equals(nombre) && productoaux.isDisponible() == true) {
                 productoaux.setDisponible(false);
-                flag=false;
+                flag = false;
             }
 
         }
         return flag;
     }
 
-    public Producto buscarProducto(String nombre) {
+    public Producto buscarProducto(String modelo) {
         boolean flag = true;
         Iterator iterator = productos.getIterator();
         Producto aux = null;
         while (iterator.hasNext() && flag) {
             Producto productoaux = (Producto) iterator.next();
-            if (productoaux.getNombre().equals(nombre) && productoaux.isDisponible() == true) {
+            if (productoaux.getTipo().equals(modelo) && productoaux.isDisponible() == true) {
                 aux = productoaux;
                 flag = false;
             }
@@ -63,15 +58,29 @@ public class Tienda {
         return aux;
     }
 
-    public void cargarDatos(Producto elemento)
-    {
+    public void cargarDatos(Producto elemento) {
         productos.agregar(elemento);
     }
 
-    public StringBuilder mostrarProductos()
-    {
+    public StringBuilder mostrarProductos() {
         return productos.mostrar();
     }
+
+
+    public void modificarPrecio(double precio,String modelo)
+    {
+        Producto aux=buscarProducto(modelo);
+        aux.setPrecio(precio);
+    }
+
+    public void sumarStock(int stockNuevo, Producto producto)
+    {
+        int suma=producto.getStock()+stockNuevo;
+        producto.setStock(suma);
+    }
+
+
+
 
 
 
