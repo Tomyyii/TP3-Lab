@@ -31,15 +31,19 @@ public class Tienda {
 
 
     public boolean Vender(String modelo) {
-        boolean flag = true;
+        boolean flag = false;
         Iterator iterator = productos.getIterator();
-        while (iterator.hasNext() && flag) {
+        while (iterator.hasNext() && flag == false) {
             Producto productoaux = (Producto) iterator.next();
-            if (productoaux.getTipo().equals(nombre) && productoaux.isDisponible() == true) {
-                productoaux.setDisponible(false);
-                flag = false;
+            if (productoaux.getTipo().equals(modelo) && productoaux.isDisponible() == true) {
+                if(productoaux.getStock()>0){
+                    flag = true;
+                    productoaux.setStock(productoaux.getStock()-1);
+                    if(productoaux.getStock() == 0){
+                        productoaux.setDisponible(false);
+                    }
+                }
             }
-
         }
         return flag;
     }
