@@ -2,10 +2,7 @@ package CLASES;
 
 import ENUMERACION.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu  {
     Scanner scan=new Scanner(System.in);
@@ -110,10 +107,11 @@ public class Menu  {
 
                     break;
                 case 2:
-                    System.out.println(tienda.mostrarProductos());
+
+                    System.out.println(tienda.mostrarDisponibles());
                     break;
                 case 3:
-                    //Metodo Mostrar Productos No Disponibles
+                    System.out.println(tienda.mostrarNoDisponibles());
                     break;
                 default:
                     System.out.println("Error, Intente nuevamente");
@@ -549,7 +547,7 @@ public class Menu  {
         scan.nextLine();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.nextLine();
+        //scan.nextLine();
         String color=scan.nextLine();
         NivelDeTalle talle=cargaTalle();
         ModeloPantalon modelo=cargaModeloPantalon();

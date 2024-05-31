@@ -78,7 +78,29 @@ public class Tienda {
         int suma=producto.getStock()+stockNuevo;
         producto.setStock(suma);
     }
+    public String mostrarDisponibles (){
+        String rta ="";
+        Iterator iterator = productos.getIterator();
+        while(iterator.hasNext()){
+            Producto aux = (Producto) iterator.next();
+            if(aux.isDisponible()){
+                rta += aux.toString();
+            }
+        }
+        return rta;
+    }
 
+    public String mostrarNoDisponibles (){
+        String rta ="";
+        Iterator iterator = productos.getIterator();
+        while(iterator.hasNext()){
+            Producto aux = (Producto) iterator.next();
+            if(aux.isDisponible() == false){
+                rta += aux.toString();
+            }
+        }
+        return rta;
+    }
 
 
 
