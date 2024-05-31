@@ -22,11 +22,12 @@ public class Menu  {
             System.out.println("||   2-Buscar Producto            ||");
             System.out.println("||   3-Mostrar Productos          ||");
             System.out.println("||   4-Modificar Productos        ||");
+            System.out.println("||   5-Vender productos           ||");
             System.out.println("||--------------------------------||");
             System.out.println("||OPCIONES EMPLEADOS              ||");
-            System.out.println("||   5-Menu Empleados             ||");
+            System.out.println("||   6-Menu Empleados             ||");
             System.out.println("||--------------------------------||");
-            System.out.println("||   6-Salir                      ||");
+            System.out.println("||   7-Salir                      ||");
             System.out.println("||--------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -57,13 +58,25 @@ public class Menu  {
                     tienda.modificarPrecio(precio,modelo);
                     break;
                 case 5:
+                    System.out.println("Ingrese el modelo que desee vender ");
+                    scan.nextLine();
+                    String modelo1 = scan.nextLine();
+                    boolean vendido =tienda.Vender(modelo1);
+                    if(vendido){
+                        System.out.println("Vendido con exito");
+                    }
+                    else{
+                        System.out.println("Sin stock para la venta");
+                    }
+                    break;
+                case 6:
 
                     break;
                 default:
                     System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=6);
+        }while (opcion!=7);
         //dentro de un try catch
         //Guardar datos archivos
         //guarda datos en el json
@@ -441,7 +454,7 @@ public class Menu  {
                     }
                     else
                     {
-                        producto=cargaRemera();
+                        producto=cargaMedia();
                         tienda.cargarDatos(producto);
                     }
                     break;
@@ -505,7 +518,7 @@ public class Menu  {
                     }
                     else
                     {
-                        producto=cargaRemera();
+                        producto=cargaBuzo();
                         tienda.cargarDatos(producto);
                     }
                     break;
@@ -521,7 +534,7 @@ public class Menu  {
                     }
                     else
                     {
-                        producto=cargaRemera();
+                        producto=cargaBuzo();
                         tienda.cargarDatos(producto);
                     }
                     break;
@@ -589,7 +602,6 @@ public class Menu  {
     public Producto cargaBuzo()
     {
 
-
         String nombre= ("Buzo");
         /*if(nombre.equals(""))
         {
@@ -603,7 +615,7 @@ public class Menu  {
         scan.nextLine();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.nextLine();
+        //scan.nextLine();
         String color=scan.nextLine();
         TipoEstiloBuzo estilo=cargaEstiloBuzo();
         NivelDeTalle talle=cargaTalle();
@@ -623,7 +635,7 @@ public class Menu  {
             cierre=true;
         }
 
-        System.out.println("Tiene capucha: 1 para si 0 para no");
+        System.out.println("Tiene bolsillo: 1 para si 0 para no");
         int aux3=scan.nextInt();
         boolean bolsillo=false;
         if(aux==1)
@@ -636,7 +648,6 @@ public class Menu  {
 
     public Producto cargaMedia()
     {
-
 
         String nombre=("Media");
         /*if(nombre.equals(""))
@@ -651,7 +662,7 @@ public class Menu  {
         scan.nextLine();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.nextLine();
+       // scan.nextLine();
         String color=scan.nextLine();
         System.out.println("Es antideslizante: 1 para si 0 para no");
         int aux=scan.nextInt();
