@@ -1,17 +1,22 @@
 package CLASES;
 
+import ENUMERACION.TipoEmpleado;
+
 public class Empleado {
 
     private String nombre;
     private int id;
-    private String tipoEmpleado;
+    private TipoEmpleado tipoEmpleado;
     private boolean estado;
 
-    public Empleado(String nombre, int id, String tipoEmpleado, boolean estado) {
+    private int dni;
+
+    public Empleado(String nombre, int id, TipoEmpleado tipoEmpleado, boolean estado, int dni) {
         this.nombre = nombre;
         this.id = id;
         this.tipoEmpleado = tipoEmpleado;
         this.estado = estado;
+        this.dni=dni;
     }
 
     public String getNombre() {
@@ -31,10 +36,10 @@ public class Empleado {
     }
 
     public String getTipoEmpleado() {
-        return tipoEmpleado;
+        return tipoEmpleado.name();
     }
 
-    public void setTipoEmpleado(String tipoEmpleado) {
+    public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
         this.tipoEmpleado = tipoEmpleado;
     }
 
@@ -46,5 +51,20 @@ public class Empleado {
         this.estado = estado;
     }
 
+    public int getDni() {
+        return dni;
+    }
 
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "\nnombre='" + nombre +
+                "\nid=" + id +
+                "\ntipoEmpleado=" + tipoEmpleado +
+                "\nestado=" + estado;
+    }
 }
