@@ -1,5 +1,6 @@
 package CLASES;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -217,13 +218,80 @@ public class Tienda {
         }
     }
 
+   public void agregaracrhivoEmpleados (){
+       ObjectOutputStream objectOutputStream = null;
+       try{
+           System.out.println("Entro al try");
+           FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");
+           objectOutputStream = new ObjectOutputStream(fileOutputStream);
+           for(int i=0;i<empleados.size();i++){
+               System.out.println("largo del archivo"+i);
+               objectOutputStream.writeObject(empleados.get(i));// Aca se rompe
 
 
+           }
+       }
+             catch (FileNotFoundException ex)
+           {
+              // ex.printStackTrace();
+               System.out.println("1");
+           }
+        catch (IOException exception)
+           {
+               System.out.println("2");// Esta es la exepcion en la que entra
+               //exception.printStackTrace();
+           }
+        finally
+           {
+               try
+               {
+                   objectOutputStream.close();
+               }
+               catch (IOException ex)
+               {
+                   System.out.println("3");
+                   //ex.printStackTrace();
+               }
+           }
+    }
+    public void leerArchivoEmpleados (){
+        ObjectInputStream objectInputStream = null;
+        try {
+            FileInputStream fileInputStream = new FileInputStream("empleados.dat");
+            objectInputStream = new ObjectInputStream(fileInputStream);
+
+            while (true) {
+                Empleado empleado = (Empleado) objectInputStream.readObject();
+                System.out.println(empleado);
+            }
 
 
+        } catch (EOFException ex)
+        {
+            System.out.println("FIN");
+        }
+        catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        } finally
+        {
+            try
+            {
+                objectInputStream.close();
+            }
+            catch (IOException ex)
+            {
 
-
-
-
-
+            }
+        }
+    }
 }
+
