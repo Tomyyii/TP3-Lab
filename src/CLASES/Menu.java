@@ -2,6 +2,9 @@ package CLASES;
 
 import ENUMERACION.*;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Menu  {
@@ -184,8 +187,9 @@ public class Menu  {
             System.out.println("||   2-Buscar Empleado            ||");
             System.out.println("||   3-Mostrar Empleados          ||");
             System.out.println("||   4-Modificar Empleados        ||");
+            System.out.println("||   5-Cargar empleados en archivo||");
             System.out.println("||--------------------------------||");
-            System.out.println("||   5-Salir                      ||");
+            System.out.println("||   6-Salir                      ||");
             System.out.println("||--------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -202,11 +206,14 @@ public class Menu  {
                 case 4:
                     menuModificarEstado(tienda);
                     break;
+                case 5:
+                    archivarEmpleados(tienda);
+                    break;
                 default:
                     System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=5);
+        }while (opcion!=6);
     }
 
     private void menuBuscarEmpleado(Tienda tienda)
@@ -917,6 +924,19 @@ public class Menu  {
                 "\n");
         return system;
     }
-
+   /* public void  grabarArchivoEmpleados () {
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream();
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream("Empleados.dat");
+            objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            for(int i=0;i<)
+        }
+    }*/
+    public void archivarEmpleados(Tienda tienda){
+        tienda.agregaracrhivoEmpleados();
+    }
+    public void leerArchivo(Tienda tienda){
+        tienda.leerArchivoEmpleados();
+    }
 
 }

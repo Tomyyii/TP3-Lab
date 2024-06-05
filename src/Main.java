@@ -1,3 +1,4 @@
+import CLASES.Empleado;
 import CLASES.Menu;
 
 public class Main {
@@ -5,6 +6,7 @@ public class Main {
 
         Menu menu=new Menu();
         menu.menuPrinc();
-        }
+
+}
 
     }
