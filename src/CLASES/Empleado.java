@@ -1,8 +1,8 @@
 package CLASES;
 
 import ENUMERACION.TipoEmpleado;
-
-public class Empleado {
+import java.io.Serializable;
+public class Empleado implements Serializable  {
 
     private String nombre;
     private int id;

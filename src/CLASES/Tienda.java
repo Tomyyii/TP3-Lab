@@ -10,7 +10,6 @@ public class Tienda {
     private String nombre;
     private ContenedorHashSetGenerico<Producto> productos;
     private ContenedorListaGenerica<Empleado> empleados;
-
     public Tienda(String nombre) {
         this.nombre = nombre;
         this.productos = new ContenedorHashSetGenerico<>();
@@ -221,25 +220,19 @@ public class Tienda {
    public void agregaracrhivoEmpleados (){
        ObjectOutputStream objectOutputStream = null;
        try{
-           System.out.println("Entro al try");
            FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");
            objectOutputStream = new ObjectOutputStream(fileOutputStream);
            for(int i=0;i<empleados.size();i++){
-               System.out.println("largo del archivo"+i);
-               objectOutputStream.writeObject(empleados.get(i));// Aca se rompe
-
-
+               objectOutputStream.writeObject(empleados.get(i));
            }
        }
              catch (FileNotFoundException ex)
            {
-              // ex.printStackTrace();
-               System.out.println("1");
+              ex.printStackTrace();
            }
         catch (IOException exception)
            {
-               System.out.println("2");// Esta es la exepcion en la que entra
-               //exception.printStackTrace();
+               exception.printStackTrace();
            }
         finally
            {
@@ -249,8 +242,7 @@ public class Tienda {
                }
                catch (IOException ex)
                {
-                   System.out.println("3");
-                   //ex.printStackTrace();
+                   ex.printStackTrace();
                }
            }
     }
@@ -293,5 +285,6 @@ public class Tienda {
             }
         }
     }
+
 }
 
