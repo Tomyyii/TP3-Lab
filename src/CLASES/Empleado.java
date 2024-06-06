@@ -3,14 +3,13 @@ package CLASES;
 import ENUMERACION.TipoEmpleado;
 import java.io.Serializable;
 public class Empleado implements Serializable  {
-
+//VARIABLES
     private String nombre;
     private int id;
     private TipoEmpleado tipoEmpleado;
     private boolean estado;
-
     private int dni;
-
+//CONSTRUCTOR
     public Empleado(String nombre, int id, TipoEmpleado tipoEmpleado, boolean estado, int dni) {
         this.nombre = nombre;
         this.id = id;
@@ -18,47 +17,42 @@ public class Empleado implements Serializable  {
         this.estado = estado;
         this.dni=dni;
     }
-
+//GETTERS
     public String getNombre() {
         return nombre;
+    }
+    public int getId() {
+        return id;
+    }
+    public String getTipoEmpleado() {
+        return tipoEmpleado.name();
+    }
+    public boolean isEstado() {
+        return estado;
+    }
+
+//SETTERS
+    public int getDni() {
+        return dni;
+    }
+    public void setDni(int dni) {
+        this.dni = dni;
+    }
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
+        this.tipoEmpleado = tipoEmpleado;
     }
 
     public void setNombre(String nombre) {
         nombre = nombre;
     }
-
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getTipoEmpleado() {
-        return tipoEmpleado.name();
-    }
-
-    public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
-        this.tipoEmpleado = tipoEmpleado;
-    }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    public int getDni() {
-        return dni;
-    }
-
-    public void setDni(int dni) {
-        this.dni = dni;
-    }
-
+//METODO ToString
     @Override
     public String toString() {
         return
