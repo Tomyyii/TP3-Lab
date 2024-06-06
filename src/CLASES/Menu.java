@@ -188,8 +188,9 @@ public class Menu  {
             System.out.println("||   3-Mostrar Empleados          ||");
             System.out.println("||   4-Modificar Empleados        ||");
             System.out.println("||   5-Cargar empleados en archivo||");
+            System.out.println("||   6-Mostrar archivo cargado    ||");
             System.out.println("||--------------------------------||");
-            System.out.println("||   6-Salir                      ||");
+            System.out.println("||   7-Salir                      ||");
             System.out.println("||--------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -209,11 +210,14 @@ public class Menu  {
                 case 5:
                     archivarEmpleados(tienda);
                     break;
+                case 6:
+                    leerArchivo(tienda);
+                    break;
                 default:
                     System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=6);
+        }while (opcion!=7);
     }
 
     private void menuBuscarEmpleado(Tienda tienda)
