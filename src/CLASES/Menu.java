@@ -937,7 +937,7 @@ public class Menu  {
         }
     }*/
     public void archivarEmpleados(Tienda tienda){
-        tienda.agregaracrhivoEmpleados();
+        tienda.agregarAcrhivoEmpleados();
     }
     public void leerArchivo(Tienda tienda){
         tienda.leerArchivoEmpleados();

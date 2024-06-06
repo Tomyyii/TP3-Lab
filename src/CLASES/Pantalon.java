@@ -5,44 +5,41 @@ import ENUMERACION.NivelDeTalle;
 
 
 public class Pantalon extends IndumentariaConEstilo{
-
+//VARIABLES
     private double tamañoCintura;
     private ModeloPantalon modelo;
-
+//CONSTRUCTOR
     public Pantalon(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, double tamañoCintura, ModeloPantalon modeloPantalon) {
         super(precio, stock, nombre, tipoDeTela, color, talle);
         this.tamañoCintura = tamañoCintura;
         this.modelo = modeloPantalon;
     }
-
+//GETTERS
     public double getTamañoCintura() {
         return tamañoCintura;
     }
-
-    public void setTamañoCintura(double tamañoCintura) {
-        this.tamañoCintura = tamañoCintura;
-    }
-
     public ModeloPantalon getModelo() {
         return modelo;
     }
-
+    @Override
+    public String getTipo() {
+        return getModelo().name();
+    }
+//SETTERS
+    public void setTamañoCintura(double tamañoCintura) {
+        this.tamañoCintura = tamañoCintura;
+    }
     public void setModelo(ModeloPantalon modelo) {
         this.modelo = modelo;
     }
-
+//METODO ToString
     @Override
     public String toString() {
         return super.toString()+
                 "\ntamañoCintura=" + tamañoCintura +
                 "\nmodelo=" + modelo;
     }
-
-    @Override
-    public String getTipo() {
-        return getModelo().name();
-    }
-
+//MEOTDO EQUALS
     @Override
     public boolean equals(Object obj) {
         boolean aux = false;
@@ -56,11 +53,9 @@ public class Pantalon extends IndumentariaConEstilo{
         }
         return aux;
     }
-
+//METODO HASHCODE
     @Override
     public int hashCode() {
         return 1;
     }
-
-
 }

@@ -4,11 +4,12 @@ import ENUMERACION.NivelDeTalle;
 import ENUMERACION.TipoEstiloBuzo;
 
 public class Buzo extends IndumentariaConEstilo{
+//VARIABLES
     private boolean capucha;
     private boolean cierre;
     private boolean bolsillo;
-    TipoEstiloBuzo estilo;
-
+    private TipoEstiloBuzo estilo;
+//CONSTRUCTOR
     public Buzo(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, boolean capucha, boolean cierre, boolean bolsillo, TipoEstiloBuzo estilo) {
         super(precio, stock, nombre, tipoDeTela, color, talle);
         this.capucha = capucha;
@@ -16,44 +17,36 @@ public class Buzo extends IndumentariaConEstilo{
         this.bolsillo = bolsillo;
         this.estilo = estilo;
     }
-
-    public boolean isCapucha() {
-        return capucha;
-    }
-
-    public void setCapucha(boolean capucha) {
-        this.capucha = capucha;
-    }
-
-    public boolean isCierre() {
-        return cierre;
-    }
-
-    public void setCierre(boolean cierre) {
-        this.cierre = cierre;
-    }
-
+//GETTERS
     public boolean isBolsillo() {
-        return bolsillo;
-    }
-
-    public void setBolsillo(boolean bolsillo) {
-        this.bolsillo = bolsillo;
-    }
-
+    return bolsillo;
+}
     public TipoEstiloBuzo getEstilo() {
         return estilo;
     }
-
-    public void setEstilo(TipoEstiloBuzo estilo) {
-        this.estilo = estilo;
+    public boolean isCapucha() {
+        return capucha;
     }
-
-    @Override
     public String getTipo() {
         return getEstilo().name();
     }
-
+    public boolean isCierre() {
+        return cierre;
+    }
+    //SETTERS
+    public void setCapucha(boolean capucha) {
+        this.capucha = capucha;
+    }
+    public void setEstilo(TipoEstiloBuzo estilo) {
+        this.estilo = estilo;
+    }
+    public void setCierre(boolean cierre) {
+        this.cierre = cierre;
+    }
+    public void setBolsillo(boolean bolsillo) {
+        this.bolsillo = bolsillo;
+    }
+//METODO ToString
     @Override
     public String toString() {
         return super.toString() +
@@ -62,7 +55,7 @@ public class Buzo extends IndumentariaConEstilo{
                 "\nbolsillo=" + bolsillo +
                 "\nestilo=" + estilo;
     }
-
+//METODO EQUALS
     @Override
     public boolean equals(Object obj) {
         boolean aux = false;
@@ -76,11 +69,9 @@ public class Buzo extends IndumentariaConEstilo{
         }
         return aux;
     }
-
+//METODO HASCODE
     @Override
     public int hashCode() {
         return 1;
     }
-
-
 }

@@ -6,42 +6,38 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class Tienda {
-
+//VARIABLES
     private String nombre;
     private ContenedorHashSetGenerico<Producto> productos;
     private ContenedorListaGenerica<Empleado> empleados;
+//CONSTRUCTOR
     public Tienda(String nombre) {
         this.nombre = nombre;
         this.productos = new ContenedorHashSetGenerico<>();
         this.empleados= new ContenedorListaGenerica<>();
     }
-
+//GETTERS
     public String getNombre() {
         return nombre;
     }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     public ContenedorHashSetGenerico<Producto> getProductos() {
         return productos;
     }
-
-    public void setProductos(ContenedorHashSetGenerico<Producto> productos) {
-        this.productos = productos;
-    }
-
-
     public ContenedorListaGenerica<Empleado> getEmpleados() {
         return empleados;
     }
-
+//SETTERS
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setProductos(ContenedorHashSetGenerico<Producto> productos) {
+        this.productos = productos;
+    }
     public void setEmpleados(ContenedorListaGenerica<Empleado> empleados) {
         this.empleados = empleados;
     }
-
-    public boolean Vender(String modelo) {
+//METODOS PRODUCTOS
+    public boolean Vender(String modelo) {//mandamos el modelo que deseamos vender
         boolean flag = false;
         Iterator iterator = productos.getIterator();
         while (iterator.hasNext() && flag == false) {
@@ -49,16 +45,15 @@ public class Tienda {
             if (productoaux.getTipo().equals(modelo) && productoaux.isDisponible() == true) {
                 if(productoaux.getStock()>0){
                     flag = true;
-                    productoaux.setStock(productoaux.getStock()-1);
+                    productoaux.setStock(productoaux.getStock()-1);//si lo tenemos en stock le restamos uno
                     if(productoaux.getStock() == 0){
-                        productoaux.setDisponible(false);
+                        productoaux.setDisponible(false);//si vendimos el ultimo cambiamos la disponibilidad
                     }
                 }
             }
         }
-        return flag;
+        return flag;//retornamos true o false si se realizo la venta
     }
-
     public Producto buscarProducto(String modelo) {
         boolean flag = true;
         Iterator iterator = productos.getIterator();
@@ -67,31 +62,15 @@ public class Tienda {
             Producto productoaux = (Producto) iterator.next();
             if (productoaux.getTipo().equals(modelo)) {
                 aux = productoaux;
-                flag = false;
+                flag = false;//si se encuentra terminamos el while
             }
         }
-        return aux;
+        return aux;//retornamos el producto
     }
-
-    public void cargarDatos(Producto elemento) {
-        productos.agregar(elemento);
-    }
-
-    public StringBuilder mostrarProductos() {
-        return productos.mostrar();
-    }
-
-    public void cargarDatosEmpleado(Empleado elemento) {
-        empleados.agregar(elemento);
-    }
-
-
-
-
     public void modificarPrecio(double precio,String modelo)
     {
         Producto aux=buscarProducto(modelo);
-        aux.setPrecio(precio);
+        aux.setPrecio(precio);//solo se puede modificar el precio de los productos
     }
 
     public void sumarStock(int stockNuevo, Producto producto)
@@ -101,33 +80,27 @@ public class Tienda {
     }
     public String mostrarDisponibles (){
         String rta ="";
-        Iterator iterator = productos.getIterator();
+        Iterator iterator = productos.getIterator();//creamos terador del set de productos
         while(iterator.hasNext()){
             Producto aux = (Producto) iterator.next();
-            if(aux.isDisponible()){
+            if(aux.isDisponible()){//si el producto esta disponible entra al if
                 rta += aux.toString();
             }
         }
-        return rta;
+        return rta;//retorna el toString de todos los productos disponibles
     }
-
     public String mostrarNoDisponibles (){
         String rta ="";
         Iterator iterator = productos.getIterator();
         while(iterator.hasNext()){
             Producto aux = (Producto) iterator.next();
-            if(!aux.isDisponible()){
+            if(!aux.isDisponible()){//si el producto no esta disponible entra al if
                 rta += aux.toString();
             }
         }
-        return rta;
+        return rta;//retorna el toString de todos los productos disponibles
     }
-
-    public StringBuilder mostrarEmpleados()
-    {
-        return empleados.mostrar();
-    }
-
+//METODOS EMPLEADOS
     public String mostrarEmpleadosNoActivos()
     {
         String rta="";
@@ -141,29 +114,27 @@ public class Tienda {
         }
         return rta;
     }
-
     public String mostrarEmpleadosActivos()
     {
         String rta="";
         for (Empleado empleado: empleados.getLista())
         {
-            if(empleado.isEstado())
+            if(empleado.isEstado())//si el estado es true entra
             {
                 rta+=empleado.toString();
             }
         }
-        return rta;
+        return rta;//retoran el toString de todos los empleados activos
     }
-
-    public Empleado buscarEmpleadoPorID(int id)
+    public Empleado buscarEmpleadoPorID(int id)//pasamos el id a buscar por parametro
     {
         boolean flag=false;
         Empleado empleado=null;
         int i=0;
         while (i<empleados.size() && !flag)
         {
-            empleado=empleados.get(i);
-            if(empleado.getId()==id)
+            empleado=empleados.get(i);//guardamos en la variable empleado un empleado del arrayList
+            if(empleado.getId()==id)//una vez encontrado el nombre cortamos el ciclo while
             {
                 flag=true;
             }
@@ -171,16 +142,15 @@ public class Tienda {
         }
         return empleado;
     }
-
-    public Empleado buscarEmpleadoPorNombre(String nombre)
+    public Empleado buscarEmpleadoPorNombre(String nombre)//pasamos el nombre a buscar por parametro
     {
         boolean flag=false;
         Empleado empleado=null;
         int i=0;
         while (i<empleados.size() && !flag)
         {
-            empleado=empleados.get(i);
-            if(empleado.getNombre().equals(nombre))
+            empleado=empleados.get(i);//guardamos en la variable empleado un empleado del arrayList
+            if(empleado.getNombre().equals(nombre))//una vez encontrado el nombre cortamos el ciclo while
             {
                 flag=true;
             }
@@ -188,16 +158,15 @@ public class Tienda {
         }
         return empleado;
     }
-
-    public Empleado buscarEmpleadoPorDNI(int DNI)
+    public Empleado buscarEmpleadoPorDNI(int DNI)//pasamos el dni a buscar por parametro
     {
         boolean flag=false;
         Empleado empleado=null;
         int i=0;
         while (i<empleados.size() && !flag)
         {
-            empleado=empleados.get(i);
-            if(empleado.getDni()==DNI)
+            empleado=empleados.get(i);//guardamos en la variable empleado un empleado de arrayList
+            if(empleado.getDni()==DNI)//si coinciden con el dni buscado terminams el ciclo while
             {
                 flag=true;
             }
@@ -205,9 +174,8 @@ public class Tienda {
         }
         return empleado;
     }
-
-    public void modificarEstado(Empleado empleado,int opcion)
-    {
+    public void modificarEstado(Empleado empleado,int opcion)//pasamos por parametro el empleado a modificar
+    {//solo se puede modificar el estado de los empleados
         if(opcion==1)
         {
             empleado.setEstado(true);
@@ -216,17 +184,16 @@ public class Tienda {
             empleado.setEstado(false);
         }
     }
-
-   public void agregaracrhivoEmpleados (){
+   public void agregarAcrhivoEmpleados (){
        ObjectOutputStream objectOutputStream = null;
        try{
-           FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");
-           objectOutputStream = new ObjectOutputStream(fileOutputStream);
-           for(int i=0;i<empleados.size();i++){
+           FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");//definimos el nombre del archivo
+           objectOutputStream = new ObjectOutputStream(fileOutputStream);//instanciamos el objetOuputStream
+           for(int i=0;i<empleados.size();i++){//for para recorrer y grabar el arrayList de empleados
                objectOutputStream.writeObject(empleados.get(i));
            }
        }
-             catch (FileNotFoundException ex)
+             catch (FileNotFoundException ex)//exepciones de la carga del archivo
            {
               ex.printStackTrace();
            }
@@ -246,19 +213,20 @@ public class Tienda {
                }
            }
     }
+    //METODOS DE ARCHIVOS
     public void leerArchivoEmpleados (){
         ObjectInputStream objectInputStream = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream("empleados.dat");
-            objectInputStream = new ObjectInputStream(fileInputStream);
+            FileInputStream fileInputStream = new FileInputStream("empleados.dat");//definimos el nombre del archivo a leer
+            objectInputStream = new ObjectInputStream(fileInputStream);//instanciamos el objectImputStream
 
             while (true) {
-                Empleado empleado = (Empleado) objectInputStream.readObject();
+                Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
                 System.out.println(empleado);
             }
 
 
-        } catch (EOFException ex)
+        } catch (EOFException ex)//exepciones de la lectura de archivo
         {
             System.out.println("FIN");
         }
@@ -285,6 +253,22 @@ public class Tienda {
             }
         }
     }
+    //METODOS GENERICOS
+    public void cargarDatos(Producto elemento) {
+        productos.agregar(elemento);
+    }
 
+    public StringBuilder mostrarProductos() {
+        return productos.mostrar();
+    }
+
+    public void cargarDatosEmpleado(Empleado elemento) {
+        empleados.agregar(elemento);
+    }
+
+    public StringBuilder mostrarEmpleados()
+    {
+        return empleados.mostrar();
+    }
 }
 
