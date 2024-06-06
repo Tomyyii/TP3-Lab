@@ -15,8 +15,6 @@ public class Menu  {
 
     public void menuPrinc()
     {
-
-        //Descarga desde el archivo y el json
         int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
         do {
@@ -40,7 +38,6 @@ public class Menu  {
                     menuAgregar(tienda);
                     System.out.println("OPCION:"+opcion);
                     break;
-
                 case 2:
                     System.out.println("Que producto desea buscar (ingrese el modelo):");
                     scan.nextLine();
@@ -50,7 +47,6 @@ public class Menu  {
                     System.out.println("Producto encontrado:");
                     System.out.println(buscado);
                     break;
-
                 case 3:
                     menuMostrar(tienda);
                     break;
@@ -82,10 +78,6 @@ public class Menu  {
                     break;
             }
         }while (opcion!=7);
-        //dentro de un try catch
-        //Guardar datos archivos
-        //guarda datos en el json
-
     }
 
     private void menuMostrar(Tienda tienda)
@@ -153,13 +145,7 @@ public class Menu  {
             opcion=scan.nextInt();
             switch (opcion){
                 case 1:
-
                     menuAgregarPantalon(tienda);
-                    /*try {
-                        producto=CargaPantalon();
-                    } catch (ExceptionEjemplo e) {
-                        e.getMessage();
-                    }*/
                     break;
                 case 2:
                     menuAgregarRemera(tienda);
@@ -186,11 +172,10 @@ public class Menu  {
             System.out.println("||   1-Agregar Empleado           ||");
             System.out.println("||   2-Buscar Empleado            ||");
             System.out.println("||   3-Mostrar Empleados          ||");
-            System.out.println("||   4-Modificar Empleados        ||");
-            System.out.println("||   5-Cargar empleados en archivo||");
-            System.out.println("||   6-Mostrar archivo cargado    ||");
+            System.out.println("||   4-Cargar empleados en archivo||");
+            System.out.println("||   5-Mostrar archivo cargado    ||");
             System.out.println("||--------------------------------||");
-            System.out.println("||   7-Salir                      ||");
+            System.out.println("||   6-Salir                      ||");
             System.out.println("||--------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -205,19 +190,16 @@ public class Menu  {
                     menuMostrarEmpleados(tienda);
                     break;
                 case 4:
-                    menuModificarEstado(tienda);
-                    break;
-                case 5:
                     archivarEmpleados(tienda);
                     break;
-                case 6:
+                case 5:
                     leerArchivo(tienda);
                     break;
                 default:
                     System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=7);
+        }while (opcion!=6);
     }
 
     private void menuBuscarEmpleado(Tienda tienda)
@@ -286,7 +268,6 @@ public class Menu  {
         }while (opcion!=4);
 
     }
-
     private void menuMostrarEmpleados(Tienda tienda)
     {
         int opcion=0;
@@ -318,48 +299,10 @@ public class Menu  {
         }while (opcion!=4);
 
     }
-    /*
-    private void menuModificarEmpleados()
-    {
-        int opcion=0;
-        do {
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   1-Modificar Nombre                   ||");
-            System.out.println("||   2-Modificar Apellido                 ||");
-            System.out.println("||   3-Modificar DNI                      ||");
-            System.out.println("||   4-Modificar ...                      ||");
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   5-Volver                             ||");
-            System.out.println("||----------------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    //Metodo Modificar Nombre
-                    break;
-                case 2:
-                    //Metodo Modificar Apellido
-                    break;
-                case 3:
-                    //Metodo Modificar DNI
-                    break;
-                case 4:
-                    //Metodo Modificar ...
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=5);
-
-    }
-
-     */
-
     private void menuAgregarRemera(Tienda tienda)
     {
-        int opcion=0;
-        Producto producto=null;
+        int opcion = 0;
+        Producto producto = null;
         do {
             System.out.println("Que tipo de remera desea agregar?");
             System.out.println("1- OVERSIZE");
@@ -414,8 +357,8 @@ public class Menu  {
 
     private void menuAgregarPantalon(Tienda tienda)
     {
-        int opcion=0;
-        Producto producto=null;
+        int opcion = 0;
+        Producto producto = null;
         do {
             System.out.println("Que tipo de Pantalon desea agregar?");
             System.out.println("1- JOGGING");
@@ -491,8 +434,8 @@ public class Menu  {
 
     private void menuAgregarMedia(Tienda tienda)
     {
-        int opcion=0;
-        Producto producto=null;
+        int opcion = 0;
+        Producto producto = null;
         do {
             System.out.println("Que tipo de Medias desea agregar?");
             System.out.println("1- SOQUETE");
@@ -568,8 +511,8 @@ public class Menu  {
 
     private void menuAgregarBuzo(Tienda tienda)
     {
-        int opcion=0;
-        Producto producto=null;
+        int opcion = 0;
+        Producto producto = null;
         do {
             System.out.println("Que tipo de Buzo desea agregar?");
             System.out.println("1- SUDADERA");
@@ -621,46 +564,9 @@ public class Menu  {
             }
         }while (opcion!=3);
     }
-
-
-    private void menuModificarEstado(Tienda tienda)
-    {
-        int opcion=0;
-        Empleado empleado=null;
-        do {
-            System.out.println("1- Modificar estado a activo");
-            System.out.println("2- Modificar estado a inactivo");
-            System.out.println("3- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.nextLine();
-                    String nombre=scan.nextLine();
-                    empleado=tienda.buscarEmpleadoPorNombre(nombre);
-                    tienda.modificarEstado(empleado,opcion);
-                    break;
-                case 2:
-                    System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.nextLine();
-                    String nombre1=scan.nextLine();
-                    empleado=tienda.buscarEmpleadoPorNombre(nombre1);
-                    tienda.modificarEstado(empleado,opcion);
-                    break;
-            }
-        }while (opcion!=3);
-    }
-
     public Producto cargaPantalon(int opcion)
     {
-
-
         String nombre= ("Pantalon");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
@@ -685,19 +591,11 @@ public class Menu  {
         }
         System.out.println("Ingrese el Tamaño de cintura");
         double tamañoCintura=scan.nextDouble();
-
         return new Pantalon(precio,stock,nombre,tipotela,color,talle,tamañoCintura,tipo);
     }
-
     public Producto cargaRemera(int opcion)
     {
-
-
         String nombre= ("Remera");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
@@ -724,15 +622,9 @@ public class Menu  {
 
         return new Remera(precio,stock,nombre,tipotela,color,talle,cuello,mangas,tipo);
     }
-
     public Producto cargaBuzo(int opcion)
     {
-
         String nombre= ("Buzo");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
@@ -741,7 +633,6 @@ public class Menu  {
         scan.nextLine();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        //scan.nextLine();
         String color=scan.nextLine();
         TipoEstiloBuzo tipo = null;
         if(opcion==1)
@@ -761,7 +652,7 @@ public class Menu  {
         }
 
         System.out.println("Tiene cierre: 1 para si 0 para no");
-        int aux2=scan.nextInt();
+        int aux2 = scan.nextInt();
         boolean cierre=false;
         if(aux==1)
         {
@@ -781,12 +672,7 @@ public class Menu  {
 
     public Producto cargaMedia(int opcion)
     {
-
         String nombre=("Media");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
@@ -844,8 +730,6 @@ public class Menu  {
         }
         return tipo;
     }
-
-
     public void menuAgregarEmpleado(Tienda tienda)
     {
         int opcion=0;
@@ -868,7 +752,6 @@ public class Menu  {
             }
         }while (opcion!=3);
     }
-
     public Empleado cargarEmpleado(int opcion,int size)
     {
         TipoEmpleado tipoEmpleado=null;
@@ -885,12 +768,6 @@ public class Menu  {
         }
         return new Empleado(nombre,size+1,tipoEmpleado,true,dni);
     }
-
-
-
-
-
-
 
     public String systemCLS()
     {
@@ -928,14 +805,7 @@ public class Menu  {
                 "\n");
         return system;
     }
-   /* public void  grabarArchivoEmpleados () {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream();
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("Empleados.dat");
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            for(int i=0;i<)
-        }
-    }*/
+
     public void archivarEmpleados(Tienda tienda){
         tienda.agregarAcrhivoEmpleados();
     }

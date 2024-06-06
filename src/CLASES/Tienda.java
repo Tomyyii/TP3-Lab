@@ -174,21 +174,12 @@ public class Tienda {
         }
         return empleado;
     }
-    public void modificarEstado(Empleado empleado,int opcion)//pasamos por parametro el empleado a modificar
-    {//solo se puede modificar el estado de los empleados
-        if(opcion==1)
-        {
-            empleado.setEstado(true);
-        } else if (opcion==2)
-        {
-            empleado.setEstado(false);
-        }
-    }
+//METODOS ARCHIVO
    public void agregarAcrhivoEmpleados (){
        ObjectOutputStream objectOutputStream = null;
        try{
            FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");//definimos el nombre del archivo
-           objectOutputStream = new ObjectOutputStream(fileOutputStream);//instanciamos el objetOuputStream
+           objectOutputStream = new ObjectOutputStream(fileOutputStream);//inicializa el objetOuputStream
            for(int i=0;i<empleados.size();i++){//for para recorrer y grabar el arrayList de empleados
                objectOutputStream.writeObject(empleados.get(i));
            }
@@ -213,18 +204,16 @@ public class Tienda {
                }
            }
     }
-    //METODOS DE ARCHIVOS
+
     public void leerArchivoEmpleados (){
         ObjectInputStream objectInputStream = null;
         try {
             FileInputStream fileInputStream = new FileInputStream("empleados.dat");//definimos el nombre del archivo a leer
-            objectInputStream = new ObjectInputStream(fileInputStream);//instanciamos el objectImputStream
-
+            objectInputStream = new ObjectInputStream(fileInputStream);//inicializa el objectImputStream
             while (true) {
                 Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
                 System.out.println(empleado);
             }
-
 
         } catch (EOFException ex)//exepciones de la lectura de archivo
         {
