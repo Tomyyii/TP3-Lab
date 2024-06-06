@@ -1,11 +1,13 @@
 package CLASES;
 
+import JSON.Json;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Tienda {
+public class Tienda extends Json {
 //VARIABLES
     private String nombre;
     private ContenedorHashSetGenerico<Producto> productos;
@@ -269,6 +271,11 @@ public class Tienda {
     public StringBuilder mostrarEmpleados()
     {
         return empleados.mostrar();
+    }
+    //metodos json
+    public void cargarDatosEnJson(){
+        jsonObAJsArray(productos.getIterator());
+
     }
 }
 

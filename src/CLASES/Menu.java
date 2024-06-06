@@ -31,7 +31,7 @@ public class Menu  {
             System.out.println("||          OPCIONES EMPLEADOS      ||");
             System.out.println("||   6-Menu Empleados               ||");
             System.out.println("||----------------------------------||");
-            System.out.println("||   7-Salir                        ||");
+            System.out.println("||   7-Cerrar programa              ||");
             System.out.println("||----------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -83,8 +83,8 @@ public class Menu  {
             }
         }while (opcion!=7);
         //dentro de un try catch
-        //Guardar datos archivos
-        //guarda datos en el json
+        //guarda datos(producto) en el json
+        tienda.cargarDatosEnJson();
 
     }
 
