@@ -10,6 +10,7 @@ import java.util.*;
 public class Menu  {
     Scanner scan=new Scanner(System.in);
 
+
     public Menu() {
     }
 
@@ -19,6 +20,8 @@ public class Menu  {
         //Descarga desde el archivo y el json
         int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
+        tienda.descargarDatosDeJson();
+
         do {
             System.out.println("||           MENU PRINCIPAL         ||");
             System.out.println("||----------------------------------||");

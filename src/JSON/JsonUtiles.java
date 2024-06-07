@@ -35,17 +35,18 @@ public class JsonUtiles {
 		}
 	}
 
-	public static String leer(String archivo) 
+	public static String leer(String archivo)
 	{
 		String contenido = "";
-		try 
+		try
 		{
 			contenido = new String(Files.readAllBytes(Paths.get(archivo+".json")));
-		} 
-		catch (IOException e) 
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 		return contenido;
 	}
+
 }
