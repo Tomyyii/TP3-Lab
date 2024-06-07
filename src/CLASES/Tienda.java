@@ -165,16 +165,18 @@ public class Tienda extends Json  {
     public Empleado buscarEmpleadoPorNombre(String nombre)//pasamos el nombre a buscar por parametro
     {
         boolean flag = false;
-        Empleado empleado = null;
+        Empleado empleado= null;
         int i = 0;
         while (i < empleados.size() && !flag) {
-            empleado = empleados.get(i);//guardamos en la variable empleado un empleado del arrayList
-            if (empleado.getNombre().equals(nombre))//una vez encontrado el nombre cortamos el ciclo while
+
+            if (empleados.get(i).getNombre().equals(nombre))//una vez encontrado el nombre cortamos el ciclo while
             {
+                empleado = empleados.get(i);
                 flag = true;
             }
             i++;
         }
+        System.out.println(empleado);
         return empleado;
     }
 
@@ -286,7 +288,5 @@ public class Tienda extends Json  {
         }
 
     }
-
-
 
 }

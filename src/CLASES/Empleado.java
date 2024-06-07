@@ -62,18 +62,19 @@ public class Empleado implements Serializable, ISucursales {
                 "\nnombre='" + nombre +
                 "\nid=" + id +
                 "\ntipoEmpleado=" + tipoEmpleado +
-                "\nestado=" + estado;
+                "\nestado=" + estado +
+                "\nDNI=" + dni;
     }
     @Override
     public String cambiarSucursal(int opcion) {
         String rta=null;
         if(opcion==1)
         {
-            Sucursales aux=Sucursales.ALEM;
+            Sucursales aux=Sucursales.CENTRO;
             rta=("Cambiado a: "+aux.name());
         } else if (opcion==2)
         {
-            Sucursales aux=Sucursales.CENTRO;
+            Sucursales aux=Sucursales.ALEM;
             rta=("Cambiado a: "+aux.name());
         }
         return rta;
