@@ -10,25 +10,20 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class Json {
-    // Hacer los pasajes del set a jsonObjet de jsonObjet a jsonArray y de ahi a json
-    //despues implementar esta clase e la clase tienda
 
+    public JSONObject javaAJson(Indumentaria producto) {//Pasa de un obj java a obj Json
 
-
-
-    public JSONObject javaAJson(Indumentaria producto) {
-        //Pasa de un obj java a obj Json
         JSONObject jsObject = null;
-        try {
+        try {// lanzamos exepcion
 
                 jsObject = new JSONObject();
-                jsObject.put("precio", producto.getPrecio());
+                jsObject.put("precio", producto.getPrecio());//cargamos una por una todas las variables de los productos
                 jsObject.put("stock", producto.getStock());
                 jsObject.put("disponible", producto.isDisponible());
                 jsObject.put("nombre", producto.getNombre());
                 jsObject.put("tipoDeTela", producto.getTipoDeTela());
                 jsObject.put("color", producto.getColor());
-                if (producto instanceof Media) {
+                if (producto instanceof Media) {// verificamos que producto es cada uno
                     Media media = (Media) producto;
                     jsObject.put("media",mediaAJsonOb(media));
                 } else if (producto instanceof Remera) {
@@ -43,11 +38,12 @@ public class Json {
                 }
 
 
-        } catch (JSONException e) {
+        } catch (JSONException e) {//recibimos la exepcion
             e.printStackTrace();
         }
-        return jsObject;
+        return jsObject;//retornamos el objeto
     }
+// METODOS AUXISIALES PARA EL PASO DE PRODUCTOS JAVA A JSON
         public JSONObject mediaAJsonOb (Media media) throws JSONException {
             JSONObject jsObject = new JSONObject();
 
@@ -57,7 +53,6 @@ public class Json {
             return jsObject;
 
         }
-
 
     public JSONObject pantalonAJsonOb(Pantalon pantalon) throws JSONException {
 
@@ -94,8 +89,8 @@ public class Json {
 
         return jsObject;
     }
-    public void jsonObAJsArray(Iterator <Producto> productoIterator){
-        //recibe iterador de indumentaria y pasa los ob
+    public void jsonObAJsArray(Iterator <Producto> productoIterator){//cargamos un arreglo de json con los jsobject previamente cargados
+        //recibe iterador de indumentaria
         JSONArray jsonArray= new JSONArray();
         while(productoIterator.hasNext()){
             Indumentaria indumentaria= (Indumentaria) productoIterator.next();
