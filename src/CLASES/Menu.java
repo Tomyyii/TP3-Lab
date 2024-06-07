@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Menu  {
-    Scanner scan=new Scanner(System.in);
+    public static Scanner scan= new Scanner(System.in);
 
 
     public Menu() {
@@ -24,96 +24,117 @@ public class Menu  {
         tienda.descargarDatosDeJson();
         tienda.leerArchivoEmpleados();
 
+        try
+        {
+            do {
+                System.out.println("||------------------------------------||");
+                System.out.println("||           MENU PRINCIPAL           ||");
+                System.out.println("||------------------------------------||");
+                System.out.println("||   1-Agregar Producto               ||");
+                System.out.println("||   2-Buscar Producto                ||");
+                System.out.println("||   3-Mostrar Productos              ||");
+                System.out.println("||   4-Modificar Precio Productos     ||");
+                System.out.println("||   5-Vender productos               ||");
+                System.out.println("||   6-Cambiar de Sucursal Productos  ||");
+                System.out.println("||------------------------------------||");
+                System.out.println("||          OPCIONES EMPLEADOS        ||");
+                System.out.println("||   7-Menu Empleados                 ||");
+                System.out.println("||------------------------------------||");
+                System.out.println("||   8-Cerrar programa y Guardar      ||");
+                System.out.println("||------------------------------------||");
+                opcion=scan.nextInt();
+                switch (opcion)
+                {
+                    case 1:
+                        menuAgregar(tienda);
+                        System.out.println("OPCION:"+opcion);
+                        break;
 
-        do {
-            System.out.println("||------------------------------------||");
-            System.out.println("||           MENU PRINCIPAL           ||");
-            System.out.println("||------------------------------------||");
-            System.out.println("||   1-Agregar Producto               ||");
-            System.out.println("||   2-Buscar Producto                ||");
-            System.out.println("||   3-Mostrar Productos              ||");
-            System.out.println("||   4-Modificar Precio Productos     ||");
-            System.out.println("||   5-Vender productos               ||");
-            System.out.println("||------------------------------------||");
-            System.out.println("||          OPCIONES EMPLEADOS        ||");
-            System.out.println("||   6-Menu Empleados                 ||");
-            System.out.println("||------------------------------------||");
-            System.out.println("||   7-Cerrar programa y Guardar      ||");
-            System.out.println("||------------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    menuAgregar(tienda);
-                    System.out.println("OPCION:"+opcion);
-                    break;
-
-                case 2:
-                    System.out.println("Que producto desea buscar (ingrese el modelo):");
-                    scan.next();
-                    String aux=scan.nextLine();
-                    Producto buscado=tienda.buscarProducto(aux);
-                    System.out.println("Producto encontrado:");
-                    System.out.println(buscado);
-                    break;
-
-                case 3:
-                    menuMostrar(tienda);
-                    break;
-                case 4:
-                    try{
-
-                        System.out.println("Ingrese el modelo del producto que desee modificar: ");
+                    case 2:
+                        System.out.println("Que producto desea buscar (ingrese el modelo):");
                         scan.next();
-                        String modelo = scan.nextLine();
-                        String modelo2 = scan.nextLine();
+                        String aux=scan.nextLine();
+                        Producto buscado=tienda.buscarProducto(aux);
+                        System.out.println("Producto encontrado:");
+                        System.out.println(buscado);
+                        break;
 
-
-                        System.out.println("Ingrese el nuevo precio:");
-                        double precio = scan.nextDouble();
+                    case 3:
+                        menuMostrar(tienda);
+                        break;
+                    case 4:
                         try{
-                            tienda.modificarPrecio(precio,modelo2);
-                        }catch (MiExcepcion e) {
-                            System.out.println("Solo se admiten precios positivos");
+
+                            System.out.println("Ingrese el modelo del producto que desee modificar: ");
+                            scan.next();
+                            String modelo = scan.nextLine();
+                            String modelo2 = scan.nextLine();
+
+
+                            System.out.println("Ingrese el nuevo precio:");
+                            double precio = scan.nextDouble();
+                            try{
+                                tienda.modificarPrecio(precio,modelo2);
+                            }catch (MiExcepcion e) {
+                                System.out.println("Solo se admiten precios positivos");
+                            }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor ingrese un número válido para el precio.");
+                            scan.next(); // Limpiar el valor incorrecto del escáner
                         }
-                    } catch (InputMismatchException e) {
-                System.out.println("Por favor ingrese un número válido para el precio.");
-                scan.next(); // Limpiar el valor incorrecto del escáner
-            }
-                    break;
-                case 5:
-                    try{
-                        System.out.println("Ingrese el modelo que desee vender ");
-                        scan.nextLine();
-                        String modelo1 = scan.nextLine();
+                        break;
+                    case 5:
                         try{
-                            boolean vendido =tienda.Vender(modelo1);
-                            if(vendido){
-                                System.out.println("Vendido con exito");
-                            }
-                            else{
-                                System.out.println("Sin stock para la venta");
-                            }
-                        }catch (Exception e){
-                            System.out.println("Ocurrió un error al intentar vender el producto");
+                            int flag=1;
+                                try{
+                                    while (flag==1) {
+                                    System.out.println("Ingrese el modelo que desee vender ");
+                                    scan.nextLine();
+                                    String modelo1 = scan.nextLine();
+                                        boolean vendido = tienda.Vender(modelo1);
+                                        if (vendido) {
+                                            System.out.println("Vendido con exito");
+                                        } else {
+                                            Producto producto=tienda.buscarProducto(modelo1);
+                                            if(producto!=null)
+                                            {
+                                                System.out.println("Sin stock para la venta");
+                                            }
+                                            else {
+                                                System.out.println("No se encontro el producto");
+                                            }
+
+                                        }
+                                        System.out.println("Quiere vender otro producto? 1 si/ 0 no");
+                                        flag=scan.nextInt();
+                                    }
+                                }catch (Exception e){
+                                    System.out.println("Ocurrió un error al intentar vender el producto");
+                                }
+                        }catch (InputMismatchException e) {
+                            System.out.println("Entrada inválida. Por favor intente nuevamente.");
+                            scan.next(); // Limpiar el valor incorrecto del escáner
                         }
+                        break;
+                    case 6:
+                        menuCambioSucursal(tienda);
+                        break;
+                    case 7:
+                        menuEmpleados(tienda);
+                        break;
+                    case 8:
+                        System.out.println("Saliendo del programa y guardando los cambios, ¡Hasta Pronto!");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            }while (opcion!=8);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
 
-                    }catch (InputMismatchException e) {
-                        System.out.println("Entrada inválida. Por favor intente nuevamente.");
-                        scan.next(); // Limpiar el valor incorrecto del escáner
-                    }
-
-
-
-                    break;
-                case 6:
-                    menuEmpleados(tienda);
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=7);
 
         //guarda datos(producto) en el json
         // guarda datos(empleados) en el archivo
@@ -127,504 +148,583 @@ public class Menu  {
         int opcion=0;
         ArrayList<Producto> listaProductosOrdenados= new ArrayList<Producto>(tienda.getProductos().getSet());
 
-        do {
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   1-Mostrar Productos                  ||");
-            System.out.println("||   1-Mostrar por Stock                  ||");
-            System.out.println("||   2-Mostrar Productos Disponibles      ||");
-            System.out.println("||   3-Mostrar Productos No Disponibles   ||");
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   4-Salir                              ||");
-            System.out.println("||----------------------------------------||");
-            opcion=scan.nextInt();
+        try {
 
-            switch (opcion)
-            {
-                case 1:
-                    System.out.println(tienda.mostrarProductos());
-                    break;
-                case 2:
-                    Collections.sort(listaProductosOrdenados, new Comparator<Producto>() {
-                        @Override
-                        public int compare(Producto o1, Producto o2) {
-                            int aux = 0;
-                            if (o1.getStock() > o2.getStock()) {
-                                aux = 1;
-                            } else if (o1.getStock() < o2.getStock()) {
-                                aux = -1;
+            do {
+                System.out.println("||----------------------------------------||");
+                System.out.println("||           MENU MOSTRAR                 ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   1-Mostrar Productos                  ||");
+                System.out.println("||   2-Mostrar por Stock                  ||");
+                System.out.println("||   3-Mostrar Productos Disponibles      ||");
+                System.out.println("||   4-Mostrar Productos No Disponibles   ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   5-Volver Atras                       ||");
+                System.out.println("||----------------------------------------||");
+                opcion = scan.nextInt();
+
+                switch (opcion) {
+                    case 1:
+                        System.out.println(tienda.mostrarProductos());
+                        break;
+                    case 2:
+                        Collections.sort(listaProductosOrdenados, new Comparator<Producto>() {
+                            @Override
+                            public int compare(Producto o1, Producto o2) {
+                                int aux = 0;
+                                if (o1.getStock() > o2.getStock()) {
+                                    aux = 1;
+                                } else if (o1.getStock() < o2.getStock()) {
+                                    aux = -1;
+                                }
+                                return aux;
                             }
-                            return aux;
-                        }
-                    });
-                    System.out.println("LISTADOS POR STOCK:");
-                    System.out.println(listaProductosOrdenados);
-                    break;
-                case 3:
-                    System.out.println(tienda.mostrarDisponibles());
-                    break;
-                case 4:
-                    System.out.println(tienda.mostrarNoDisponibles());
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=4);
+                        });
+                        System.out.println("LISTADOS POR STOCK:");
+                        System.out.println(listaProductosOrdenados);
+                        break;
+                    case 3:
+                        System.out.println(tienda.mostrarDisponibles());
+                        break;
+                    case 4:
+                        System.out.println(tienda.mostrarNoDisponibles());
+                        break;
+                    case 5:
+                        System.out.println("Volviendo Atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 5);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten Opciones con numeros");
+        }
     }
 
     private void menuAgregar(Tienda tienda)
     {
         int opcion=0;
-        do {
+        try {
 
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   1-Agregar un Pantalon                ||");
-            System.out.println("||   2-Agregar una Remera                 ||");
-            System.out.println("||   3-Agregar un Buzo                    ||");
-            System.out.println("||   4-Agregar Medias                     ||");
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   5-Salir                              ||");
-            System.out.println("||----------------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion){
-                case 1:
-
-                    menuAgregarPantalon(tienda);
-                    /*try {
-                        producto=CargaPantalon();
-                    } catch (ExceptionEjemplo e) {
-                        e.getMessage();
-                    }*/
-                    break;
-                case 2:
-                    menuAgregarRemera(tienda);
-                    break;
-                case 3:
-                    menuAgregarBuzo(tienda);
-                    break;
-                case 4:
-                    menuAgregarMedia(tienda);
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=5);
+            do {
+                System.out.println("||----------------------------------------||");
+                System.out.println("||       MENU AGREGAR PRODUCTOS           ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   1-Agregar un Pantalon                ||");
+                System.out.println("||   2-Agregar una Remera                 ||");
+                System.out.println("||   3-Agregar un Buzo                    ||");
+                System.out.println("||   4-Agregar Medias                     ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   5-Volver Atras                       ||");
+                System.out.println("||----------------------------------------||");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        menuAgregarPantalon(tienda);
+                        break;
+                    case 2:
+                        menuAgregarRemera(tienda);
+                        break;
+                    case 3:
+                        menuAgregarBuzo(tienda);
+                        break;
+                    case 4:
+                        menuAgregarMedia(tienda);
+                        break;
+                    case 5:
+                        System.out.println("Volviendo Atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 5);
+        }catch (InputMismatchException e )
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
 
     }
 
     private void menuEmpleados(Tienda tienda)
     {
         int opcion=0;
-        do {
-            System.out.println("||--------------------------------||");
-            System.out.println("||   1-Agregar Empleado           ||");
-            System.out.println("||   2-Buscar Empleado            ||");
-            System.out.println("||   3-Mostrar Empleados          ||");
-            System.out.println("||   4-Modificar Empleados        ||");
-            System.out.println("||--------------------------------||");
-            System.out.println("||   5-Salir                      ||");
-            System.out.println("||--------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    menuAgregarEmpleado(tienda);
-                    break;
-                case 2:
-                    menuBuscarEmpleado(tienda);
-                    break;
-                case 3:
-                    menuMostrarEmpleados(tienda);
-                    break;
-                case 4:
-                    menuModificarEstado(tienda);
-                    break;
-                case 5:
-                    System.out.println("Volviendo Atras");
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=5);
+        try {
+
+            do {
+                System.out.println("||--------------------------------||");
+                System.out.println("||         MENU EMPLEADOS         ||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||   1-Agregar Empleado           ||");
+                System.out.println("||   2-Buscar Empleado            ||");
+                System.out.println("||   3-Mostrar Empleados          ||");
+                System.out.println("||   4-Modificar Empleados        ||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||   5-Salir                      ||");
+                System.out.println("||--------------------------------||");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        int i = 1;
+                        while (i == 1) {
+                            AgregarEmpleado(tienda);
+                            System.out.println("Quiere seguir agregando empleados? 1 si/ 0 no");
+                            i = scan.nextInt();
+                        }
+                        break;
+                    case 2:
+                        menuBuscarEmpleado(tienda);
+                        break;
+                    case 3:
+                        menuMostrarEmpleados(tienda);
+                        break;
+                    case 4:
+                        menuModificarEstado(tienda);
+                        break;
+                    case 5:
+                        System.out.println("Volviendo Atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 5);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
     private void menuBuscarEmpleado(Tienda tienda)
     {
         int opcion=0;
-        do {
-            System.out.println("||--------------------------------||");
-            System.out.println("||   1-Buscar por ID              ||");
-            System.out.println("||   2-Buscar por DNI             ||");
-            System.out.println("||   3-Buscar por Nombre          ||");
-            System.out.println("||--------------------------------||");
-            System.out.println("||   4-Salir                      ||");
-            System.out.println("||--------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    try{
-                        System.out.println("Ingrese el id del empleado que desea buscar:");
-                        int i= scan.nextInt();
+        try {
+            do {
+                System.out.println("||--------------------------------||");
+                System.out.println("||      MENU BUSCAR EMPLEADO      ||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||   1-Buscar por ID              ||");
+                System.out.println("||   2-Buscar por DNI             ||");
+                System.out.println("||   3-Buscar por Nombre          ||");
+                System.out.println("||--------------------------------||");
+                System.out.println("||   4-Volver Atras               ||");
+                System.out.println("||--------------------------------||");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        try {
+                            System.out.println("Ingrese el id del empleado que desea buscar:");
+                            int i = scan.nextInt();
 
-                        try{
-                            Empleado empleado=tienda.buscarEmpleadoPorID(i);
-                            if(empleado!=null)
-                            {
-                                System.out.println("EMPLEADO ENCONTRADO:");
-                                System.out.println(empleado);
+                            try {
+                                Empleado empleado = tienda.buscarEmpleadoPorID(i);
+                                if (empleado != null) {
+                                    System.out.println("EMPLEADO ENCONTRADO:");
+                                    System.out.println(empleado);
+                                } else {
+                                    System.out.println("No se pudo encontrar el empleado con el id: " + i);
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Ocurrió un error al buscar el empleado.");
                             }
-                            else
-                            {
-                                System.out.println("No se pudo encontrar el empleado con el id: " + i);
-                            }
-                        }catch (Exception e) {
-                            System.out.println("Ocurrió un error al buscar el empleado.");
+                        } catch (InputMismatchException e) {
+                            System.out.println("Por favor ingrese un número entero válido.");
+                            scan.next(); // Limpiar el valor incorrecto del escáner
+
                         }
-                    }catch (InputMismatchException e) {
-                        System.out.println("Por favor ingrese un número entero válido.");
-                        scan.next(); // Limpiar el valor incorrecto del escáner
-
-                    }
 
 
+                        break;
 
-                    break;
+                    case 2:
+                        System.out.println("Ingrese el dni del empleado que desea buscar:");
+                        int dni = scan.nextInt();
+                        Empleado empleado1 = tienda.buscarEmpleadoPorDNI(dni);
+                        if (empleado1 != null) {
+                            System.out.println("EMPLEADO ENCONTRADO:");
+                            System.out.println(empleado1);
+                        } else {
+                            System.out.println("No se pudo encontrar el empleado con el dni: " + dni);
+                        }
+                        break;
 
-                case 2:
-                    System.out.println("Ingrese el dni del empleado que desea buscar:");
-                    int dni=scan.nextInt();
-                    Empleado empleado1=tienda.buscarEmpleadoPorDNI(dni);
-                    if(empleado1!=null)
-                    {
-                        System.out.println("EMPLEADO ENCONTRADO:");
-                        System.out.println(empleado1);
-                    }
-                    else
-                    {
-                        System.out.println("No se pudo encontrar el empleado con el dni: " + dni);
-                    }
-                    break;
-
-                case 3:
-                    System.out.println("Ingrese el nombre del empleado que desea buscar:");
-                    String nombre=scan.nextLine();
-                    Empleado empleado2=tienda.buscarEmpleadoPorNombre(nombre);
-                    if(empleado2!=null)
-                    {
-                        System.out.println("EMPLEADO ENCONTRADO:");
-                        System.out.println(empleado2);
-                    }
-                    else
-                    {
-                        System.out.println("No se pudo encontrar el empleado con el nombre: " + nombre);
-                    }
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=4);
+                    case 3:
+                        System.out.println("Ingrese el nombre del empleado que desea buscar:");
+                        String nombre = scan.nextLine();
+                        Empleado empleado2 = tienda.buscarEmpleadoPorNombre(nombre);
+                        if (empleado2 != null) {
+                            System.out.println("EMPLEADO ENCONTRADO:");
+                            System.out.println(empleado2);
+                        } else {
+                            System.out.println("No se pudo encontrar el empleado con el nombre: " + nombre);
+                        }
+                        break;
+                    case 4:
+                        System.out.println("Volviendo Atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 4);
+        } catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
 
     }
 
     private void menuMostrarEmpleados(Tienda tienda)
     {
         int opcion=0;
+        try {
 
-        do {
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   1-Mostrar Empleados                  ||");
-            System.out.println("||   2-Mostrar Empleados Activos          ||");
-            System.out.println("||   3-Mostrar Empleados no Activos       ||");
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   4-Salir                              ||");
-            System.out.println("||----------------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    System.out.println(tienda.mostrarEmpleados());
-                    break;
-                case 2:
-                    System.out.println(tienda.mostrarEmpleadosActivos());
-                    break;
-                case 3:
-                    System.out.println(tienda.mostrarEmpleadosNoActivos());
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=4);
+            do {
+                System.out.println("||----------------------------------------||");
+                System.out.println("||         MENU MOSTRAR EMPLEADOS         ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   1-Mostrar Empleados                  ||");
+                System.out.println("||   2-Mostrar Empleados Activos          ||");
+                System.out.println("||   3-Mostrar Empleados no Activos       ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   4-Volver Atras                       ||");
+                System.out.println("||----------------------------------------||");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        System.out.println(tienda.mostrarEmpleados());
+                        break;
+                    case 2:
+                        System.out.println(tienda.mostrarEmpleadosActivos());
+                        break;
+                    case 3:
+                        System.out.println(tienda.mostrarEmpleadosNoActivos());
+                        break;
+                    case 4:
+                        System.out.println("Volviendo atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 4);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
 
+    }
+
+    private void menuCambioSucursal(Tienda tienda)
+    {
+        int opcion=0;
+        try {
+
+            do {
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   1-Cambiar Sucursal Empleado          ||");
+                System.out.println("||   2-Cambiar Sucursal Producto          ||");
+                System.out.println("||----------------------------------------||");
+                System.out.println("||   3-Volver Atras                       ||");
+                System.out.println("||----------------------------------------||");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Ingrese el empleado que desea cambiar de sucursal");
+                        scan.next();
+                        String nombre = scan.nextLine();
+                        Empleado empleado = tienda.buscarEmpleadoPorNombre(nombre);
+                        System.out.println("Ingrese a que sucursal desea enviar al empleado:");
+                        System.out.println("1- CENTRO");
+                        System.out.println("2- ALEM");
+                        int opcion2 = scan.nextInt();
+                        if (empleado != null) {
+                            String ab = empleado.cambiarSucursal(opcion2);
+                            System.out.println("EMPLEADO: " + empleado.getNombre() + ab);
+                        } else {
+                            System.out.println("No se encontro al empleado");
+                        }
+                        break;
+                    case 2:
+                        System.out.println("Ingrese el modelo de producto que desea cambiar de sucursal");
+                        scan.next();
+                        String modelo = scan.nextLine();
+                        System.out.println(modelo);
+                        Producto producto = tienda.buscarProducto(modelo);
+                        System.out.println("Ingrese a que sucursal desea enviar al empleado:");
+                        System.out.println("1- CENTRO");
+                        System.out.println("2- ALEM");
+                        int opcion3 = scan.nextInt();
+                        if (producto != null) {
+                            String ab = producto.cambiarSucursal(opcion3);
+                            System.out.println("PRODUCTO: " + producto.getNombre() + "MODELO" + producto.getTipo() + ab);
+                        } else {
+                            System.out.println("No se encontro el producto");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Volviendo Atras");
+                        break;
+                    default:
+                        System.out.println("Error, Intente nuevamente");
+                        break;
+                }
+            } while (opcion != 3);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
     private void menuAgregarRemera(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
-        do {
-            System.out.println("Que tipo de remera desea agregar?");
-            System.out.println("1- OVERSIZE");
-            System.out.println("2- CLASICO");
-            System.out.println("3- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    String over;
-                    over=("OVERSIZE");
-                    producto=tienda.buscarProducto(over);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+        try {
+
+            do {
+                System.out.println("Que tipo de remera desea agregar?");
+                System.out.println("1- OVERSIZE");
+                System.out.println("2- CLASICO");
+                System.out.println("3- Volver atras");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        String over;
+                        over = ("OVERSIZE");
+                        producto = tienda.buscarProducto(over);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaRemera(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaRemera(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 2:
-                    String clas;
-                    clas=("CLASICO");
-                    producto=tienda.buscarProducto(clas);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 2:
+                        String clas;
+                        clas = ("CLASICO");
+                        producto = tienda.buscarProducto(clas);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaRemera(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaRemera(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-            }
-        }while (opcion!=3);
+                        break;
+                }
+            } while (opcion != 3);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
     private void menuAgregarPantalon(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
-        do {
-            System.out.println("Que tipo de Pantalon desea agregar?");
-            System.out.println("1- JOGGING");
-            System.out.println("2- VAQUERO");
-            System.out.println("3- CHINO");
-            System.out.println("4- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    String jogg;
-                    jogg=("JOGGING");
-                    producto=tienda.buscarProducto(jogg);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+        try {
+            do {
+                System.out.println("Que tipo de Pantalon desea agregar?");
+                System.out.println("1- JOGGING");
+                System.out.println("2- VAQUERO");
+                System.out.println("3- CHINO");
+                System.out.println("4- Volver atras");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        String jogg;
+                        jogg = ("JOGGING");
+                        producto = tienda.buscarProducto(jogg);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaPantalon(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaPantalon(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 2:
-                    String vaq;
-                    vaq=("VAQUERO");
-                    producto=tienda.buscarProducto(vaq);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 2:
+                        String vaq;
+                        vaq = ("VAQUERO");
+                        producto = tienda.buscarProducto(vaq);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaPantalon(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaPantalon(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 3:
-                    String chino;
-                    chino=("CHINO");
-                    producto=tienda.buscarProducto(chino);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 3:
+                        String chino;
+                        chino = ("CHINO");
+                        producto = tienda.buscarProducto(chino);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaPantalon(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaPantalon(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-            }
-        }while (opcion!=4);
+                        break;
+                }
+            } while (opcion != 4);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
     private void menuAgregarMedia(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
-        do {
-            System.out.println("Que tipo de Medias desea agregar?");
-            System.out.println("1- SOQUETE");
-            System.out.println("2- LARGAS");
-            System.out.println("3- TRES CUARTOS");
-            System.out.println("4- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    String soquete;
-                    soquete=("SOQUETE");
-                    producto=tienda.buscarProducto(soquete);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+        try {
+
+            do {
+                System.out.println("Que tipo de Medias desea agregar?");
+                System.out.println("1- SOQUETE");
+                System.out.println("2- LARGAS");
+                System.out.println("3- TRES CUARTOS");
+                System.out.println("4- Volver atras");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        String soquete;
+                        soquete = ("SOQUETE");
+                        producto = tienda.buscarProducto(soquete);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaMedia(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaMedia(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 2:
-                    String largas;
-                    largas=("LARGAS");
-                    producto=tienda.buscarProducto(largas);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 2:
+                        String largas;
+                        largas = ("LARGAS");
+                        producto = tienda.buscarProducto(largas);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaMedia(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaRemera(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 3:
-                    String trescuartos;
-                    trescuartos=("TRESCUARTOS");
-                    producto=tienda.buscarProducto(trescuartos);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 3:
+                        String trescuartos;
+                        trescuartos = ("TRESCUARTOS");
+                        producto = tienda.buscarProducto(trescuartos);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaMedia(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaRemera(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-            }
-        }while (opcion!=4);
+                        break;
+                }
+            } while (opcion != 4);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
     private void menuAgregarBuzo(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
-        do {
-            System.out.println("Que tipo de Buzo desea agregar?");
-            System.out.println("1- SUDADERA");
-            System.out.println("2- SWEATER");
-            System.out.println("3- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    String sudadera;
-                    sudadera=("SUDADERA");
-                    producto=tienda.buscarProducto(sudadera);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+        try {
+            do {
+                System.out.println("Que tipo de Buzo desea agregar?");
+                System.out.println("1- SUDADERA");
+                System.out.println("2- SWEATER");
+                System.out.println("3- Volver atras");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        String sudadera;
+                        sudadera = ("SUDADERA");
+                        producto = tienda.buscarProducto(sudadera);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaBuzo(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaBuzo(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-                case 2:
-                    String sweater;
-                    sweater=("SWEATER");
-                    producto=tienda.buscarProducto(sweater);
-                    if(producto!=null)
-                    {
-                        if(!producto.isDisponible())
-                        {
-                            producto.setDisponible(true);
+                        break;
+                    case 2:
+                        String sweater;
+                        sweater = ("SWEATER");
+                        producto = tienda.buscarProducto(sweater);
+                        if (producto != null) {
+                            if (!producto.isDisponible()) {
+                                producto.setDisponible(true);
+                            }
+                            System.out.println("Ingrese el stock nuevo");
+                            int stock = scan.nextInt();
+                            tienda.sumarStock(stock, producto);
+                        } else {
+                            producto = cargaBuzo(opcion);
+                            tienda.cargarDatos(producto);
                         }
-                        System.out.println("Ingrese el stock nuevo");
-                        int stock=scan.nextInt();
-                        tienda.sumarStock(stock,producto);
-                    }
-                    else
-                    {
-                        producto=cargaBuzo(opcion);
-                        tienda.cargarDatos(producto);
-                    }
-                    break;
-            }
-        }while (opcion!=3);
+                        break;
+                }
+            } while (opcion != 3);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
 
@@ -632,32 +732,37 @@ public class Menu  {
     {
         int opcion=0;
         Empleado empleado=null;
-        do {
-            System.out.println("1- Modificar estado a activo");
-            System.out.println("2- Modificar estado a inactivo");
-            System.out.println("3- Volver atras");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.next();
-                    String nombre=scan.nextLine();
-                    empleado=tienda.buscarEmpleadoPorNombre(nombre);
-                    tienda.modificarEstado(empleado,opcion);
-                    break;
-                case 2:
-                    System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.next();
-                    String nombre1=scan.nextLine();
-                    empleado=tienda.buscarEmpleadoPorNombre(nombre1);
-                    tienda.modificarEstado(empleado,opcion);
-                    break;
-            }
-        }while (opcion!=3);
+        try {
+
+            do {
+                System.out.println("1- Modificar estado a activo");
+                System.out.println("2- Modificar estado a inactivo");
+                System.out.println("3- Volver atras");
+                opcion = scan.nextInt();
+                switch (opcion) {
+                    case 1:
+                        System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
+                        scan.next();
+                        String nombre = scan.nextLine();
+                        empleado = tienda.buscarEmpleadoPorNombre(nombre);
+                        tienda.modificarEstado(empleado, opcion);
+                        break;
+                    case 2:
+                        System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
+                        scan.next();
+                        String nombre1 = scan.nextLine();
+                        empleado = tienda.buscarEmpleadoPorNombre(nombre1);
+                        tienda.modificarEstado(empleado, opcion);
+                        break;
+                }
+            } while (opcion != 3);
+        }catch (InputMismatchException e)
+        {
+            System.out.println("Solo se admiten opciones con numeros");
+        }
     }
 
-    public Producto cargaPantalon(int opcion)
+    private Producto cargaPantalon(int opcion)
     {
 
 
@@ -691,7 +796,7 @@ public class Menu  {
         return new Pantalon(precio,stock,nombre,tipotela,color,talle,tamañoCintura,tipo);
     }
 
-    public Producto cargaRemera(int opcion)
+    private Producto cargaRemera(int opcion)
     {
 
 
@@ -724,7 +829,7 @@ public class Menu  {
         return new Remera(precio,stock,nombre,tipotela,color,talle,cuello,mangas,tipo);
     }
 
-    public Producto cargaBuzo(int opcion)
+    private Producto cargaBuzo(int opcion)
     {
 
         String nombre= ("Buzo");
@@ -775,9 +880,10 @@ public class Menu  {
         return new Buzo(precio,stock,nombre,tipotela,color,talle,capucha,cierre,bolsillo,tipo);
     }
 
-    public Producto cargaMedia(int opcion)
+    private Producto cargaMedia(int opcion)
     {
-
+        String tipotela;
+        String color;
         String nombre=("Media");
 
         System.out.println("Ingrese el Precio:");
@@ -786,10 +892,11 @@ public class Menu  {
         int stock=scan.nextInt();
         System.out.println("Ingrese el Tipo de tela:");
         scan.next();
-        String tipotela=scan.nextLine();
+        tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
         scan.next();
-        String color=scan.nextLine();
+        color=scan.nextLine();
+        System.out.println(color);
         System.out.println("Es antideslizante: 1 para si 0 para no");
         int aux=scan.nextInt();
         boolean antideslizante=false;
@@ -808,68 +915,65 @@ public class Menu  {
         {
             tipo=MedidaMedia.TRESCUARTOS;
         }
-
+        System.out.println(color);
         return new Media(precio,stock,nombre,tipotela,color,antideslizante,tipo);
     }
 
 
-    public NivelDeTalle cargaTalle()
-    {
+    private NivelDeTalle cargaTalle() {
         NivelDeTalle tipo = null;
-        int i=0;
-        System.out.println("1- S");
-        System.out.println("2- M");
-        System.out.println("3- L");
-        System.out.println("4- XL");
-        i=scan.nextInt();
-        if(i==1)
-        {
-            tipo=NivelDeTalle.S;
-        } else if (i==2)
-        {
-            tipo=NivelDeTalle.M;
-        } else if (i==3)
-        {
-            tipo=NivelDeTalle.L;
-        } else if (i==4)
-        {
-            tipo=NivelDeTalle.XL;
+        try {
+            tipo = null;
+            int i = 0;
+            System.out.println("1- S");
+            System.out.println("2- M");
+            System.out.println("3- L");
+            System.out.println("4- XL");
+            i = scan.nextInt();
+            if (i == 1) {
+                tipo = NivelDeTalle.S;
+            } else if (i == 2) {
+                tipo = NivelDeTalle.M;
+            } else if (i == 3) {
+                tipo = NivelDeTalle.L;
+            } else if (i == 4) {
+                tipo = NivelDeTalle.XL;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Solo se admiten numeros");
         }
         return tipo;
     }
 
 
-    public void menuAgregarEmpleado(Tienda tienda)
+    private void AgregarEmpleado(Tienda tienda)
     {
         int opcion=0;
         Empleado empleado;
-        do {
             System.out.println("1- REPOSITOR");
             System.out.println("2- CAJERO");
-            System.out.println("3- Salir");
             opcion=scan.nextInt();
-            switch (opcion)
+            try {
+                empleado=cargarEmpleado(opcion,tienda.getEmpleados().size());
+                tienda.cargarDatosEmpleado(empleado);
+            }catch (MiExcepcion e)
             {
-                case 1:
-                   empleado=cargarEmpleado(opcion,tienda.getEmpleados().size());
-                   tienda.cargarDatosEmpleado(empleado);
-                    break;
-                case 2:
-                    empleado=cargarEmpleado(opcion,tienda.getEmpleados().size());
-                    tienda.cargarDatosEmpleado(empleado);
-                    break;
+                System.out.println(e.getMessage());
             }
-        }while (opcion!=3);
+
     }
 
-    public Empleado cargarEmpleado(int opcion,int size)
-    {
+    private Empleado cargarEmpleado(int opcion,int size) throws MiExcepcion {
         TipoEmpleado tipoEmpleado=null;
         System.out.println("Ingrese el nombre");
         scan.nextLine();
         String nombre=scan.nextLine();
         System.out.println("Ingrese el dni");
         int dni=scan.nextInt();
+        if(dni<1000000 || dni >99999999)
+        {
+            throw new MiExcepcion("DOCUMENTO INVALIDO");
+        }
         if(opcion==1)
         {
             tipoEmpleado=TipoEmpleado.REPOSITOR;

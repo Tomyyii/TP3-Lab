@@ -30,10 +30,9 @@ public class Media extends Indumentaria{
 //METODO ToString
     @Override
     public String toString() {
-        return super.toString()+"Media{" +
-                "antideslizante=" + antideslizante +
-                ", medidaMedia=" + medidaMedia +
-                '}';
+        return super.toString() +
+                "\nantideslizante=" + antideslizante +
+                "\nmedidaMedia=" + medidaMedia;
     }
 //METODO EQUALS
     @Override

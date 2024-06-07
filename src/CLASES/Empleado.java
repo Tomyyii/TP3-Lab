@@ -1,5 +1,6 @@
 package CLASES;
 
+import ENUMERACION.Sucursales;
 import ENUMERACION.TipoEmpleado;
 import INTERFACES.ISucursales;
 
@@ -64,8 +65,17 @@ public class Empleado implements Serializable, ISucursales {
                 "\nestado=" + estado;
     }
     @Override
-    public String cambiarSucursal(String suc) {
-
-        return "cambiando empleado a: "+suc;
+    public String cambiarSucursal(int opcion) {
+        String rta=null;
+        if(opcion==1)
+        {
+            Sucursales aux=Sucursales.ALEM;
+            rta=("Cambiado a: "+aux.name());
+        } else if (opcion==2)
+        {
+            Sucursales aux=Sucursales.CENTRO;
+            rta=("Cambiado a: "+aux.name());
+        }
+        return rta;
     }
 }

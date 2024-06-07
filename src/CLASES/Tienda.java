@@ -240,7 +240,7 @@ public class Tienda extends Json  {
 
         } catch (EOFException ex)//exepciones de la lectura de archivo
         {
-            System.out.println("FIN");
+            //System.out.println("FIN");
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException exception) {
@@ -282,7 +282,7 @@ public class Tienda extends Json  {
             jsonAJava("productos",productos.getSet());
         }catch (JSONException e)
         {
-            e.printStackTrace();
+            System.out.println("Todavia no tiene archivos el json");
         }
 
     }

@@ -1,6 +1,7 @@
 package CLASES;
 
 
+import ENUMERACION.Sucursales;
 import INTERFACES.ISucursales;
 
 public abstract class Producto implements ISucursales {
@@ -61,13 +62,22 @@ public abstract class Producto implements ISucursales {
         return "Producto"+
                 "\n{" +
                 "\nnombre=" + nombre +
-                ",\nstock=" + stock +
-                ",\ndisponible=" + disponible +
-                ",\nprecio='" + precio ;
+                "\nstock=" + stock +
+                "\ndisponible=" + disponible +
+                "\nprecio=" + precio ;
     }
     @Override
-    public String cambiarSucursal(String suc) {
-
-        return "cambiando producto a: "+suc;
+    public String cambiarSucursal(int opcion) {
+        String rta=null;
+        if(opcion==1)
+        {
+            Sucursales aux=Sucursales.ALEM;
+            rta=("Cambiando producto a: "+aux.name());
+        } else if (opcion==2)
+        {
+            Sucursales aux=Sucursales.CENTRO;
+            rta=("Cambiando producto a: "+aux.name());
+        }
+        return rta;
     }
 }

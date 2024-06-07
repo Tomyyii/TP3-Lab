@@ -3,7 +3,7 @@ package CLASES;
 import ENUMERACION.NivelDeTalle;
 import ENUMERACION.TipoEstiloBuzo;
 
-public class Buzo extends IndumentariaConEstilo{
+public class Buzo extends IndumentariaConTalle {
 //VARIABLES
     private boolean capucha;
     private boolean cierre;

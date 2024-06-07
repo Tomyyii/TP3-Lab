@@ -3,7 +3,7 @@ package CLASES;
 import ENUMERACION.NivelDeTalle;
 import ENUMERACION.TipoEstiloRemera;
 
-public class Remera extends IndumentariaConEstilo{
+public class Remera extends IndumentariaConTalle {
 //VARIBLES
     private String cuello;
     private String mangas;
@@ -43,8 +43,8 @@ public class Remera extends IndumentariaConEstilo{
     @Override
     public String toString() {
         return super.toString()+
-                "\ncuello='" + cuello +
-                "\nmangas='" + mangas +
+                "\ncuello=" + cuello +
+                "\nmangas=" + mangas +
                 "\nestilo=" + estilo;
     }
 //METODO HASHCODE

@@ -4,7 +4,7 @@ import ENUMERACION.ModeloPantalon;
 import ENUMERACION.NivelDeTalle;
 
 
-public class Pantalon extends IndumentariaConEstilo{
+public class Pantalon extends IndumentariaConTalle {
 //VARIABLES
     private double tamañoCintura;
     private ModeloPantalon modelo;

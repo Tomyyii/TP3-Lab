@@ -40,7 +40,8 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicasHashset
         while (iterator.hasNext())
         {
             E aux= (E) iterator.next();
-            sb.append("PRODUCTO\n").append(i).append("\n").append(aux);
+            sb.append("\nPRODUCTO\n").append(i).append("\n").append(aux);
+            i++;
         }
         return sb;
     }

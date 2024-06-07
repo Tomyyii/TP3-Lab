@@ -28,7 +28,7 @@ public abstract class Indumentaria extends Producto{
     @Override
     public String toString() {
         return super.toString()+
-                "\ntipoDeTela='" + tipoDeTela+
-                "\ncolor='" + color;
+                "\ntipoDeTela=" + tipoDeTela+
+                "\ncolor=" + color;
     }
 }
