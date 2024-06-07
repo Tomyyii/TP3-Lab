@@ -22,8 +22,9 @@ public class Menu  {
         int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
         tienda.descargarDatosDeJson();
-        tienda.leerArchivoEmpleados();
-
+        if(tienda.verificarSiEstaVacioArchivo()) {
+            tienda.leerArchivoEmpleados();
+        }
         try
         {
             do {
@@ -772,11 +773,10 @@ public class Menu  {
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.next();
         String color=scan.nextLine();
         NivelDeTalle talle=cargaTalle();
         ModeloPantalon tipo = null;
@@ -799,15 +799,13 @@ public class Menu  {
     private Producto cargaRemera(int opcion)
     {
 
-
         String nombre= ("Remera");
-
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
         String color=scan.nextLine();
@@ -838,11 +836,10 @@ public class Menu  {
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.next();
         String color=scan.nextLine();
         TipoEstiloBuzo tipo = null;
         if(opcion==1)

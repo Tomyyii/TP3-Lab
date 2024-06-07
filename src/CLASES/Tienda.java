@@ -228,17 +228,24 @@ public class Tienda extends Json  {
     }
 
     //METODOS DE ARCHIVOS
+    public boolean verificarSiEstaVacioArchivo(){
+        boolean rta = false;
+        File archivo = new File("empleados.dat");
+        if(archivo.length()!=0){
+            rta = true;
+        }
+        return rta;
+    }
     public void leerArchivoEmpleados() {
         ObjectInputStream objectInputStream = null;
+
         try {
             FileInputStream fileInputStream = new FileInputStream("empleados.dat");//definimos el nombre del archivo a leer
             objectInputStream = new ObjectInputStream(fileInputStream);//instanciamos el objectImputStream
-
             while (true) {
                 Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
                 empleados.agregar(empleado);
             }
-
 
         } catch (EOFException ex)//exepciones de la lectura de archivo
         {
