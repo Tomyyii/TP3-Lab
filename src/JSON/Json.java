@@ -14,7 +14,7 @@ public class Json {
     public JSONObject javaAJson(Indumentaria producto) {//Pasa de un obj java a obj Json
 
         JSONObject jsObject = null;
-        try {// lanzamos exepcion
+        try {
 
                 jsObject = new JSONObject();
                 jsObject.put("precio", producto.getPrecio());//cargamos una por una todas las variables de los productos
@@ -38,7 +38,7 @@ public class Json {
                 }
 
 
-        } catch (JSONException e) {//recibimos la exepcion
+        } catch (JSONException e) {// atrapa la exepcion que lanza las funciones de abajo
             e.printStackTrace();
         }
         return jsObject;//retornamos el objeto
@@ -99,48 +99,7 @@ public class Json {
         }
         JsonUtiles.grabar(jsonArray,"productos");
     }
-   /* public void jsonAJava(String nombreArchivo, HashSet <Producto> productoHashSet) throws JSONException {
-        // pasamos de obj json a obj java
-        String jsonResponse = JsonUtiles.leer(nombreArchivo);
-        JSONArray jsonArray = new JSONArray(jsonResponse);
-        JSONObject jsonObject = null;
 
-        for(int i=0;i< jsonArray.length(); i++){
-
-            JSONObject aux = null;
-            jsonObject = jsonArray.getJSONObject(i);
-            Producto indumentaria= null;
-           if(jsonObject.getString("nombre").equals("Media")){
-
-                aux = jsonObject.getJSONObject("media");
-               //transforma un string en una variable enum para pasarlo al constructor
-
-
-           } else if (jsonObject.getString("nombre").equals("Buzo")) {
-
-               aux = jsonObject.getJSONObject("buzo");
-               T
-
-           } else if (jsonObject.getString("nombre").equals("Pantalon")) {
-
-               aux = jsonObject.getJSONObject("pantalon");
-               ModeloPantalon auxMP =ModeloPantalon.valueOf(aux.getString("modelo"));
-               NivelDeTalle auxNT2 = NivelDeTalle.valueOf(aux.getString("talle"));
-               indumentaria = new Pantalon(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT2,aux.getDouble("tamañoCintura"),auxMP);
-
-           } else if (jsonObject.getString("nombre").equals("Remera")) {
-
-               aux = jsonObject.getJSONObject("remera");
-
-
-           }
-           productoHashSet.add(indumentaria);
-        }
-
-
-    }
-
-    */
    public void jsonAJava(String nombreArchivo, HashSet <Producto> productoHashSet) throws JSONException
    {
        String jsResponse=JsonUtiles.leer(nombreArchivo);
@@ -175,7 +134,7 @@ public class Json {
 
        JSONObject aux=jsonObject.getJSONObject("media");
        MedidaMedia auxMM= MedidaMedia.valueOf(aux.getString("medidaMedia"));
-       return new Media(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),jsonObject.getBoolean("antideslizante"), auxMM);
+       return new Media(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),aux.getBoolean("antideslizante"), auxMM);
    }
 
    public Pantalon jsonOBJaPantalon(JSONObject jsonObject) throws  JSONException

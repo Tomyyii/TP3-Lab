@@ -1,6 +1,7 @@
 package CLASES;
 
 import ENUMERACION.*;
+import EXCEPCIONES.MiExcepcion;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -61,24 +62,50 @@ public class Menu  {
                     menuMostrar(tienda);
                     break;
                 case 4:
-                    System.out.println("Ingrese el modelo que desee modificar: ");
-                    scan.next();
-                    String modelo = scan.nextLine();
-                    System.out.println("Ingrese el nuevo precio:");
-                    double precio = scan.nextDouble();
-                    tienda.modificarPrecio(precio,modelo);
+                    try{
+
+                        System.out.println("Ingrese el modelo del producto que desee modificar: ");
+                        scan.next();
+                        String modelo = scan.nextLine();
+                        String modelo2 = scan.nextLine();
+
+
+                        System.out.println("Ingrese el nuevo precio:");
+                        double precio = scan.nextDouble();
+                        try{
+                            tienda.modificarPrecio(precio,modelo2);
+                        }catch (MiExcepcion e) {
+                            System.out.println("Solo se admiten precios positivos");
+                        }
+                    } catch (InputMismatchException e) {
+                System.out.println("Por favor ingrese un número válido para el precio.");
+                scan.next(); // Limpiar el valor incorrecto del escáner
+            }
                     break;
                 case 5:
-                    System.out.println("Ingrese el modelo que desee vender ");
-                    scan.nextLine();
-                    String modelo1 = scan.nextLine();
-                    boolean vendido =tienda.Vender(modelo1);
-                    if(vendido){
-                        System.out.println("Vendido con exito");
+                    try{
+                        System.out.println("Ingrese el modelo que desee vender ");
+                        scan.nextLine();
+                        String modelo1 = scan.nextLine();
+                        try{
+                            boolean vendido =tienda.Vender(modelo1);
+                            if(vendido){
+                                System.out.println("Vendido con exito");
+                            }
+                            else{
+                                System.out.println("Sin stock para la venta");
+                            }
+                        }catch (Exception e){
+                            System.out.println("Ocurrió un error al intentar vender el producto");
+                        }
+
+                    }catch (InputMismatchException e) {
+                        System.out.println("Entrada inválida. Por favor intente nuevamente.");
+                        scan.next(); // Limpiar el valor incorrecto del escáner
                     }
-                    else{
-                        System.out.println("Sin stock para la venta");
-                    }
+
+
+
                     break;
                 case 6:
                     menuEmpleados(tienda);
@@ -88,10 +115,11 @@ public class Menu  {
                     break;
             }
         }while (opcion!=7);
-        //dentro de un try catch
+
         //guarda datos(producto) en el json
+        // guarda datos(empleados) en el archivo
         tienda.cargarDatosEnJson();
-        tienda.agregarAcrhivoEmpleados();
+        tienda.agregarArchivoEmpleados();
 
     }
 
@@ -237,18 +265,31 @@ public class Menu  {
             switch (opcion)
             {
                 case 1:
-                    System.out.println("Ingrese el id del empleado que desea buscar:");
-                    int i= scan.nextInt();
-                    Empleado empleado=tienda.buscarEmpleadoPorID(i);
-                    if(empleado!=null)
-                    {
-                        System.out.println("EMPLEADO ENCONTRADO:");
-                        System.out.println(empleado);
+                    try{
+                        System.out.println("Ingrese el id del empleado que desea buscar:");
+                        int i= scan.nextInt();
+
+                        try{
+                            Empleado empleado=tienda.buscarEmpleadoPorID(i);
+                            if(empleado!=null)
+                            {
+                                System.out.println("EMPLEADO ENCONTRADO:");
+                                System.out.println(empleado);
+                            }
+                            else
+                            {
+                                System.out.println("No se pudo encontrar el empleado con el id: " + i);
+                            }
+                        }catch (Exception e) {
+                            System.out.println("Ocurrió un error al buscar el empleado.");
+                        }
+                    }catch (InputMismatchException e) {
+                        System.out.println("Por favor ingrese un número entero válido.");
+                        scan.next(); // Limpiar el valor incorrecto del escáner
+
                     }
-                    else
-                    {
-                        System.out.println("No se pudo encontrar el empleado con el id: " + i);
-                    }
+
+
 
                     break;
 

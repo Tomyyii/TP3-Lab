@@ -1,5 +1,6 @@
 package CLASES;
 
+import EXCEPCIONES.MiExcepcion;
 import JSON.Json;
 import org.json.JSONException;
 
@@ -80,9 +81,15 @@ public class Tienda extends Json {
         return aux;//retornamos el producto
     }
 
-    public void modificarPrecio(double precio, String modelo) {
+    public void modificarPrecio(double precio, String modelo) throws MiExcepcion {
         Producto aux = buscarProducto(modelo);
-        aux.setPrecio(precio);//solo se puede modificar el precio de los productos
+
+        if(precio>=0){
+            aux.setPrecio(precio);//solo se puede modificar el precio de los productos si el precio es positivo
+        }else{
+            throw new MiExcepcion(); //sino lanza una exception propia
+        }
+
     }
 
     public void sumarStock(int stockNuevo, Producto producto) {
@@ -143,9 +150,11 @@ public class Tienda extends Json {
         Empleado empleado = null;
         int i = 0;
         while (i < empleados.size() && !flag) {
-            empleado = empleados.get(i);//guardamos en la variable empleado un empleado del arrayList
-            if (empleado.getId() == id)//una vez encontrado el nombre cortamos el ciclo while
+
+
+            if (empleados.get(i).getId() == id)//una vez encontrado el nombre cortamos el ciclo while
             {
+                empleado=empleados.get(i);
                 flag = true;
             }
             i++;
@@ -194,7 +203,7 @@ public class Tienda extends Json {
         }
     }
 
-    public void agregarAcrhivoEmpleados() {
+    public void agregarArchivoEmpleados() {
         ObjectOutputStream objectOutputStream = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("empleados.dat");//definimos el nombre del archivo
