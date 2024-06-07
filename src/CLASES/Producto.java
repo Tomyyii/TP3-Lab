@@ -1,26 +1,29 @@
 package CLASES;
 
 
-import INTERFACES.cuaklquiercosa;
+import INTERFACES.ISucursales;
 
-public abstract class Producto implements cuaklquiercosa {
+public abstract class Producto implements ISucursales {
 //VARIABLES
     private double precio;
     private int stock;
     private boolean disponible;
     private String nombre;
+
 //CONSTRUCTORES
     public Producto() {
         precio=0;
         stock=0;
         disponible=false;
         nombre="";
+
     }
     public Producto(double precio, int stock, String nombre) {
         this.precio = precio;
         this.stock = stock;
         setDisponible(true);
         this.nombre = nombre;
+
     }
 //GETTERS
     public double getPrecio() {
@@ -35,7 +38,10 @@ public abstract class Producto implements cuaklquiercosa {
     public String getNombre() {
         return nombre;
     }
-//SETTES
+    public abstract String getTipo();
+
+
+    //SETTES
     public void setPrecio(double precio) {
         this.precio = precio;
     }
@@ -48,7 +54,8 @@ public abstract class Producto implements cuaklquiercosa {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-//METODO ToString
+
+    //METODO ToString
     @Override
     public String toString() {
         return "Producto"+
@@ -56,6 +63,11 @@ public abstract class Producto implements cuaklquiercosa {
                 "\nnombre=" + nombre +
                 ",\nstock=" + stock +
                 ",\ndisponible=" + disponible +
-                ",\nprecio='" + precio;
+                ",\nprecio='" + precio ;
+    }
+    @Override
+    public String cambiarSucursal(String suc) {
+
+        return "cambiando producto a: "+suc;
     }
 }

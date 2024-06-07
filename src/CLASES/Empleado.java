@@ -1,8 +1,10 @@
 package CLASES;
 
 import ENUMERACION.TipoEmpleado;
+import INTERFACES.ISucursales;
+
 import java.io.Serializable;
-public class Empleado implements Serializable  {
+public class Empleado implements Serializable, ISucursales {
 //VARIABLES
     private String nombre;
     private int id;
@@ -60,5 +62,10 @@ public class Empleado implements Serializable  {
                 "\nid=" + id +
                 "\ntipoEmpleado=" + tipoEmpleado +
                 "\nestado=" + estado;
+    }
+    @Override
+    public String cambiarSucursal(String suc) {
+
+        return "cambiando empleado a: "+suc;
     }
 }

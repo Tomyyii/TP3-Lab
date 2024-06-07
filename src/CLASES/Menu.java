@@ -50,10 +50,9 @@ public class Menu  {
 
                 case 2:
                     System.out.println("Que producto desea buscar (ingrese el modelo):");
-                    scan.nextLine();
+                    scan.next();
                     String aux=scan.nextLine();
                     Producto buscado=tienda.buscarProducto(aux);
-                    System.out.println(systemCLS());
                     System.out.println("Producto encontrado:");
                     System.out.println(buscado);
                     break;
@@ -176,7 +175,7 @@ public class Menu  {
     {
         int opcion=0;
         do {
-            System.out.println(systemCLS());
+
             System.out.println("||----------------------------------------||");
             System.out.println("||   1-Agregar un Pantalon                ||");
             System.out.println("||   2-Agregar una Remera                 ||");
@@ -361,43 +360,6 @@ public class Menu  {
         }while (opcion!=4);
 
     }
-    /*
-    private void menuModificarEmpleados()
-    {
-        int opcion=0;
-        do {
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   1-Modificar Nombre                   ||");
-            System.out.println("||   2-Modificar Apellido                 ||");
-            System.out.println("||   3-Modificar DNI                      ||");
-            System.out.println("||   4-Modificar ...                      ||");
-            System.out.println("||----------------------------------------||");
-            System.out.println("||   5-Volver                             ||");
-            System.out.println("||----------------------------------------||");
-            opcion=scan.nextInt();
-            switch (opcion)
-            {
-                case 1:
-                    //Metodo Modificar Nombre
-                    break;
-                case 2:
-                    //Metodo Modificar Apellido
-                    break;
-                case 3:
-                    //Metodo Modificar DNI
-                    break;
-                case 4:
-                    //Metodo Modificar ...
-                    break;
-                default:
-                    System.out.println("Error, Intente nuevamente");
-                    break;
-            }
-        }while (opcion!=5);
-
-    }
-
-     */
 
     private void menuAgregarRemera(Tienda tienda)
     {
@@ -679,14 +641,14 @@ public class Menu  {
             {
                 case 1:
                     System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.nextLine();
+                    scan.next();
                     String nombre=scan.nextLine();
                     empleado=tienda.buscarEmpleadoPorNombre(nombre);
                     tienda.modificarEstado(empleado,opcion);
                     break;
                 case 2:
                     System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                    scan.nextLine();
+                    scan.next();
                     String nombre1=scan.nextLine();
                     empleado=tienda.buscarEmpleadoPorNombre(nombre1);
                     tienda.modificarEstado(empleado,opcion);
@@ -700,19 +662,16 @@ public class Menu  {
 
 
         String nombre= ("Pantalon");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
+
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.nextLine();
+        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        //scan.nextLine();
+        scan.next();
         String color=scan.nextLine();
         NivelDeTalle talle=cargaTalle();
         ModeloPantalon tipo = null;
@@ -737,16 +696,13 @@ public class Menu  {
 
 
         String nombre= ("Remera");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
+
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.nextLine();
+        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
         String color=scan.nextLine();
@@ -760,7 +716,7 @@ public class Menu  {
         }
         NivelDeTalle talle=cargaTalle();
         System.out.println("Ingrese el Tipo de Cuello");
-        scan.nextLine();
+        scan.next();
         String cuello=scan.nextLine();
         System.out.println("Ingrese mangas:");
         String mangas=scan.nextLine();
@@ -772,19 +728,16 @@ public class Menu  {
     {
 
         String nombre= ("Buzo");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
+
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.nextLine();
+        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        //scan.nextLine();
+        scan.next();
         String color=scan.nextLine();
         TipoEstiloBuzo tipo = null;
         if(opcion==1)
@@ -826,19 +779,16 @@ public class Menu  {
     {
 
         String nombre=("Media");
-        /*if(nombre.equals(""))
-        {
-            throw new ExceptionEjemplo("El nombre no puede ser vacio");
-        }*/
+
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.nextLine();
+        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-       // scan.nextLine();
+        scan.next();
         String color=scan.nextLine();
         System.out.println("Es antideslizante: 1 para si 0 para no");
         int aux=scan.nextInt();
@@ -928,57 +878,5 @@ public class Menu  {
         }
         return new Empleado(nombre,size+1,tipoEmpleado,true,dni);
     }
-
-
-
-
-
-
-
-    public String systemCLS()
-    {
-        String system;
-        system=("\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n");
-        return system;
-    }
-   /* public void  grabarArchivoEmpleados () {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream();
-        try{
-            FileOutputStream fileOutputStream = new FileOutputStream("Empleados.dat");
-            objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            for(int i=0;i<)
-        }
-    }*/
-
 
 }

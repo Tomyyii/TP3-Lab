@@ -1,15 +1,15 @@
 package CLASES;
 
 import EXCEPCIONES.MiExcepcion;
+import INTERFACES.ISucursales;
 import JSON.Json;
 import org.json.JSONException;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 
-public class Tienda extends Json {
+public class Tienda extends Json  {
     //VARIABLES
     private String nombre;
     private ContenedorHashSetGenerico<Producto> productos;
@@ -286,4 +286,7 @@ public class Tienda extends Json {
         }
 
     }
+
+
+
 }
