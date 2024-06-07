@@ -21,21 +21,24 @@ public class Menu  {
         int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
         tienda.descargarDatosDeJson();
+        tienda.leerArchivoEmpleados();
+
 
         do {
-            System.out.println("||           MENU PRINCIPAL         ||");
-            System.out.println("||----------------------------------||");
-            System.out.println("||   1-Agregar Producto             ||");
-            System.out.println("||   2-Buscar Producto              ||");
-            System.out.println("||   3-Mostrar Productos            ||");
-            System.out.println("||   4-Modificar Precio Productos   ||");
-            System.out.println("||   5-Vender productos             ||");
-            System.out.println("||----------------------------------||");
-            System.out.println("||          OPCIONES EMPLEADOS      ||");
-            System.out.println("||   6-Menu Empleados               ||");
-            System.out.println("||----------------------------------||");
-            System.out.println("||   7-Cerrar programa              ||");
-            System.out.println("||----------------------------------||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||           MENU PRINCIPAL           ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   1-Agregar Producto               ||");
+            System.out.println("||   2-Buscar Producto                ||");
+            System.out.println("||   3-Mostrar Productos              ||");
+            System.out.println("||   4-Modificar Precio Productos     ||");
+            System.out.println("||   5-Vender productos               ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||          OPCIONES EMPLEADOS        ||");
+            System.out.println("||   6-Menu Empleados                 ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   7-Cerrar programa y Guardar      ||");
+            System.out.println("||------------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
             {
@@ -88,6 +91,7 @@ public class Menu  {
         //dentro de un try catch
         //guarda datos(producto) en el json
         tienda.cargarDatosEnJson();
+        tienda.agregarAcrhivoEmpleados();
 
     }
 
@@ -190,10 +194,8 @@ public class Menu  {
             System.out.println("||   2-Buscar Empleado            ||");
             System.out.println("||   3-Mostrar Empleados          ||");
             System.out.println("||   4-Modificar Empleados        ||");
-            System.out.println("||   5-Cargar empleados en archivo||");
-            System.out.println("||   6-Mostrar archivo cargado    ||");
             System.out.println("||--------------------------------||");
-            System.out.println("||   7-Salir                      ||");
+            System.out.println("||   5-Salir                      ||");
             System.out.println("||--------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -211,16 +213,13 @@ public class Menu  {
                     menuModificarEstado(tienda);
                     break;
                 case 5:
-                    archivarEmpleados(tienda);
-                    break;
-                case 6:
-                    leerArchivo(tienda);
+                    System.out.println("Volviendo Atras");
                     break;
                 default:
                     System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=7);
+        }while (opcion!=5);
     }
 
     private void menuBuscarEmpleado(Tienda tienda)
@@ -939,11 +938,6 @@ public class Menu  {
             for(int i=0;i<)
         }
     }*/
-    public void archivarEmpleados(Tienda tienda){
-        tienda.agregarAcrhivoEmpleados();
-    }
-    public void leerArchivo(Tienda tienda){
-        tienda.leerArchivoEmpleados();
-    }
+
 
 }

@@ -225,7 +225,7 @@ public class Tienda extends Json {
 
             while (true) {
                 Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
-                System.out.println(empleado);
+                empleados.agregar(empleado);
             }
 
 
