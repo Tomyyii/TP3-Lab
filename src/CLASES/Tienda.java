@@ -276,7 +276,5 @@ public class Tienda extends Json {
             e.printStackTrace();
         }
 
-
-
     }
 }
