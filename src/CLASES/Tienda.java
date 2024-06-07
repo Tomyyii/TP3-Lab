@@ -165,16 +165,18 @@ public class Tienda extends Json  {
     public Empleado buscarEmpleadoPorNombre(String nombre)//pasamos el nombre a buscar por parametro
     {
         boolean flag = false;
-        Empleado empleado = null;
+        Empleado empleado= null;
         int i = 0;
         while (i < empleados.size() && !flag) {
-            empleado = empleados.get(i);//guardamos en la variable empleado un empleado del arrayList
-            if (empleado.getNombre().equals(nombre))//una vez encontrado el nombre cortamos el ciclo while
+
+            if (empleados.get(i).getNombre().equals(nombre))//una vez encontrado el nombre cortamos el ciclo while
             {
+                empleado = empleados.get(i);
                 flag = true;
             }
             i++;
         }
+        System.out.println(empleado);
         return empleado;
     }
 
@@ -226,17 +228,24 @@ public class Tienda extends Json  {
     }
 
     //METODOS DE ARCHIVOS
+    public boolean verificarSiEstaVacioArchivo(){
+        boolean rta = false;
+        File archivo = new File("empleados.dat");
+        if(archivo.length()!=0){
+            rta = true;
+        }
+        return rta;
+    }
     public void leerArchivoEmpleados() {
         ObjectInputStream objectInputStream = null;
+
         try {
             FileInputStream fileInputStream = new FileInputStream("empleados.dat");//definimos el nombre del archivo a leer
             objectInputStream = new ObjectInputStream(fileInputStream);//instanciamos el objectImputStream
-
             while (true) {
                 Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
                 empleados.agregar(empleado);
             }
-
 
         } catch (EOFException ex)//exepciones de la lectura de archivo
         {
@@ -286,7 +295,5 @@ public class Tienda extends Json  {
         }
 
     }
-
-
 
 }

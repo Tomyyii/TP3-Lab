@@ -71,11 +71,11 @@ public abstract class Producto implements ISucursales {
         String rta=null;
         if(opcion==1)
         {
-            Sucursales aux=Sucursales.ALEM;
+            Sucursales aux=Sucursales.CENTRO;
             rta=("Cambiando producto a: "+aux.name());
         } else if (opcion==2)
         {
-            Sucursales aux=Sucursales.CENTRO;
+            Sucursales aux=Sucursales.ALEM;
             rta=("Cambiando producto a: "+aux.name());
         }
         return rta;

@@ -1,12 +1,11 @@
 package CLASES;
 
-import INTERFACES.IOperacionesBasicasHashset;
-import INTERFACES.IOperacionesBasicasHashset;
+import INTERFACES.IOperacionesBasicas;
 
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class ContenedorHashSetGenerico <E> implements IOperacionesBasicasHashset<E> {
+public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas<E> {
     private HashSet<E> set;
 
     public ContenedorHashSetGenerico() {

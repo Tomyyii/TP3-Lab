@@ -1,10 +1,10 @@
 package CLASES;
 
-import INTERFACES.IOperacionesBasicasHashset;
+import INTERFACES.IOperacionesBasicas;
 
 import java.util.ArrayList;
 
-public class ContenedorListaGenerica <E> implements IOperacionesBasicasHashset<E> {
+public class ContenedorListaGenerica <E> implements IOperacionesBasicas<E> {
     private ArrayList<E> lista;
     public ContenedorListaGenerica() {
         lista = new ArrayList<>();

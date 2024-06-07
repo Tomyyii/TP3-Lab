@@ -22,8 +22,9 @@ public class Menu  {
         int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
         tienda.descargarDatosDeJson();
-        tienda.leerArchivoEmpleados();
-
+        if(tienda.verificarSiEstaVacioArchivo()) {
+            tienda.leerArchivoEmpleados();
+        }
         try
         {
             do {
@@ -52,11 +53,15 @@ public class Menu  {
 
                     case 2:
                         System.out.println("Que producto desea buscar (ingrese el modelo):");
-                        scan.next();
+                        scan.nextLine();
                         String aux=scan.nextLine();
                         Producto buscado=tienda.buscarProducto(aux);
-                        System.out.println("Producto encontrado:");
-                        System.out.println(buscado);
+                        if(buscado != null){
+                            System.out.println("Producto encontrado:");
+                            System.out.println(buscado);
+                        }else{
+                            System.out.println("Producto no encontrado");
+                        }
                         break;
 
                     case 3:
@@ -66,15 +71,13 @@ public class Menu  {
                         try{
 
                             System.out.println("Ingrese el modelo del producto que desee modificar: ");
-                            scan.next();
+                            scan.nextLine();
                             String modelo = scan.nextLine();
-                            String modelo2 = scan.nextLine();
-
 
                             System.out.println("Ingrese el nuevo precio:");
                             double precio = scan.nextDouble();
                             try{
-                                tienda.modificarPrecio(precio,modelo2);
+                                tienda.modificarPrecio(precio,modelo);
                             }catch (MiExcepcion e) {
                                 System.out.println("Solo se admiten precios positivos");
                             }
@@ -133,6 +136,7 @@ public class Menu  {
         }catch (InputMismatchException e)
         {
             System.out.println("Solo se admiten opciones con numeros");
+            scan.next();
         }
 
 
@@ -356,6 +360,7 @@ public class Menu  {
 
                     case 3:
                         System.out.println("Ingrese el nombre del empleado que desea buscar:");
+                        scan.nextLine();
                         String nombre = scan.nextLine();
                         Empleado empleado2 = tienda.buscarEmpleadoPorNombre(nombre);
                         if (empleado2 != null) {
@@ -435,10 +440,11 @@ public class Menu  {
                 System.out.println("||   3-Volver Atras                       ||");
                 System.out.println("||----------------------------------------||");
                 opcion = scan.nextInt();
+                scan.nextLine();
                 switch (opcion) {
                     case 1:
                         System.out.println("Ingrese el empleado que desea cambiar de sucursal");
-                        scan.next();
+                        //scan.nextLine();
                         String nombre = scan.nextLine();
                         Empleado empleado = tienda.buscarEmpleadoPorNombre(nombre);
                         System.out.println("Ingrese a que sucursal desea enviar al empleado:");
@@ -454,17 +460,17 @@ public class Menu  {
                         break;
                     case 2:
                         System.out.println("Ingrese el modelo de producto que desea cambiar de sucursal");
-                        scan.next();
                         String modelo = scan.nextLine();
                         System.out.println(modelo);
                         Producto producto = tienda.buscarProducto(modelo);
-                        System.out.println("Ingrese a que sucursal desea enviar al empleado:");
+                        System.out.println("Ingrese a que sucursal desea enviar el producto:");
                         System.out.println("1- CENTRO");
                         System.out.println("2- ALEM");
                         int opcion3 = scan.nextInt();
+                        scan.nextLine();
                         if (producto != null) {
                             String ab = producto.cambiarSucursal(opcion3);
-                            System.out.println("PRODUCTO: " + producto.getNombre() + "MODELO" + producto.getTipo() + ab);
+                            System.out.println("PRODUCTO: " + producto.getNombre() + " MODELO " + producto.getTipo() + ab);
                         } else {
                             System.out.println("No se encontro el producto");
                         }
@@ -480,10 +486,11 @@ public class Menu  {
         }catch (InputMismatchException e)
         {
             System.out.println("Solo se admiten opciones con numeros");
+            scan.nextLine();
         }
     }
 
-    private void menuAgregarRemera(Tienda tienda)
+        private void menuAgregarRemera(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
@@ -734,31 +741,25 @@ public class Menu  {
         Empleado empleado=null;
         try {
 
-            do {
                 System.out.println("1- Modificar estado a activo");
                 System.out.println("2- Modificar estado a inactivo");
-                System.out.println("3- Volver atras");
                 opcion = scan.nextInt();
-                switch (opcion) {
-                    case 1:
+                scan.nextLine();
                         System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                        scan.next();
                         String nombre = scan.nextLine();
                         empleado = tienda.buscarEmpleadoPorNombre(nombre);
-                        tienda.modificarEstado(empleado, opcion);
-                        break;
-                    case 2:
-                        System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                        scan.next();
-                        String nombre1 = scan.nextLine();
-                        empleado = tienda.buscarEmpleadoPorNombre(nombre1);
-                        tienda.modificarEstado(empleado, opcion);
-                        break;
-                }
-            } while (opcion != 3);
+
+                        if(empleado == null){
+                            System.out.println("Empleado no encotrado");
+                        }else{
+                            tienda.modificarEstado(empleado, opcion);
+                            System.out.println("Empleado modificado con exito");
+                        }
+
         }catch (InputMismatchException e)
         {
             System.out.println("Solo se admiten opciones con numeros");
+            scan.nextLine();
         }
     }
 
@@ -772,11 +773,10 @@ public class Menu  {
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.next();
         String color=scan.nextLine();
         NivelDeTalle talle=cargaTalle();
         ModeloPantalon tipo = null;
@@ -799,15 +799,13 @@ public class Menu  {
     private Producto cargaRemera(int opcion)
     {
 
-
         String nombre= ("Remera");
-
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
         String color=scan.nextLine();
@@ -838,11 +836,10 @@ public class Menu  {
         double precio=scan.nextDouble();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
         String tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.next();
         String color=scan.nextLine();
         TipoEstiloBuzo tipo = null;
         if(opcion==1)
@@ -888,13 +885,15 @@ public class Menu  {
 
         System.out.println("Ingrese el Precio:");
         double precio=scan.nextDouble();
+        scan.nextLine();
         System.out.println("Ingrese el Stock:");
         int stock=scan.nextInt();
+        scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-        scan.next();
+       // scan.next();
         tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-        scan.next();
+       // scan.next();
         color=scan.nextLine();
         System.out.println(color);
         System.out.println("Es antideslizante: 1 para si 0 para no");
@@ -945,7 +944,6 @@ public class Menu  {
         return tipo;
     }
 
-
     private void AgregarEmpleado(Tienda tienda)
     {
         int opcion=0;
@@ -960,7 +958,6 @@ public class Menu  {
             {
                 System.out.println(e.getMessage());
             }
-
     }
 
     private Empleado cargarEmpleado(int opcion,int size) throws MiExcepcion {
@@ -972,7 +969,7 @@ public class Menu  {
         int dni=scan.nextInt();
         if(dni<1000000 || dni >99999999)
         {
-            throw new MiExcepcion("DOCUMENTO INVALIDO");
+            throw new MiExcepcion("DOCUMENTO INVALIDO (entre 7 y 8 digitos)");
         }
         if(opcion==1)
         {
