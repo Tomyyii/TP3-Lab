@@ -106,40 +106,46 @@ public class Json {
     }
     public void jsonAJava(String nombreArchivo, HashSet <Producto> productoHashSet) throws JSONException {
         // pasamos de obj json a obj java
-        //JSONObject jsonObject1=new JSONObject(nombreArchivo);
-        JSONArray jsonArray = new JSONArray(nombreArchivo);
-
-
-       // JSONArray jsonArray = jsonObject1.getJSONArray(nombreArchivo);
+        String jsonResponse = JsonUtiles.leer(nombreArchivo);
+        JSONArray jsonArray = new JSONArray(jsonResponse);
+        JSONObject jsonObject = null;
 
         for(int i=0;i< jsonArray.length(); i++){
 
-            JSONObject jsonObject= jsonArray.getJSONObject(i);
-            NivelDeTalle auxNT= NivelDeTalle.valueOf(jsonObject.getString("talle"));
+            JSONObject aux = null;
+            jsonObject = jsonArray.getJSONObject(i);
             Producto indumentaria= null;
            if(jsonObject.getString("nombre").equals("Media")){
+
+                aux = jsonObject.getJSONObject("media");
                //transforma un string en una variable enum para pasarlo al constructor
-               MedidaMedia auxMM= MedidaMedia.valueOf(jsonObject.getString("medidaMedia"));
-
+               MedidaMedia auxMM= MedidaMedia.valueOf(aux.getString("medidaMedia"));
                 indumentaria =new Media(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),jsonObject.getBoolean("antideslizante"), auxMM);
+
            } else if (jsonObject.getString("nombre").equals("Buzo")) {
-               TipoEstiloBuzo auxTE= TipoEstiloBuzo.valueOf(jsonObject.getString("estilo"));
 
+               aux = jsonObject.getJSONObject("buzo");
+               TipoEstiloBuzo auxTE= TipoEstiloBuzo.valueOf(aux.getString("estilo"));
+               NivelDeTalle auxNT1 = NivelDeTalle.valueOf(aux.getString("talle"));
+               indumentaria =new Buzo(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT1,jsonObject.getBoolean("capucha"),jsonObject.getBoolean("cierre"),jsonObject.getBoolean("bolsillo"),auxTE);
 
-               indumentaria =new Buzo(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,jsonObject.getBoolean("capucha"),jsonObject.getBoolean("cierre"),jsonObject.getBoolean("bolsillo"),auxTE);
            } else if (jsonObject.getString("nombre").equals("Pantalon")) {
-               ModeloPantalon auxMP =ModeloPantalon.valueOf(jsonObject.getString("modelo"));
 
-               indumentaria = new Pantalon(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,jsonObject.getDouble("tamañoCintura"),auxMP);
+               aux = jsonObject.getJSONObject("pantalon");
+               ModeloPantalon auxMP =ModeloPantalon.valueOf(aux.getString("modelo"));
+               NivelDeTalle auxNT2 = NivelDeTalle.valueOf(aux.getString("talle"));
+               indumentaria = new Pantalon(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT2,aux.getDouble("tamañoCintura"),auxMP);
+
            } else if (jsonObject.getString("nombre").equals("Remera")) {
-               TipoEstiloRemera auxER = TipoEstiloRemera.valueOf(jsonObject.getString("estilo"));
-               indumentaria = new Remera(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,jsonObject.getString("cuello"),jsonObject.getString("mangas"),auxER);
+
+               aux = jsonObject.getJSONObject("remera");
+               NivelDeTalle auxNT3 = NivelDeTalle.valueOf(aux.getString("talle"));
+               TipoEstiloRemera auxER = TipoEstiloRemera.valueOf(aux.getString("estilo"));
+               indumentaria = new Remera(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT3,aux.getString("cuello"),aux.getString("mangas"),auxER);
+
            }
            productoHashSet.add(indumentaria);
         }
-
-
-
     }
 
 }
