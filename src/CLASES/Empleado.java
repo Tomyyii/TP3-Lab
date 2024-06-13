@@ -12,15 +12,21 @@ public class Empleado implements Serializable, ISucursales {
     private TipoEmpleado tipoEmpleado;
     private boolean estado;
     private int dni;
+    private String usuario;
+    private String contrasena;
 //CONSTRUCTOR
-    public Empleado(String nombre, int id, TipoEmpleado tipoEmpleado, boolean estado, int dni) {
+
+    public Empleado(String nombre, int id, TipoEmpleado tipoEmpleado, boolean estado, int dni, String usuario, String contrasena) {
         this.nombre = nombre;
         this.id = id;
         this.tipoEmpleado = tipoEmpleado;
         this.estado = estado;
-        this.dni=dni;
+        this.dni = dni;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
     }
-//GETTERS
+
+    //GETTERS
     public String getNombre() {
         return nombre;
     }
@@ -55,7 +61,23 @@ public class Empleado implements Serializable, ISucursales {
         this.id = id;
     }
 
-//METODO ToString
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    //METODO ToString
     @Override
     public String toString() {
         return

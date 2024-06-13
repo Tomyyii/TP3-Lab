@@ -15,21 +15,140 @@ public class Menu  {
     public Menu() {
     }
 
-    public void menuPrinc()
+    public void menuLogin()
     {
+        //descarga archivo clientes
+        //descarga archivo empleados
+        //descarga JSON productos
 
-        //Descarga desde el archivo y el json
-        int opcion=0;
         Tienda tienda=new Tienda("Tiendita");
         tienda.descargarDatosDeJson();
         if(tienda.verificarSiEstaVacioArchivo()) {
             tienda.leerArchivoEmpleados();
         }
+
+        int opcion=0;
+        String usuario;
+        String contrasena;
+        do {
+            System.out.println("||------------------------------------||");
+            System.out.println("||               LOGIN                ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("|| 1- Ingresar como usuario           ||");
+            System.out.println("|| 2- Ingresar como administrador     ||");
+            System.out.println("|| 3- Salir                           ||");
+            System.out.println("||------------------------------------||");
+            opcion=scan.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                    menuClienteLogin(tienda);
+                    break;
+                case 2:
+                    System.out.println("|| USUARIO:    "); usuario=scan.nextLine();
+                    System.out.println("|| CONTRASEÑA:  "); contrasena=scan.nextLine();
+                    if (tienda.verificarUsuarioEmpleado(usuario,contrasena))
+                    {
+                        menuPrincAdmin(tienda);
+                    }
+                    else{
+                        System.out.println("Error usuario o contraseña mal ingresados, vuelva a intentarlo");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Volviendo atras...");
+                    break;
+                default:
+                    System.out.println("Error, intente nuevamente");
+                    break;
+            }
+
+        }while (opcion!=3);
+        tienda.cargarDatosEnJson();
+        tienda.agregarArchivoEmpleados();
+    }
+
+    private void menuClienteLogin(Tienda tienda)
+    {
+        int opcion=0;
+        String usuario;
+        String contrasena;
+        do {
+            System.out.println("||------------------------------------||");
+            System.out.println("|| 1- Iniciar sesion                  ||");
+            System.out.println("|| 2- Registrarse                     ||");
+            System.out.println("|| 3- Volver Atras                    ||");
+            System.out.println("||------------------------------------||");
+            opcion=scan.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                    System.out.println("|| USUARIO:    "); usuario=scan.nextLine();
+                    System.out.println("|| CONTRASEÑA:  "); contrasena=scan.nextLine();
+                    if(tienda.verificarUsuarioCliente(usuario,contrasena))
+                    {
+                        menuCliente(tienda);
+                    }
+                    else
+                    {
+                        System.out.println("El usuario y/o contraseña estan mal, vuelva a intentarlo");
+                    }
+                    break;
+                case 2:
+                    try {
+                        Cliente cliente=cargaCliente(tienda.getClientes().size());
+                        tienda.cargarDatosCliente(cliente);
+                    }catch (MiExcepcion e)
+                    {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 3:
+                    System.out.println("Volviendo atras...");
+                    break;
+                default:
+                    System.out.println("Error, intente nuevamente");
+                    break;
+            }
+        }while (opcion!=3);
+
+    }
+
+    private void menuCliente(Tienda tienda)
+    {
+        int opcion=0;
+
+        do {
+            System.out.println("||------------------------------------||");
+            System.out.println("||       MENU PRINCIPAL CLIENTE       ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   1-Ver Historial de compras       ||");
+            System.out.println("||   2-Ver cupones Acumulados         ||");
+            System.out.println("||   3-Comprar Productos              ||");
+            System.out.println("||   4-Ver Productos                  ||");
+            System.out.println("||   5-Ver Carrito de Compras         ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   8-Cerrar programa y Guardar      ||");
+            System.out.println("||------------------------------------||");
+            opcion=scan.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                    break;
+            }
+        }while (opcion!=8);
+    }
+
+    private void menuPrincAdmin(Tienda tienda)
+    {
+
+        //Descarga desde el archivo y el json
+        int opcion=0;
         try
         {
             do {
                 System.out.println("||------------------------------------||");
-                System.out.println("||           MENU PRINCIPAL           ||");
+                System.out.println("||    MENU PRINCIPAL ADMINISTRADOR    ||");
                 System.out.println("||------------------------------------||");
                 System.out.println("||   1-Agregar Producto               ||");
                 System.out.println("||   2-Buscar Producto                ||");
@@ -142,8 +261,7 @@ public class Menu  {
 
         //guarda datos(producto) en el json
         // guarda datos(empleados) en el archivo
-        tienda.cargarDatosEnJson();
-        tienda.agregarArchivoEmpleados();
+
 
     }
 
@@ -977,7 +1095,35 @@ public class Menu  {
         } else if (opcion==2) {
             tipoEmpleado=TipoEmpleado.CAJERO;
         }
-        return new Empleado(nombre,size+1,tipoEmpleado,true,dni);
+        System.out.println("Ingrese un usuario:");
+        String usuario=scan.nextLine();
+        scan.nextLine();
+        System.out.println("Ingrese una contraseña");
+        String contrasena=scan.nextLine();
+        scan.nextLine();
+
+        return new Empleado(nombre,size+1,tipoEmpleado,true,dni,usuario,contrasena);
     }
 
+    private Cliente cargaCliente(int size) throws MiExcepcion {
+        System.out.println("Ingrese el nombre");
+        String nombre=scan.nextLine();
+        scan.nextLine();
+        System.out.println("Ingrese el domicilio");
+        String domicilio=scan.nextLine();
+        scan.nextLine();
+        System.out.println("Ingrese el dni");
+        int dni=scan.nextInt();
+        if(dni<1000000 || dni >99999999)
+        {
+            throw new MiExcepcion("DOCUMENTO INVALIDO (entre 7 y 8 digitos)");
+        }
+        System.out.println("Ingrese un usuario:");
+        String usuario=scan.nextLine();
+        scan.nextLine();
+        System.out.println("Ingrese una contraseña");
+        String contrasena=scan.nextLine();
+        scan.nextLine();
+        return new Cliente(size+1,dni,nombre,usuario,contrasena,domicilio);
+    }
 }
