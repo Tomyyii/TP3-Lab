@@ -5,8 +5,8 @@ public abstract class Indumentaria extends Producto{
     private String tipoDeTela;
     private String color;
 //CONSTRUCTOR
-    public Indumentaria(double precio, int stock, String nombre, String tipoDeTela, String color) {
-        super(precio, stock, nombre);
+    public Indumentaria(double precio, int stock, String nombre, String tipoDeTela, String color,int cantidadVendida) {
+        super(precio, stock, nombre, cantidadVendida);
         this.tipoDeTela = tipoDeTela;
         this.color = color;
     }

@@ -15,17 +15,28 @@ public class Menu  {
     public Menu() {
     }
 
-    public void menuLogin()
-    {
+    public void menuLogin() {
         //descarga archivo clientes
         //descarga archivo empleados
         //descarga JSON productos
 
-        Tienda tienda=new Tienda("Tiendita");
+        Tienda tienda = new Tienda("Tiendita");
         tienda.descargarDatosDeJson();
+        Empleado empleado = new Empleado("ADMIN", 0, TipoEmpleado.ADMINISTRADOR, true, 11111111, "ADMIN", "12345");
+        if(!tienda.buscarEmpleadoPorDNIBoolean(11111111))
+        {
+            tienda.cargarDatosEmpleado(empleado);
+        }
+
+
         if(tienda.verificarSiEstaVacioArchivo()) {
             tienda.leerArchivoEmpleados();
         }
+        if(tienda.verificarSiEstaVacioArchivoClientes())
+        {
+            tienda.leerArchivoClientes();
+        }
+
 
         int opcion=0;
         String usuario;
@@ -35,8 +46,9 @@ public class Menu  {
             System.out.println("||               LOGIN                ||");
             System.out.println("||------------------------------------||");
             System.out.println("|| 1- Ingresar como usuario           ||");
-            System.out.println("|| 2- Ingresar como administrador     ||");
-            System.out.println("|| 3- Salir                           ||");
+            System.out.println("|| 2- Ingresar como empleado          ||");
+            System.out.println("|| 3- Ingresar como administrador     ||");
+            System.out.println("|| 4- Salir                           ||");
             System.out.println("||------------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
@@ -45,9 +57,28 @@ public class Menu  {
                     menuClienteLogin(tienda);
                     break;
                 case 2:
-                    System.out.println("|| USUARIO:    "); usuario=scan.nextLine();
-                    System.out.println("|| CONTRASEÑA:  "); contrasena=scan.nextLine();
+                    System.out.println("|| USUARIO:    ");
+                    scan.nextLine();
+                    usuario=scan.nextLine();
+                    System.out.println("|| CONTRASEÑA:  ");
+                    contrasena=scan.nextLine();
+
                     if (tienda.verificarUsuarioEmpleado(usuario,contrasena))
+                    {
+                        Empleado empleado1=tienda.buscarEmpleadoPorUsuario(usuario);
+                        menuEmpleadosVendedor(tienda,empleado1);
+                    }
+                    else{
+                        System.out.println("Error usuario o contraseña mal ingresados, vuelva a intentarlo");
+                    }
+                    break;
+                case 3:
+                    System.out.println("|| USUARIO:    ");
+                    scan.nextLine();
+                    usuario=scan.nextLine();
+                    System.out.println("|| CONTRASEÑA:  ");
+                    contrasena=scan.nextLine();
+                    if (tienda.verificarUsuarioAdministrador(usuario,contrasena))
                     {
                         menuPrincAdmin(tienda);
                     }
@@ -55,23 +86,30 @@ public class Menu  {
                         System.out.println("Error usuario o contraseña mal ingresados, vuelva a intentarlo");
                     }
                     break;
-                case 3:
-                    System.out.println("Volviendo atras...");
+                case 4:
+                    System.out.println("Saliendo del programa y guardando los cambios, ¡Hasta Pronto!");
                     break;
                 default:
                     System.out.println("Error, intente nuevamente");
                     break;
             }
 
-        }while (opcion!=3);
+        }while (opcion!=4);
+
+        //guarda datos(producto) en el json
+        // guarda datos(empleados) en el archivo
         tienda.cargarDatosEnJson();
         tienda.agregarArchivoEmpleados();
+        tienda.agregarArchivoClientes();
+
     }
 
     private void menuClienteLogin(Tienda tienda)
     {
         int opcion=0;
+        boolean flag=true;
         String usuario;
+        Cliente cliente;
         String contrasena;
         do {
             System.out.println("||------------------------------------||");
@@ -83,11 +121,15 @@ public class Menu  {
             switch (opcion)
             {
                 case 1:
-                    System.out.println("|| USUARIO:    "); usuario=scan.nextLine();
-                    System.out.println("|| CONTRASEÑA:  "); contrasena=scan.nextLine();
+                    System.out.println("|| USUARIO:    ");
+                    scan.nextLine();
+                    usuario=scan.nextLine();
+                    System.out.println("|| CONTRASEÑA:  ");
+                    contrasena=scan.nextLine();
                     if(tienda.verificarUsuarioCliente(usuario,contrasena))
                     {
-                        menuCliente(tienda);
+                        cliente=tienda.buscarClientePorUsuario(usuario);
+                        menuCliente(tienda,cliente);
                     }
                     else
                     {
@@ -95,12 +137,14 @@ public class Menu  {
                     }
                     break;
                 case 2:
-                    try {
-                        Cliente cliente=cargaCliente(tienda.getClientes().size());
-                        tienda.cargarDatosCliente(cliente);
-                    }catch (MiExcepcion e)
-                    {
-                        System.out.println(e.getMessage());
+                    while(flag) {
+                        try {
+                            cliente = cargaCliente(tienda.getClientes().size());
+                            tienda.cargarDatosCliente(cliente);
+                            flag=false;
+                        } catch (MiExcepcion e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                     break;
                 case 3:
@@ -114,9 +158,14 @@ public class Menu  {
 
     }
 
-    private void menuCliente(Tienda tienda)
+    private void menuCliente(Tienda tienda,Cliente cliente)
     {
         int opcion=0;
+        ArrayList<Producto> carritoDeCompras=new ArrayList<>();
+        Producto producto;
+        int flag=1;
+        int opcion2=0;
+        int opcion3=0;
 
         do {
             System.out.println("||------------------------------------||");
@@ -124,25 +173,163 @@ public class Menu  {
             System.out.println("||------------------------------------||");
             System.out.println("||   1-Ver Historial de compras       ||");
             System.out.println("||   2-Ver cupones Acumulados         ||");
-            System.out.println("||   3-Comprar Productos              ||");
-            System.out.println("||   4-Ver Productos                  ||");
-            System.out.println("||   5-Ver Carrito de Compras         ||");
+            System.out.println("||   3-Agrear al carrito              ||");
+            System.out.println("||   4-Agregar una Tarjeta            ||");
+            System.out.println("||   5-Mostrar Cartera                ||");
+            System.out.println("||   6-Ver Productos                  ||");
+            System.out.println("||   7-Ver Carrito de Compras         ||");
+            System.out.println("||   8-Reclamar Cupones Pendientes    ||");
+            System.out.println("||   9-Pagar                          ||");
             System.out.println("||------------------------------------||");
-            System.out.println("||   8-Cerrar programa y Guardar      ||");
+            System.out.println("||   10-Cerrar Sesion                 ||");
             System.out.println("||------------------------------------||");
             opcion=scan.nextInt();
             switch (opcion)
             {
                 case 1:
+                    System.out.println(cliente.verHistorialDeCompras(cliente));
+                    break;
+                case 2:
+                    System.out.println(cliente.verCuponesDisponibles(cliente));
+                    break;
+                case 3:
+                    System.out.println(tienda.mostrarProductos());
+                    while (flag==1)
+                    {
+                        System.out.println("Ingrese el modelo de producto que desea agregar al carrito");
+                        scan.nextLine();
+                        String modelo=scan.nextLine();
+                        producto=tienda.buscarProducto(modelo);
+                        carritoDeCompras.add(producto);
+                        System.out.println("Desea agregar otro producto? 1 o 0");
+                        flag=scan.nextInt();
+                    }
+                    break;
+                case 4:
+                    Tarjeta tarjeta=cargaTarjeta();
+                    cliente.agregarMedioDePago(tarjeta);
+                    break;
+                case 5:
+                    System.out.println(cliente.verCartera());
+                    break;
+                case 6:
+                    System.out.println(tienda.mostrarProductos());
+                    break;
+                case 7:
+                    System.out.println(carritoDeCompras.toString());
+                    break;
+                case 8:
+                    if(reclamarCupon(cliente))
+                    {
+                        System.out.println("Los cupones pendientes se reclamaron exitosamente");
+                    }
+                    else
+                    {
+                        System.out.println("No tiene cupones pendientes para reclamar");
+                    }
+                    break;
+                case 9:
+                    Cupon cupon=verificarSiTieneCupones(cliente);
+                    if (cupon!=null)
+                    {
+                        System.out.println("CUPON SELECCIONADO:" +cupon);
+                    }
+                    else
+                    {
+                        System.out.println("Usted no tiene cupones disponibles de ese rango");
+                    }
+
+                    System.out.println("Con que medio de pago desea pagar?");
+                    System.out.println("1- EFECTIVO");
+                    System.out.println("2- TARJETA");
+                    opcion2=scan.nextInt();
+                    System.out.println(opcion2);
+
+                    if(opcion2==1)
+                    {
+                        System.out.println("INGRESE EL DINERO");
+                        double dinero= scan.nextDouble();
+                        comprarConEfectivo(dinero,cupon,carritoDeCompras,cliente);
+                    } else
+                    {
+                        comprarConTarjeta(cliente,cupon,carritoDeCompras);
+                    }
+                    carritoDeCompras.clear(); //Vacia el carrito de compras
+                    break;
+                case 10:
+                    System.out.println("Cerrando sesion...");
+                    break;
+                default:
+                    break;
+
+            }
+        }while (opcion!=10);
+    }
+
+
+    private void menuEmpleadosVendedor(Tienda tienda, Empleado empleado)
+    {
+        int opcion=0;
+        do {
+            System.out.println("||-------------------------------------------------||");
+            System.out.println("||               MENU PRINCIPAL EMPLEADO           ||");
+            System.out.println("||-------------------------------------------------||");
+            System.out.println("||   1-Ver historial de compras de un cliente      ||");
+            System.out.println("||   2-Vender un producto                          ||");
+            System.out.println("||   3-Mostrar Productos                           ||");
+            System.out.println("||   4-Ver Clientes                                ||");
+            System.out.println("||   5-Consultar Sueldo                            ||");
+            System.out.println("||-------------------------------------------------||");
+            System.out.println("||   6-Cerrar Sesion                               ||");
+            System.out.println("||-------------------------------------------------||");
+            opcion=scan.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                    System.out.println(tienda.mostrarClientes());
+                    System.out.println("Ingrese el nombre del cliente que desea buscar:");
+                    scan.nextLine();
+                    String nombreCliente=scan.nextLine();
+                    Cliente clienteBuscado=tienda.buscarClientePorNombre(nombreCliente);
+                    if(clienteBuscado!=null)
+                    {
+                        System.out.println(clienteBuscado.verHistorialDeCompras(clienteBuscado));
+                    }
+                    else
+                    {
+                        System.out.println("No se encontro el cliente buscado");
+                    }
+                    break;
+                case 2:
+                    System.out.println(tienda.mostrarProductos());
+                    System.out.println("Ingrese el modelo que desea comprar");
+                    scan.nextLine();
+                    String modelo=scan.nextLine();
+                    venta(modelo,tienda,empleado.getNombre());
+                    break;
+                case 3:
+                    menuMostrar(tienda);
+                    break;
+                case 4:
+                    System.out.println(tienda.mostrarClientes());
+                    break;
+                case 5:
+                    System.out.println("SUELDO: "+ empleado.getSueldo());
+                    break;
+                case 6:
+                    System.out.println("Cerrando sesion...");
+                    break;
+                default:
+                    System.out.println("Error, Intente nuevamente");
                     break;
             }
-        }while (opcion!=8);
+        }while (opcion!=6);
     }
+
 
     private void menuPrincAdmin(Tienda tienda)
     {
 
-        //Descarga desde el archivo y el json
         int opcion=0;
         try
         {
@@ -154,13 +341,13 @@ public class Menu  {
                 System.out.println("||   2-Buscar Producto                ||");
                 System.out.println("||   3-Mostrar Productos              ||");
                 System.out.println("||   4-Modificar Precio Productos     ||");
-                System.out.println("||   5-Vender productos               ||");
-                System.out.println("||   6-Cambiar de Sucursal Productos  ||");
+                System.out.println("||   5-Mostrar Clientes               ||");
+                System.out.println("||   6-Estadisticas                   ||");
                 System.out.println("||------------------------------------||");
                 System.out.println("||          OPCIONES EMPLEADOS        ||");
                 System.out.println("||   7-Menu Empleados                 ||");
                 System.out.println("||------------------------------------||");
-                System.out.println("||   8-Cerrar programa y Guardar      ||");
+                System.out.println("||   8-Cerrar Sesion                  ||");
                 System.out.println("||------------------------------------||");
                 opcion=scan.nextInt();
                 switch (opcion)
@@ -206,46 +393,16 @@ public class Menu  {
                         }
                         break;
                     case 5:
-                        try{
-                            int flag=1;
-                                try{
-                                    while (flag==1) {
-                                    System.out.println("Ingrese el modelo que desee vender ");
-                                    scan.nextLine();
-                                    String modelo1 = scan.nextLine();
-                                        boolean vendido = tienda.Vender(modelo1);
-                                        if (vendido) {
-                                            System.out.println("Vendido con exito");
-                                        } else {
-                                            Producto producto=tienda.buscarProducto(modelo1);
-                                            if(producto!=null)
-                                            {
-                                                System.out.println("Sin stock para la venta");
-                                            }
-                                            else {
-                                                System.out.println("No se encontro el producto");
-                                            }
-
-                                        }
-                                        System.out.println("Quiere vender otro producto? 1 si/ 0 no");
-                                        flag=scan.nextInt();
-                                    }
-                                }catch (Exception e){
-                                    System.out.println("Ocurrió un error al intentar vender el producto");
-                                }
-                        }catch (InputMismatchException e) {
-                            System.out.println("Entrada inválida. Por favor intente nuevamente.");
-                            scan.next(); // Limpiar el valor incorrecto del escáner
-                        }
+                        System.out.println(tienda.mostrarClientes());
                         break;
                     case 6:
-                        menuCambioSucursal(tienda);
+                        menuEstadisticas(tienda);
                         break;
                     case 7:
                         menuEmpleados(tienda);
                         break;
                     case 8:
-                        System.out.println("Saliendo del programa y guardando los cambios, ¡Hasta Pronto!");
+                        System.out.println("Volviendo atras...");
                         break;
                     default:
                         System.out.println("Error, Intente nuevamente");
@@ -258,12 +415,69 @@ public class Menu  {
             scan.next();
         }
 
-
-        //guarda datos(producto) en el json
-        // guarda datos(empleados) en el archivo
-
-
     }
+
+
+    private void menuEstadisticas(Tienda tienda)
+    {
+        int opcion=0;
+        ArrayList<Cliente> clientes=new ArrayList<Cliente>(tienda.getClientes().getSet());
+        ArrayList<Producto>productos=new ArrayList<Producto>(tienda.getProductos().getSet());
+        do {
+            System.out.println("||------------------------------------||");
+            System.out.println("||          MENU ESTADISTICAS         ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   1-Ver clientes con mas compras   ||");
+            System.out.println("||   2-Ver productos mas vendidos     ||");
+            System.out.println("||------------------------------------||");
+            System.out.println("||   3-Volver atras                   ||");
+            System.out.println("||------------------------------------||");
+            opcion=scan.nextInt();
+            switch (opcion)
+            {
+                case 1:
+                    Collections.sort(clientes, new Comparator<Cliente>() {
+                        @Override
+                        public int compare(Cliente o1, Cliente o2) {
+                            int aux = 0;
+                            if (o1.cantidadDeCompras() < o2.cantidadDeCompras()) {
+                                aux = 1;
+                            } else if (o1.cantidadDeCompras() > o2.cantidadDeCompras()) {
+                                aux = -1;
+                            }
+                            return aux;
+                        }
+                    });
+                    System.out.println("LISTADOS POR CLIENTES CON MAS COMPRAS");
+                    System.out.println(clientes);
+                    break;
+                case 2:
+                    Collections.sort(productos, new Comparator<Producto>() {
+                        @Override
+                        public int compare(Producto o1, Producto o2) {
+                            int aux = 0;
+                            if (o1.getCantidadVendida() < o2.getCantidadVendida()) {
+                                aux = 1;
+                            } else if (o1.getCantidadVendida() > o2.getCantidadVendida()) {
+                                aux = -1;
+                            }
+                            return aux;
+                        }
+                    });
+                    System.out.println("LISTADOS PRODUCTOS MAS VENDIDOS");
+                    System.out.println(productos);
+                    break;
+                case 3:
+                    System.out.println("Voliendo atras...");
+                    break;
+                default:
+                    System.out.println("Error, Intente nuevamente");
+                    break;
+            }
+        }while (opcion!=3);
+    }
+
+
 
     private void menuMostrar(Tienda tienda)
     {
@@ -545,7 +759,7 @@ public class Menu  {
 
     }
 
-    private void menuCambioSucursal(Tienda tienda)
+    /*private void menuCambioSucursal(Tienda tienda)
     {
         int opcion=0;
         try {
@@ -608,7 +822,9 @@ public class Menu  {
         }
     }
 
-        private void menuAgregarRemera(Tienda tienda)
+     */
+
+    private void menuAgregarRemera(Tienda tienda)
     {
         int opcion=0;
         Producto producto=null;
@@ -859,20 +1075,20 @@ public class Menu  {
         Empleado empleado=null;
         try {
 
-                System.out.println("1- Modificar estado a activo");
-                System.out.println("2- Modificar estado a inactivo");
-                opcion = scan.nextInt();
-                scan.nextLine();
-                        System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
-                        String nombre = scan.nextLine();
-                        empleado = tienda.buscarEmpleadoPorNombre(nombre);
+            System.out.println("1- Modificar estado a activo");
+            System.out.println("2- Modificar estado a inactivo");
+            opcion = scan.nextInt();
+            scan.nextLine();
+            System.out.println("Ingrese el nombre del empledo que desea modificar el estado:");
+            String nombre = scan.nextLine();
+            empleado = tienda.buscarEmpleadoPorNombre(nombre);
 
-                        if(empleado == null){
-                            System.out.println("Empleado no encotrado");
-                        }else{
-                            tienda.modificarEstado(empleado, opcion);
-                            System.out.println("Empleado modificado con exito");
-                        }
+            if(empleado == null){
+                System.out.println("Empleado no encotrado");
+            }else{
+                tienda.modificarEstado(empleado, opcion);
+                System.out.println("Empleado modificado con exito");
+            }
 
         }catch (InputMismatchException e)
         {
@@ -880,6 +1096,9 @@ public class Menu  {
             scan.nextLine();
         }
     }
+
+
+    //FUNCIONES AUXILIARES PARA EL MANEJO DE LOS MENU (CARGA, MODIFICACION)
 
     private Producto cargaPantalon(int opcion)
     {
@@ -911,7 +1130,7 @@ public class Menu  {
         System.out.println("Ingrese el Tamaño de cintura");
         double tamañoCintura=scan.nextDouble();
 
-        return new Pantalon(precio,stock,nombre,tipotela,color,talle,tamañoCintura,tipo);
+        return new Pantalon(precio,stock,nombre,tipotela,color,talle,tamañoCintura,tipo,0);
     }
 
     private Producto cargaRemera(int opcion)
@@ -942,7 +1161,7 @@ public class Menu  {
         System.out.println("Ingrese mangas:");
         String mangas=scan.nextLine();
 
-        return new Remera(precio,stock,nombre,tipotela,color,talle,cuello,mangas,tipo);
+        return new Remera(precio,stock,nombre,tipotela,color,talle,cuello,mangas,tipo,0);
     }
 
     private Producto cargaBuzo(int opcion)
@@ -992,7 +1211,7 @@ public class Menu  {
             bolsillo=true;
         }
 
-        return new Buzo(precio,stock,nombre,tipotela,color,talle,capucha,cierre,bolsillo,tipo);
+        return new Buzo(precio,stock,nombre,tipotela,color,talle,capucha,cierre,bolsillo,tipo,0);
     }
 
     private Producto cargaMedia(int opcion)
@@ -1008,10 +1227,10 @@ public class Menu  {
         int stock=scan.nextInt();
         scan.nextLine();
         System.out.println("Ingrese el Tipo de tela:");
-       // scan.next();
+        // scan.next();
         tipotela=scan.nextLine();
         System.out.println("Ingrese el Color:");
-       // scan.next();
+        // scan.next();
         color=scan.nextLine();
         System.out.println(color);
         System.out.println("Es antideslizante: 1 para si 0 para no");
@@ -1033,7 +1252,7 @@ public class Menu  {
             tipo=MedidaMedia.TRESCUARTOS;
         }
         System.out.println(color);
-        return new Media(precio,stock,nombre,tipotela,color,antideslizante,tipo);
+        return new Media(precio,stock,nombre,tipotela,color,antideslizante,tipo,0);
     }
 
 
@@ -1065,17 +1284,18 @@ public class Menu  {
     private void AgregarEmpleado(Tienda tienda)
     {
         int opcion=0;
-        Empleado empleado;
-            System.out.println("1- REPOSITOR");
-            System.out.println("2- CAJERO");
-            opcion=scan.nextInt();
-            try {
-                empleado=cargarEmpleado(opcion,tienda.getEmpleados().size());
-                tienda.cargarDatosEmpleado(empleado);
-            }catch (MiExcepcion e)
-            {
-                System.out.println(e.getMessage());
-            }
+        Empleado empleado1;
+        System.out.println("1- VENDEDOR");
+        System.out.println("2- ADMINISTRADOR");
+        opcion=scan.nextInt();
+        try {
+            empleado1=cargarEmpleado(opcion,tienda.getEmpleados().size());
+            empleado1.calcularSueldo();
+            tienda.cargarDatosEmpleado(empleado1);
+        }catch (MiExcepcion e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 
     private Empleado cargarEmpleado(int opcion,int size) throws MiExcepcion {
@@ -1091,39 +1311,274 @@ public class Menu  {
         }
         if(opcion==1)
         {
-            tipoEmpleado=TipoEmpleado.REPOSITOR;
+            tipoEmpleado=TipoEmpleado.VENDEDOR;
         } else if (opcion==2) {
-            tipoEmpleado=TipoEmpleado.CAJERO;
+            tipoEmpleado=TipoEmpleado.ADMINISTRADOR;
         }
         System.out.println("Ingrese un usuario:");
+        scan.nextLine();
         String usuario=scan.nextLine();
-        scan.nextLine();
         System.out.println("Ingrese una contraseña");
-        String contrasena=scan.nextLine();
         scan.nextLine();
+        String contrasena=scan.nextLine();
 
         return new Empleado(nombre,size+1,tipoEmpleado,true,dni,usuario,contrasena);
     }
 
     private Cliente cargaCliente(int size) throws MiExcepcion {
         System.out.println("Ingrese el nombre");
-        String nombre=scan.nextLine();
         scan.nextLine();
+        String nombre=scan.nextLine();
+
+
         System.out.println("Ingrese el domicilio");
         String domicilio=scan.nextLine();
-        scan.nextLine();
+
+
         System.out.println("Ingrese el dni");
         int dni=scan.nextInt();
         if(dni<1000000 || dni >99999999)
         {
             throw new MiExcepcion("DOCUMENTO INVALIDO (entre 7 y 8 digitos)");
         }
+
+
         System.out.println("Ingrese un usuario:");
-        String usuario=scan.nextLine();
         scan.nextLine();
+        String usuario=scan.nextLine();
+
+
         System.out.println("Ingrese una contraseña");
         String contrasena=scan.nextLine();
-        scan.nextLine();
+
+
+        if(contrasena.length()>8)
+        {
+            throw new MiExcepcion("No se permiten contraseñas de mas de 8 digitos");
+        }
+
+
         return new Cliente(size+1,dni,nombre,usuario,contrasena,domicilio);
     }
+
+    public Tarjeta cargaTarjeta()
+    {
+        System.out.println("Ingrese el nombre de la tarjeta");
+        scan.nextLine();
+        String nombre=scan.nextLine();
+        System.out.println("Ingrese el numero de la tarjeta");
+        String numeroTarjeta=scan.nextLine();
+        System.out.println("Ingrese la fecha de expiro");
+        String fechaExpiro=scan.nextLine();
+        System.out.println("Ingrese el titular de la tarjeta");
+        String titular=scan.nextLine();
+        System.out.println("Ingrese el codigo de seguridad");
+        int codigo=scan.nextInt();
+        System.out.println("Ingrese el monto de la tarjeta");
+        int monto=scan.nextInt();
+        return new Tarjeta(numeroTarjeta,fechaExpiro,titular,codigo,nombre,monto);
+    }
+
+    public void comprarConEfectivo(double dinero,Cupon cupon,ArrayList<Producto> carritoDeCompras,Cliente cliente)
+    {
+        double TOTAL=cliente.comprarDos(carritoDeCompras);
+        System.out.println("EL TOTAL A PAGAR ES:" + TOTAL);
+        if(cupon!=null)
+        {
+            TOTAL=TOTAL-(TOTAL*cupon.getDescuento());
+            cliente.getCupones().eliminar(cupon);
+        }
+        System.out.println("TOTAL CON DESCUENTO ES: "+ TOTAL);
+        if(dinero<TOTAL)
+        {
+            System.out.println("FALTAN "+ (TOTAL-dinero)+"PARA PODER EFECTUAR LA COMPRA, PORFAVOR DEPOSITE MAS DINERO");
+        }
+        else if (dinero==TOTAL)
+        {
+            System.out.println("LA COMPRA SE EFECTUO CORRECTAMENTE");
+        } else if (dinero>TOTAL)
+        {
+            System.out.println("LA COMPRA SE EFECTUO CORRECTAMENTE");
+            System.out.println("SU VUELTO ES:"+ (dinero-TOTAL));
+        }
+    }
+
+    public void comprarConTarjeta(Cliente cliente,Cupon cupon,ArrayList<Producto> carritoDeCompras)
+    {
+        double TOTAL=cliente.comprarDos(carritoDeCompras);
+        System.out.println("EL TOTAL A PAGAR ES:" + TOTAL);
+        if(cupon!=null)
+        {
+            TOTAL=TOTAL-(TOTAL*cupon.getDescuento());
+            cliente.getCupones().eliminar(cupon);
+        }
+        System.out.println("TOTAL CON DESCUENTO ES: "+ TOTAL);
+        int opcion3=0;
+        System.out.println("Ingrese el nombre de la tarjeta con la que desea pagar");
+        scan.nextLine();
+        String nombreTarjeta=scan.nextLine();
+        Tarjeta tarjeta1=cliente.buscarTarjetaPorNombre(nombreTarjeta);
+        if(tarjeta1!=null)
+        {
+            if (tarjeta1.getMontoTarjeta()>TOTAL)
+            {
+                System.out.println("El pago se efectuo con exito");
+                tarjeta1.setMontoTarjeta((int) (tarjeta1.getMontoTarjeta()-TOTAL));
+
+            } else if (tarjeta1.getMontoTarjeta()<TOTAL)
+            {
+                System.out.println("La tarjeta no posee el monto para realizar la compra");
+            }
+        } else if (tarjeta1==null)
+        {
+            System.out.println("La tarjeta que usted esta buscando no existe, desea agregarla? si 1 o no 0");
+            opcion3=scan.nextInt();
+            if(opcion3==1)
+            {
+                Tarjeta tarjeta3=cargaTarjeta();
+                tarjeta3.setMontoTarjeta((int) (tarjeta3.getMontoTarjeta()-TOTAL));
+                cliente.agregarMedioDePago(tarjeta3);
+                System.out.println("La compra se efectuo con exito");
+            }
+            else
+            {
+                Tarjeta tarjeta3=cargaTarjeta();
+                tarjeta3.setMontoTarjeta((int) (tarjeta3.getMontoTarjeta()-TOTAL));
+                System.out.println("La compra se efectuo con exito");
+            }
+        }
+    }
+
+    public boolean reclamarCupon(Cliente cliente)
+    {
+        boolean flag=false;
+        Cupon cupon;
+        int i=0;
+        while (i<= cliente.cantidadDeCompras())
+        {
+
+                if(i>=10 && i<=20 && cliente.getCupones().get(i).getTipoCupon()!=1)
+                {
+                    cupon=crearCuponNivel1();
+                    cliente.agregarCupones(cupon);
+                    cliente.setNivel(1);
+                    System.out.println("¡FELICIDADES!, USTED SUBIO DE NIVEL, Nivel:" + cliente.getNivel());
+                }
+                else if (i>=20 && i<=30&& cliente.getCupones().get(i).getTipoCupon()!=2)
+                {
+                    cupon=crearCuponNivel2();
+                    cliente.agregarCupones(cupon);
+                    cliente.setNivel(2);
+                    System.out.println("¡FELICIDADES!, USTED SUBIO DE NIVEL, Nivel:" + cliente.getNivel());
+                } else if (i>=30 && i<=40&& cliente.getCupones().get(i).getTipoCupon()!=3)
+                {
+                    cupon=crearCuponNivel3();
+                    cliente.agregarCupones(cupon);
+                    cliente.setNivel(3);
+                    System.out.println("¡FELICIDADES!, USTED SUBIO DE NIVEL, Nivel:" + cliente.getNivel());
+                }
+            i=i+10;
+        }
+        if(cliente.getCupones().size()>0)
+        {
+            flag=true;
+        }
+        return flag;
+    }
+
+    public Cupon crearCuponNivel1()
+    {
+        return new Cupon(1,"CUPON POR UN 10% DE LA VENTA",0.10);
+    }
+    public Cupon crearCuponNivel2()
+    {
+        return new Cupon(2,"CUPON POR UN 20% DE LA VENTA",0.20);
+    }
+    public Cupon crearCuponNivel3()
+    {
+        return new Cupon(3,"CUPON POR UN 30% DE LA VENTA",0.30);
+    }
+
+    public Cupon verificarSiTieneCupones(Cliente cliente)
+    {
+        Cupon cupon=null;
+        if(cliente.getCupones().size()>0)
+        {
+            System.out.println("Desea utilizar alguno de sus cupones?");
+            System.out.println(cliente.verCuponesDisponibles(cliente));
+            System.out.println("Ingrese el tipo de cupon que desea utilizar");
+            int opcion4=scan.nextInt();
+            cupon=cliente.buscarCupon(opcion4);
+        }
+        return cupon;
+    }
+
+    public void venta(String modelo,Tienda tienda,String nombreVendedor)
+    {
+        Cliente cliente=null;
+        System.out.println("Usted tiene una cuenta? (1) si o no (0)");
+        int opcion2=scan.nextInt();
+        System.out.println("Como desea pagar?");
+        System.out.println("1- EFECTIVO");
+        System.out.println("2- TARJETA");
+        int opcion3=scan.nextInt();
+        int opcion4=0;
+        if(opcion2==1)
+        {
+            System.out.println("Ingrese el usuario de su cuenta");
+            scan.nextLine();
+            String usuario=scan.nextLine();
+            cliente=tienda.buscarClientePorUsuario(usuario);
+            if(opcion3==1)
+            {
+                System.out.println("Ingrese el dinero");
+                int dinero=scan.nextInt();
+                boolean rta=tienda.venderEfectivo(modelo,dinero,usuario,nombreVendedor);
+                if(rta && dinero>0)
+                {
+                    System.out.println("La venta se efectuo correctamente");
+                    System.out.println("Su vuelto: "+dinero);
+                } else if (rta)
+                {
+                    System.out.println("La venta se efectuo correctamente");
+                } else if (!rta)
+                {
+                    System.out.println("No se pudo efectuar la venta ya que falta dinero");
+                }
+            } else if (opcion3==2)
+            {
+                System.out.println("Desea pagar con una tarjeta nueva o con las tarjetas de su cartera?");
+                System.out.println("1- TARJETA NUEVA");
+                System.out.println("2- CARTERA");
+                opcion4=scan.nextInt();
+                boolean rta = false;
+                if(opcion4==1)
+                {
+                    System.out.println("Ingrese la tarjeta:");
+                    Tarjeta tarjeta=cargaTarjeta();
+                    rta= tienda.venderConTarjeta(modelo,tarjeta,usuario,nombreVendedor);
+                }
+                else
+                {
+                    System.out.println("Ingrese el nombre de la tarjeta:");
+                    scan.nextLine();
+                    String nombreTarjeta=scan.nextLine();
+                    Tarjeta tarjeta=cliente.buscarTarjetaPorNombre(nombreTarjeta);
+                    rta=tienda.venderConTarjeta(modelo,tarjeta,cliente.getNombre(),nombreVendedor);
+                }
+
+
+                if(rta)
+                {
+                    System.out.println("La venta se efectuo correctamente");
+                }
+                else
+                {
+                    System.out.println("El monto de la tarjeta no permite efecturar la compra");
+                }
+            }
+
+        }
+    }
+
 }

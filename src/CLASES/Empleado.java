@@ -1,12 +1,11 @@
 package CLASES;
 
-import ENUMERACION.Sucursales;
 import ENUMERACION.TipoEmpleado;
-import INTERFACES.ISucursales;
+import INTERFACES.IAccionesEmpleadosClientes;
 
 import java.io.Serializable;
-public class Empleado implements Serializable, ISucursales {
-//VARIABLES
+public class Empleado implements Serializable, IAccionesEmpleadosClientes {
+    //VARIABLES
     private String nombre;
     private int id;
     private TipoEmpleado tipoEmpleado;
@@ -14,6 +13,7 @@ public class Empleado implements Serializable, ISucursales {
     private int dni;
     private String usuario;
     private String contrasena;
+    private double sueldo;
 //CONSTRUCTOR
 
     public Empleado(String nombre, int id, TipoEmpleado tipoEmpleado, boolean estado, int dni, String usuario, String contrasena) {
@@ -24,6 +24,7 @@ public class Empleado implements Serializable, ISucursales {
         this.dni = dni;
         this.usuario = usuario;
         this.contrasena = contrasena;
+        sueldo=0;
     }
 
     //GETTERS
@@ -40,7 +41,7 @@ public class Empleado implements Serializable, ISucursales {
         return estado;
     }
 
-//SETTERS
+    //SETTERS
     public int getDni() {
         return dni;
     }
@@ -53,12 +54,19 @@ public class Empleado implements Serializable, ISucursales {
     public void setTipoEmpleado(TipoEmpleado tipoEmpleado) {
         this.tipoEmpleado = tipoEmpleado;
     }
-
     public void setNombre(String nombre) {
         nombre = nombre;
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(double sueldo) {
+        this.sueldo = sueldo;
     }
 
     public String getUsuario() {
@@ -77,28 +85,42 @@ public class Empleado implements Serializable, ISucursales {
         this.contrasena = contrasena;
     }
 
-    //METODO ToString
+    public void calcularSueldo()
+    {
+        if(getTipoEmpleado().equals("VENDEDOR"))
+        {
+            sueldo=300000;
+        } else if (getTipoEmpleado().equals("ADMINISTRADOR")) {
+            sueldo=500000;
+        }
+    }
+
     @Override
     public String toString() {
-        return
-                "\nnombre='" + nombre +
+        return "nombre=" + nombre +
                 "\nid=" + id +
                 "\ntipoEmpleado=" + tipoEmpleado +
                 "\nestado=" + estado +
-                "\nDNI=" + dni;
+                "\ndni=" + dni +
+                "\nusuario=" + usuario +
+                "\ncontrasena=" + contrasena;
     }
+
+    //METODO ToString
+
+
     @Override
-    public String cambiarSucursal(int opcion) {
-        String rta=null;
-        if(opcion==1)
-        {
-            Sucursales aux=Sucursales.CENTRO;
-            rta=("Cambiado a: "+aux.name());
-        } else if (opcion==2)
-        {
-            Sucursales aux=Sucursales.ALEM;
-            rta=("Cambiado a: "+aux.name());
-        }
-        return rta;
+    public StringBuilder verHistorialDeCompras(Cliente cliente) {
+        return cliente.verHistorialDeCompras(cliente);
+    }
+
+    @Override
+    public StringBuilder verProductos(Tienda tienda) {
+        return tienda.mostrarProductos();
+    }
+
+    @Override
+    public StringBuilder verCuponesDisponibles(Cliente cliente) {
+        return cliente.verCuponesDisponibles(cliente);
     }
 }

@@ -1,17 +1,23 @@
 package CLASES;
 
-public class Tarjeta {
+import java.io.Serializable;
+
+public class Tarjeta implements Serializable {
+    private String nombreTarjeta;
     private String numeroTarjeta;
-    private int fechaExpiro;
+    private String fechaExpiro;
     private String titular;
     private int codigoSeguridad;
+    private int montoTarjeta;
 
 
-    public Tarjeta(String numeroTarjeta, int fechaExpiro, String titular, int codigoSeguridad) {
+    public Tarjeta(String numeroTarjeta, String fechaExpiro, String titular, int codigoSeguridad,String nombreTarjeta,int montoTarjeta) {
         this.numeroTarjeta = numeroTarjeta;
         this.fechaExpiro = fechaExpiro;
         this.titular = titular;
         this.codigoSeguridad = codigoSeguridad;
+        this.nombreTarjeta=nombreTarjeta;
+        this.montoTarjeta=montoTarjeta;
     }
 
     public String getNumeroTarjeta() {
@@ -22,11 +28,11 @@ public class Tarjeta {
         this.numeroTarjeta = numeroTarjeta;
     }
 
-    public int getFechaExpiro() {
+    public String getFechaExpiro() {
         return fechaExpiro;
     }
 
-    public void setFechaExpiro(int fechaExpiro) {
+    public void setFechaExpiro(String fechaExpiro) {
         this.fechaExpiro = fechaExpiro;
     }
 
@@ -46,13 +52,31 @@ public class Tarjeta {
         this.codigoSeguridad = codigoSeguridad;
     }
 
+    public String getNombreTarjeta() {
+        return nombreTarjeta;
+    }
+
+    public void setNombreTarjeta(String nombreTarjeta) {
+        this.nombreTarjeta = nombreTarjeta;
+    }
+
+    public int getMontoTarjeta() {
+        return montoTarjeta;
+    }
+
+    public void setMontoTarjeta(int montoTarjeta) {
+        this.montoTarjeta = montoTarjeta;
+    }
+
     @Override
     public String toString() {
-        return "Tarjeta{" +
-                "numeroTarjeta='" + numeroTarjeta + '\'' +
-                ", fechaExpiro=" + fechaExpiro +
+        return "\nTarjeta{" +
+                "nombreTarjeta='" + nombreTarjeta + '\'' +
+                ", numeroTarjeta='" + numeroTarjeta + '\'' +
+                ", fechaExpiro='" + fechaExpiro + '\'' +
                 ", titular='" + titular + '\'' +
                 ", codigoSeguridad=" + codigoSeguridad +
+                ", montoTarjeta=" + montoTarjeta +
                 '}';
     }
 }

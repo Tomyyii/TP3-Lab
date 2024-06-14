@@ -9,8 +9,8 @@ public class Remera extends IndumentariaConTalle {
     private String mangas;
     private TipoEstiloRemera estilo;
 //CONSTRUCTOR
-    public Remera(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, String cuello, String mangas, TipoEstiloRemera estilo) {
-        super(precio, stock, nombre, tipoDeTela, color, talle);
+    public Remera(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, String cuello, String mangas, TipoEstiloRemera estilo, int cantidadVendida) {
+        super(precio, stock, nombre, tipoDeTela, color, talle,cantidadVendida);
         this.cuello = cuello;
         this.mangas = mangas;
         this.estilo = estilo;

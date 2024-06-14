@@ -7,8 +7,8 @@ public class Media extends Indumentaria{
     private boolean antideslizante;
     private MedidaMedia medidaMedia;
 //CONSTRUCTOR
-    public Media(double precio, int stock, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia) {
-        super(precio, stock, nombre, tipoDeTela, color);
+    public Media(double precio, int stock, String nombre, String tipoDeTela, String color, boolean antideslizante, MedidaMedia medidaMedia,int cantidadVendida) {
+        super(precio, stock, nombre, tipoDeTela, color,cantidadVendida);
         this.antideslizante = antideslizante;
         this.medidaMedia = medidaMedia;
     }

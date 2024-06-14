@@ -2,9 +2,10 @@ package CLASES;
 
 import INTERFACES.IOperacionesBasicas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ContenedorListaGenerica <E> implements IOperacionesBasicas<E> {
+public class ContenedorListaGenerica <E> implements IOperacionesBasicas<E>, Serializable {
     private ArrayList<E> lista;
     public ContenedorListaGenerica() {
         lista = new ArrayList<>();

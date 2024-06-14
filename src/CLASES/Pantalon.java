@@ -9,8 +9,8 @@ public class Pantalon extends IndumentariaConTalle {
     private double tamañoCintura;
     private ModeloPantalon modelo;
 //CONSTRUCTOR
-    public Pantalon(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, double tamañoCintura, ModeloPantalon modeloPantalon) {
-        super(precio, stock, nombre, tipoDeTela, color, talle);
+    public Pantalon(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, double tamañoCintura, ModeloPantalon modeloPantalon,int cantidadVendida) {
+        super(precio, stock, nombre, tipoDeTela, color, talle, cantidadVendida);
         this.tamañoCintura = tamañoCintura;
         this.modelo = modeloPantalon;
     }

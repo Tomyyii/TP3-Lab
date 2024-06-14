@@ -2,10 +2,11 @@ package CLASES;
 
 import INTERFACES.IOperacionesBasicas;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas<E> {
+public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas<E>, Serializable {
     private HashSet<E> set;
 
     public ContenedorHashSetGenerico() {
@@ -39,7 +40,7 @@ public class ContenedorHashSetGenerico <E> implements IOperacionesBasicas<E> {
         while (iterator.hasNext())
         {
             E aux= (E) iterator.next();
-            sb.append("\nPRODUCTO\n").append(i).append("\n").append(aux);
+            sb.append(i).append("\n").append(aux);
             i++;
         }
         return sb;

@@ -23,6 +23,7 @@ public class Json {
                 jsObject.put("nombre", producto.getNombre());
                 jsObject.put("tipoDeTela", producto.getTipoDeTela());
                 jsObject.put("color", producto.getColor());
+                jsObject.put("cantidadVendida",producto.getCantidadVendida());
                 if (producto instanceof Media) {// verificamos que producto es cada uno
                     Media media = (Media) producto;
                     jsObject.put("media",mediaAJsonOb(media));
@@ -134,7 +135,7 @@ public class Json {
 
        JSONObject aux=jsonObject.getJSONObject("media");
        MedidaMedia auxMM= MedidaMedia.valueOf(aux.getString("medidaMedia"));
-       return new Media(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),aux.getBoolean("antideslizante"), auxMM);
+       return new Media(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),aux.getBoolean("antideslizante"), auxMM,jsonObject.getInt("cantidadVendida"));
    }
 
    public Pantalon jsonOBJaPantalon(JSONObject jsonObject) throws  JSONException
@@ -142,7 +143,7 @@ public class Json {
        JSONObject aux=jsonObject.getJSONObject("pantalon");
        ModeloPantalon auxMP =ModeloPantalon.valueOf(aux.getString("modelo"));
        NivelDeTalle auxNT = NivelDeTalle.valueOf(aux.getString("talle"));
-       return new Pantalon(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getDouble("tamañoCintura"),auxMP);
+       return new Pantalon(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getDouble("tamañoCintura"),auxMP,jsonObject.getInt("cantidadVendida"));
    }
 
    public Buzo jsonOBJaBuzo(JSONObject jsonObject)throws JSONException
@@ -151,7 +152,7 @@ public class Json {
        JSONObject aux=jsonObject.getJSONObject("buzo");
        TipoEstiloBuzo auxTE= TipoEstiloBuzo.valueOf(aux.getString("estilo"));
        NivelDeTalle auxNT = NivelDeTalle.valueOf(aux.getString("talle"));
-       return new Buzo(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getBoolean("capucha"),aux.getBoolean("cierre"),aux.getBoolean("bolsillo"),auxTE);
+       return new Buzo(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getBoolean("capucha"),aux.getBoolean("cierre"),aux.getBoolean("bolsillo"),auxTE,jsonObject.getInt("cantidadVendida"));
    }
 
    public Remera jsonOBJaRemera(JSONObject jsonObject) throws JSONException
@@ -159,7 +160,7 @@ public class Json {
        JSONObject aux=jsonObject.getJSONObject("remera");
        NivelDeTalle auxNT = NivelDeTalle.valueOf(aux.getString("talle"));
        TipoEstiloRemera auxER = TipoEstiloRemera.valueOf(aux.getString("estilo"));
-       return new Remera(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getString("cuello"),aux.getString("mangas"),auxER);
+       return new Remera(jsonObject.getDouble("precio"),jsonObject.getInt("stock"),jsonObject.getString("nombre"),jsonObject.getString("tipoDeTela"),jsonObject.getString("color"),auxNT,aux.getString("cuello"),aux.getString("mangas"),auxER,jsonObject.getInt("cantidadVendida"));
    }
 
 

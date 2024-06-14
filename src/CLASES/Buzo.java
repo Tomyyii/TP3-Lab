@@ -10,8 +10,8 @@ public class Buzo extends IndumentariaConTalle {
     private boolean bolsillo;
     private TipoEstiloBuzo estilo;
 //CONSTRUCTOR
-    public Buzo(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, boolean capucha, boolean cierre, boolean bolsillo, TipoEstiloBuzo estilo) {
-        super(precio, stock, nombre, tipoDeTela, color, talle);
+    public Buzo(double precio, int stock, String nombre, String tipoDeTela, String color, NivelDeTalle talle, boolean capucha, boolean cierre, boolean bolsillo, TipoEstiloBuzo estilo, int cantidadVendida) {
+        super(precio, stock, nombre, tipoDeTela, color, talle,cantidadVendida);
         this.capucha = capucha;
         this.cierre = cierre;
         this.bolsillo = bolsillo;

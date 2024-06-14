@@ -1,15 +1,15 @@
 package CLASES;
 
 
-import ENUMERACION.Sucursales;
-import INTERFACES.ISucursales;
+import java.io.Serializable;
 
-public abstract class Producto implements ISucursales {
+public abstract class Producto implements Serializable {
 //VARIABLES
     private double precio;
     private int stock;
     private boolean disponible;
     private String nombre;
+    private int cantidadVendida;
 
 //CONSTRUCTORES
     public Producto() {
@@ -17,14 +17,14 @@ public abstract class Producto implements ISucursales {
         stock=0;
         disponible=false;
         nombre="";
-
+        cantidadVendida=0;
     }
-    public Producto(double precio, int stock, String nombre) {
+    public Producto(double precio, int stock, String nombre,int cantidadVendida) {
         this.precio = precio;
         this.stock = stock;
         setDisponible(true);
         this.nombre = nombre;
-
+        this.cantidadVendida=cantidadVendida;
     }
 //GETTERS
     public double getPrecio() {
@@ -41,6 +41,9 @@ public abstract class Producto implements ISucursales {
     }
     public abstract String getTipo();
 
+    public int getCantidadVendida() {
+        return cantidadVendida;
+    }
 
     //SETTES
     public void setPrecio(double precio) {
@@ -56,6 +59,10 @@ public abstract class Producto implements ISucursales {
         this.nombre = nombre;
     }
 
+    public void setCantidadVendida(int cantidadVendida) {
+        this.cantidadVendida = cantidadVendida;
+    }
+
     //METODO ToString
     @Override
     public String toString() {
@@ -64,20 +71,8 @@ public abstract class Producto implements ISucursales {
                 "\nnombre=" + nombre +
                 "\nstock=" + stock +
                 "\ndisponible=" + disponible +
-                "\nprecio=" + precio ;
+                "\nprecio=" + precio +
+                "\ncantidad vendida="+ cantidadVendida;
     }
-    @Override
-    public String cambiarSucursal(int opcion) {
-        String rta=null;
-        if(opcion==1)
-        {
-            Sucursales aux=Sucursales.CENTRO;
-            rta=("Cambiando producto a: "+aux.name());
-        } else if (opcion==2)
-        {
-            Sucursales aux=Sucursales.ALEM;
-            rta=("Cambiando producto a: "+aux.name());
-        }
-        return rta;
-    }
+
 }

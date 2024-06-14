@@ -1,7 +1,6 @@
 package CLASES;
 
 import EXCEPCIONES.MiExcepcion;
-import INTERFACES.ISucursales;
 import JSON.Json;
 import org.json.JSONException;
 
@@ -52,23 +51,70 @@ public class Tienda extends Json {
     }
 
     //METODOS PRODUCTOS
-    public boolean Vender(String modelo) {//mandamos el modelo que deseamos vender
-        boolean flag = false;
-        Iterator iterator = productos.getIterator();
-        while (iterator.hasNext() && flag == false) {
-            Producto productoaux = (Producto) iterator.next();
-            if (productoaux.getTipo().equals(modelo) && productoaux.isDisponible() == true) {
-                if (productoaux.getStock() > 0) {
-                    flag = true;
-                    productoaux.setStock(productoaux.getStock() - 1);//si lo tenemos en stock le restamos uno
-                    if (productoaux.getStock() == 0) {
-                        productoaux.setDisponible(false);//si vendimos el ultimo cambiamos la disponibilidad
-                    }
+
+    public boolean venderEfectivo(String modelo,int efectivo,String nombreCliente,String nombreVendedor) {//mandamos el modelo que deseamos vender
+        boolean rta=false;
+        Producto producto=buscarProducto(modelo);
+        Cliente cliente=buscarClientePorUsuario(nombreCliente);
+        if(producto.isDisponible())
+        {
+            if(efectivo>=producto.getPrecio())
+            {
+                if(cliente!=null)
+                {
+                    cliente.sumarCompra(producto);
+                    producto.setStock(producto.getStock()-1);
+                    efectivo=efectivo-(int)producto.getPrecio();
+                    producto.setCantidadVendida(producto.getCantidadVendida()+1);
+                    rta=true;
+                } else if (cliente==null)
+                {
+                    producto.setStock(producto.getStock()-1);
+                    efectivo=efectivo-(int)producto.getPrecio();
+                    producto.setCantidadVendida(producto.getCantidadVendida()+1);
+                    rta=true;
                 }
             }
         }
-        return flag;//retornamos true o false si se realizo la venta
+        return rta;
     }
+
+
+    public void sumarVenta(String modelo,String nombreVendedor)
+    {
+        Empleado empleado=buscarEmpleadoPorNombre(nombreVendedor);
+        Producto producto=buscarProducto(modelo);
+        if(empleado!=null)
+        {
+            empleado.setSueldo(empleado.getSueldo()+(producto.getPrecio()*0.3));
+        }
+    }
+
+    public boolean venderConTarjeta(String modelo,Tarjeta tarjeta,String nombreCliente,String nombreVendedor)
+    {
+        boolean rta=false;
+        Cliente cliente=buscarClientePorUsuario(nombreCliente);
+        Producto producto=buscarProducto(modelo);
+        if(cliente!=null)
+        {
+            rta=cliente.comprar(producto, tarjeta.getNombreTarjeta());
+            if(!rta)
+            {
+                tarjeta.setMontoTarjeta(tarjeta.getMontoTarjeta()-(int)producto.getPrecio());
+                cliente.sumarCompra(producto);
+                producto.setStock(producto.getStock()-1);
+                producto.setCantidadVendida(producto.getCantidadVendida()+1);
+                rta=true;
+            }
+        } else if (cliente==null) {
+            tarjeta.setMontoTarjeta(tarjeta.getMontoTarjeta()-(int)producto.getPrecio());
+            producto.setStock(producto.getStock()-1);
+            producto.setCantidadVendida(producto.getCantidadVendida()+1);
+            rta=true;
+        }
+        return rta;
+    }
+
 
     public Producto buscarProducto(String modelo) {
         boolean flag = true;
@@ -179,7 +225,23 @@ public class Tienda extends Json {
             }
             i++;
         }
-        System.out.println(empleado);
+        return empleado;
+    }
+
+    public Empleado buscarEmpleadoPorUsuario(String usuario)//pasamos el nombre a buscar por parametro
+    {
+        boolean flag = false;
+        Empleado empleado = null;
+        int i = 0;
+        while (i < empleados.size() && !flag) {
+
+            if (empleados.get(i).getUsuario().equals(usuario))//una vez encontrado el nombre cortamos el ciclo while
+            {
+                empleado = empleados.get(i);
+                flag = true;
+            }
+            i++;
+        }
         return empleado;
     }
 
@@ -197,6 +259,21 @@ public class Tienda extends Json {
             i++;
         }
         return empleado;
+    }
+
+
+    public boolean buscarEmpleadoPorDNIBoolean(int DNI)//pasamos el dni a buscar por parametro
+    {
+        boolean flag = false;
+        int i = 0;
+        while (i < empleados.size() && !flag) {
+            if (empleados.get(i).getDni() == DNI)//si coinciden con el dni buscado terminams el ciclo while
+            {
+                flag = true;
+            }
+            i++;
+        }
+        return flag;
     }
 
     public void modificarEstado(Empleado empleado, int opcion)//pasamos por parametro el empleado a modificar
@@ -320,8 +397,10 @@ public class Tienda extends Json {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("clientes.dat");//definimos el nombre del archivo
             objectOutputStream = new ObjectOutputStream(fileOutputStream);//instanciamos el objetOuputStream
-            for (int i = 0; i < empleados.size(); i++) {//for para recorrer y grabar el arrayList de empleados
-                objectOutputStream.writeObject(empleados.get(i));
+            Iterator iterator=clientes.getIterator();
+            while (iterator.hasNext()) {//for para recorrer y grabar el arrayList de empleados
+                Cliente cliente= (Cliente) iterator.next();
+                objectOutputStream.writeObject(cliente);
             }
         } catch (FileNotFoundException ex)//exepciones de la carga del archivo
         {
@@ -345,8 +424,8 @@ public class Tienda extends Json {
             FileInputStream fileInputStream = new FileInputStream("clientes.dat");//definimos el nombre del archivo a leer
             objectInputStream = new ObjectInputStream(fileInputStream);//instanciamos el objectImputStream
             while (true) {
-                Empleado empleado = (Empleado) objectInputStream.readObject();//leemos el archivo
-                empleados.agregar(empleado);
+                Cliente cliente = (Cliente) objectInputStream.readObject();//leemos el archivo
+                clientes.agregar(cliente);
             }
 
         } catch (EOFException ex)//exepciones de la lectura de archivo
@@ -391,7 +470,7 @@ public class Tienda extends Json {
         return aux;//retornamos el producto
     }
 
-    public Cliente buscarClientePorNombre(int DNI) {
+    public Cliente buscarClientePorDNI(int DNI) {
         boolean flag = true;
         Iterator iterator = clientes.getIterator();
         Cliente aux = null;
@@ -441,14 +520,44 @@ public class Tienda extends Json {
         int i=0;
         while (i<empleados.size() && !rta)
         {
-            if(empleados.get(i).getUsuario().equals(usuario) && empleados.get(i).getContrasena().equals(contrasena))
+            if(empleados.get(i).getUsuario().equals(usuario) && empleados.get(i).getContrasena().equals(contrasena) && empleados.get(i).getTipoEmpleado().equals("VENDEDOR"))
             {
                 rta=true;
             }
+            i++;
         }
         return rta;
     }
 
+
+    public boolean verificarUsuarioAdministrador(String usuario, String contrasena)
+    {
+        boolean rta=false;
+        int i=0;
+        while (i<empleados.size() && !rta)
+        {
+            if(empleados.get(i).getUsuario().equals(usuario) && empleados.get(i).getContrasena().equals(contrasena) && empleados.get(i).getTipoEmpleado().equals("ADMINISTRADOR"))
+            {
+                rta=true;
+            }
+            i++;
+        }
+        return rta;
+    }
+
+    public Cliente buscarClientePorUsuario(String usuario) {
+        boolean flag = true;
+        Iterator iterator = clientes.getIterator();
+        Cliente aux = null;
+        while (iterator.hasNext() && flag) {
+            Cliente productoaux = (Cliente) iterator.next();
+            if (productoaux.getUsuario().equals(usuario)) {
+                aux = productoaux;
+                flag = false;//si se encuentra terminamos el while
+            }
+        }
+        return aux;//retornamos el producto
+    }
 
 
 
